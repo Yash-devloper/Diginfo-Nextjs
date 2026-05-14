@@ -21,7 +21,7 @@ export default function Hero() {
 
           {/* HEADING */}
           <h1 className="hero-title">
-            Your Business Deserves to{" "}
+            Your Business Deserves to{" "}<br />
             <span className="gt">Win Online.</span>{" "}
             We Make That Happen.
           </h1>
