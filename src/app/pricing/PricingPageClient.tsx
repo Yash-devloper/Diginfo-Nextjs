@@ -42,7 +42,7 @@ export default function PricingPageClient() {
   }, []);
 
   const filtered = services
-    .filter((s) => s.category === activeTab && s.active)
+    .filter((s) => s.category === activeTab && s.active !== false)
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (

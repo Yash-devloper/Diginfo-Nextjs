@@ -4744,8 +4744,8 @@ select.input option {
   box-shadow: 0 0 25px rgba(168,85,247,0.4);
 }
 
-/* BADGE */
-.badge {
+/* Pricing badge */
+.pricing-card .badge {
   position: absolute;
   top: -14px;
   left: 50%;
@@ -4755,6 +4755,22 @@ select.input option {
   padding: 6px 16px;
   border-radius: 999px;
   font-size: 12px;
+}
+
+.blog-table .badge {
+  position: static;
+  transform: none;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 180px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,#ff6a00,#a855f7);
+  color: white;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: normal;
 }
 
 /* TITLE */
@@ -4877,12 +4893,62 @@ select.input option {
   gap: 20px;
 }
 
+.pricing-category-list {
+  display: grid;
+  gap: 34px;
+  margin-top: 32px;
+}
+
+.pricing-category-group {
+  min-width: 0;
+}
+
+.pricing-category-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.pricing-category-head h3 {
+  font-size: 20px;
+  color: white;
+}
+
+.pricing-category-head span {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.pricing-category-group .service-list {
+  margin-top: 0;
+}
+
 .service-card {
   padding: 20px;
   border-radius: 16px;
   background: linear-gradient(180deg,#0c0c15,#07070c);
   border: 1px solid rgba(255,255,255,0.05);
   transition: 0.3s;
+}
+
+.pricing-admin .service-card.is-hidden {
+  opacity: 0.62;
+}
+
+.pricing-admin .service-card {
+  position: relative;
+  overflow: visible;
+  cursor: grab;
+  user-select: none;
+}
+
+.pricing-admin .service-card::before {
+  content: none;
+  display: none;
 }
 
 .service-card:hover {
@@ -4893,6 +4959,8 @@ select.input option {
   opacity: 0.6;
   border-color: rgba(168,85,247,0.7);
   box-shadow: 0 0 20px rgba(168,85,247,0.3);
+  cursor: grabbing;
+  transform: scale(0.98);
 }
 
 .service-card.drop-target {
@@ -4903,9 +4971,17 @@ select.input option {
 .service-card-top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   margin-bottom: 18px;
+}
+
+.service-card-badges {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .drag-handle {
@@ -4921,12 +4997,74 @@ select.input option {
   user-select: none;
 }
 
+.pricing-admin .service-card:active .drag-handle,
+.pricing-admin .drag-handle:active {
+  cursor: grabbing;
+}
+
 .recommended-badge {
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 11px;
   letter-spacing: 0.12em;
   background: linear-gradient(90deg,#ff6a00,#a855f7);
+  color: white;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  background: rgba(255,255,255,0.08);
+  color: #bbb;
+}
+
+.btn-toggle {
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.btn-toggle:hover {
+  background: rgba(168,85,247,0.24);
+  border-color: rgba(168,85,247,0.5);
+}
+
+.pricing-admin .actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+  cursor: default;
+  user-select: auto;
+}
+
+.pricing-admin .actions .btn {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.pricing-admin .btn-edit {
+  background: linear-gradient(90deg,#2563eb,#3b82f6);
+  color: white;
+  border: none;
+}
+
+.pricing-admin .btn-delete {
+  background: rgba(255,0,0,0.14);
+  color: #ff6b6b;
+  border: 1px solid rgba(255,0,0,0.28);
+}
+
+.pricing-admin .btn-delete:hover {
+  background: #dc3545;
   color: white;
 }
 
@@ -5283,16 +5421,61 @@ canvas {
 .blog-detail .blog-content {
   display: block;
   overflow: visible;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .blog-detail .blog-content p,
 .blog-detail .blog-content h1,
 .blog-detail .blog-content h2,
-.blog-detail .blog-content h3 {
+.blog-detail .blog-content h3,
+.blog-detail .blog-content h4,
+.blog-detail .blog-content h5,
+.blog-detail .blog-content h6,
+.blog-detail .blog-content li,
+.blog-detail .blog-content blockquote {
   display: block;
   overflow: visible;
   -webkit-line-clamp: unset;
   -webkit-box-orient: unset;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.blog-detail .content-wrap {
+  width: min(100%, 860px);
+  max-width: 100%;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.blog-detail .blog-content img,
+.blog-detail .blog-content video,
+.blog-detail .blog-content iframe,
+.blog-detail .blog-content table,
+.blog-detail .blog-content pre,
+.blog-detail .blog-content code {
+  max-width: 100%;
+}
+
+.blog-detail .blog-content img,
+.blog-detail .blog-content video,
+.blog-detail .blog-content iframe {
+  height: auto;
+}
+
+.blog-detail .blog-content table,
+.blog-detail .blog-content pre {
+  display: block;
+  overflow-x: auto;
+}
+
+.blog-detail .blog-content a {
+  overflow-wrap: anywhere;
 }
 
 .table-card,
@@ -5597,6 +5780,10 @@ canvas {
 
   .reset-actions {
     align-items: stretch;
+  }
+
+  .pricing-admin .actions {
+    grid-template-columns: 1fr;
   }
 }
 

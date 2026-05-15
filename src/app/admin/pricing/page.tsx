@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type DragEvent, useEffect, useMemo, useState } from "react";
 import {
   collection,
   getDocs,
@@ -25,9 +25,25 @@ type Service = {
   order?: number;
 };
 
+const categories = [
+  { key: "seo", label: "SEO" },
+  { key: "social", label: "Social" },
+  { key: "ads", label: "Ads" },
+  { key: "website", label: "Website" },
+];
+
+const getCategoryLabel = (value?: string) =>
+  categories.find((category) => category.key === value)?.label ||
+  value ||
+  "Uncategorized";
+
+const getFeatures = (features?: string[] | string) =>
+  (Array.isArray(features) ? features : features?.split(",") || [])
+    .map((feature) => feature.trim())
+    .filter(Boolean);
+
 export default function PricingAdmin() {
   const [services, setServices] = useState<Service[]>([]);
-
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
@@ -38,7 +54,6 @@ export default function PricingAdmin() {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropTargetId, setDropTargetId] = useState<string | null>(null);
 
-  // 🔥 FETCH
   const fetchServices = async () => {
     try {
       const snap = await getDocs(collection(db, "services"));
@@ -48,6 +63,7 @@ export default function PricingAdmin() {
           ...(d.data() as Omit<Service, "id">),
         }))
         .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
       setServices(data);
     } catch (error) {
       handleFirestoreError(error);
@@ -70,7 +86,179 @@ export default function PricingAdmin() {
     }
   };
 
-  const handleDragStart = (id: string) => {
+  const resetForm = () => {
+    setEditing(null);
+    setTitle("");
+    setPrice("");
+    setDesc("");
+    setFeatures("");
+    setCategory("");
+    setRecommended(false);
+  };
+
+  const groupedServices = useMemo(() => {
+    const groups = categories
+      .map((serviceCategory) => ({
+        ...serviceCategory,
+        services: services.filter((service) => service.category === serviceCategory.key),
+      }))
+      .filter((serviceCategory) => serviceCategory.services.length > 0);
+
+    const uncategorizedServices = services.filter(
+      (service) =>
+        !categories.some((serviceCategory) => serviceCategory.key === service.category)
+    );
+
+    return [
+      ...groups,
+      ...(uncategorizedServices.length > 0
+        ? [
+            {
+              key: "uncategorized",
+              label: "Uncategorized",
+              services: uncategorizedServices,
+            },
+          ]
+        : []),
+    ];
+  }, [services]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      void fetchServices();
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleAdd = async () => {
+    if (!title || !price || !category) {
+      alert("Please fill title, price, and category");
+      return;
+    }
+
+    try {
+      const categoryServices = services.filter((service) => service.category === category);
+      const nextOrder =
+        categoryServices.length > 0
+          ? Math.max(...categoryServices.map((service) => service.order ?? 0)) + 1
+          : 0;
+
+      await addDoc(collection(db, "services"), {
+        title,
+        price,
+        description: desc,
+        features: getFeatures(features),
+        category,
+        recommended,
+        active: true,
+        order: nextOrder,
+        createdAt: new Date(),
+      });
+
+      resetForm();
+      void fetchServices();
+    } catch (error) {
+      handleFirestoreError(error);
+      alert("Failed to add service. Please try again.");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this service?")) return;
+
+    const previousServices = services;
+    setServices((current) => current.filter((service) => service.id !== id));
+
+    try {
+      await deleteDoc(doc(db, "services", id));
+      void fetchServices();
+    } catch (error) {
+      setServices(previousServices);
+      handleFirestoreError(error);
+      alert("Failed to delete service. Please try again.");
+    }
+  };
+
+  const toggleActive = async (service: Service) => {
+    const nextActive = !(service.active !== false);
+
+    setServices((current) =>
+      current.map((item) =>
+        item.id === service.id ? { ...item, active: nextActive } : item
+      )
+    );
+
+    try {
+      await updateDoc(doc(db, "services", service.id), {
+        active: nextActive,
+      });
+      void fetchServices();
+    } catch (error) {
+      setServices((current) =>
+        current.map((item) =>
+          item.id === service.id ? { ...item, active: service.active } : item
+        )
+      );
+      handleFirestoreError(error);
+      alert("Failed to update service status. Please try again.");
+    }
+  };
+
+  const handleEdit = (service: Service) => {
+    setEditing(service);
+    setTitle(service.title || "");
+    setPrice(service.price || "");
+    setDesc(service.description || "");
+    setFeatures(getFeatures(service.features).join(", "));
+    setCategory(service.category || "");
+    setRecommended(Boolean(service.recommended));
+  };
+
+  const handleUpdate = async () => {
+    if (!editing) return;
+
+    if (!title || !price || !category) {
+      alert("Please fill title, price, and category");
+      return;
+    }
+
+    const updatedService = {
+      title,
+      price,
+      description: desc,
+      features: getFeatures(features),
+      category,
+      recommended,
+    };
+
+    setServices((current) =>
+      current.map((service) =>
+        service.id === editing.id ? { ...service, ...updatedService } : service
+      )
+    );
+
+    try {
+      await updateDoc(doc(db, "services", editing.id), updatedService);
+      resetForm();
+      void fetchServices();
+    } catch (error) {
+      handleFirestoreError(error);
+      alert("Failed to update service. Please try again.");
+      void fetchServices();
+    }
+  };
+
+  const handleDragStart = (event: DragEvent<HTMLElement>, id: string) => {
+    const target = event.target as HTMLElement;
+
+    if (target.closest("button, input, textarea, select, .actions")) {
+      event.preventDefault();
+      return;
+    }
+
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", id);
     setDraggingId(id);
   };
 
@@ -91,140 +279,43 @@ export default function PricingAdmin() {
       return;
     }
 
-    const fromIndex = services.findIndex((service) => service.id === draggingId);
-    const toIndex = services.findIndex((service) => service.id === targetId);
+    const dragged = services.find((service) => service.id === draggingId);
+    const target = services.find((service) => service.id === targetId);
+
+    if (!dragged || !target || dragged.category !== target.category) {
+      setDropTargetId(null);
+      setDraggingId(null);
+      return;
+    }
+
+    const categoryServices = services.filter(
+      (service) => service.category === target.category
+    );
+    const fromIndex = categoryServices.findIndex((service) => service.id === draggingId);
+    const toIndex = categoryServices.findIndex((service) => service.id === targetId);
+
     if (fromIndex === -1 || toIndex === -1) {
       setDropTargetId(null);
       return;
     }
 
-    const updated = [...services];
-    const [moved] = updated.splice(fromIndex, 1);
-    updated.splice(toIndex, 0, moved);
+    const reorderedCategory = [...categoryServices];
+    const [moved] = reorderedCategory.splice(fromIndex, 1);
+    reorderedCategory.splice(toIndex, 0, moved);
+    const reorderedIds = new Set(reorderedCategory.map((service) => service.id));
+    const updated = services.map((service) => {
+      const categoryIndex = reorderedCategory.findIndex((item) => item.id === service.id);
+
+      return categoryIndex >= 0
+        ? { ...service, order: categoryIndex }
+        : service;
+    });
 
     setServices(updated);
     setDropTargetId(null);
     setDraggingId(null);
 
-    await saveOrder(updated);
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      void fetchServices();
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // ➕ ADD SERVICE
-  const handleAdd = async () => {
-    if (!title || !price || !category) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    try {
-      const nextOrder = services.length > 0 ? Math.max(...services.map((service) => service.order ?? 0)) + 1 : 0;
-
-      await addDoc(collection(db, "services"), {
-        title,
-        price,
-        description: desc,
-        features: features
-          .split(",")
-          .map((feature) => feature.trim())
-          .filter(Boolean),
-        category,
-        recommended,
-        active: true,
-        order: nextOrder,
-        createdAt: new Date(),
-      });
-
-      setTitle("");
-      setPrice("");
-      setDesc("");
-      setFeatures("");
-      setCategory("");
-      setRecommended(false);
-
-      fetchServices();
-    } catch (error) {
-      handleFirestoreError(error);
-      alert("Failed to add service. Please try again.");
-    }
-  };
-
-  // ❌ DELETE
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this service?")) return;
-    try {
-      await deleteDoc(doc(db, "services", id));
-      fetchServices();
-    } catch (error) {
-      handleFirestoreError(error);
-      alert("Failed to delete service. Please try again.");
-    }
-  };
-
-  // 🔄 TOGGLE
-  const toggleActive = async (s: Service) => {
-    try {
-      await updateDoc(doc(db, "services", s.id), {
-        active: !s.active,
-      });
-      fetchServices();
-    } catch (error) {
-      handleFirestoreError(error);
-      alert("Failed to update service status. Please try again.");
-    }
-  };
-
-  //Edit
-  const handleEdit = (s: Service) => {
-    setEditing(s);
-
-    setTitle(s.title || "");
-    setPrice(s.price || "");
-    setDesc(s.description || "");
-    setFeatures(Array.isArray(s.features) ? s.features.join(",") : s.features || "");
-    setCategory(s.category || "");
-    setRecommended(Boolean(s.recommended));
-  };
-
-  const resetForm = () => {
-    setEditing(null);
-    setTitle("");
-    setPrice("");
-    setDesc("");
-    setFeatures("");
-    setCategory("");
-    setRecommended(false);
-  };
-
-  const handleUpdate = async () => {
-    if (!editing) return;
-
-    try {
-      await updateDoc(doc(db, "services", editing.id), {
-        title,
-        price,
-        description: desc,
-        features: features
-          .split(",")
-          .map((feature) => feature.trim())
-          .filter(Boolean),
-        category,
-        recommended,
-      });
-
-      resetForm();
-      fetchServices();
-    } catch (error) {
-      handleFirestoreError(error);
-      alert("Failed to update service. Please try again.");
-    }
+    await saveOrder(updated.filter((service) => reorderedIds.has(service.id)));
   };
 
   return (
@@ -234,55 +325,56 @@ export default function PricingAdmin() {
         <p>Create and manage your service plans</p>
       </div>
 
-      {/* FORM */}
       <div className="pricing-form-card">
         <div className="form-grid">
           <input
             placeholder="Service Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(event) => setTitle(event.target.value)}
           />
 
           <input
-            placeholder="Price (₹)"
+            placeholder="Price (Rs.)"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(event) => setPrice(event.target.value)}
           />
 
           <select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(event) => setCategory(event.target.value)}
           >
             <option value="">Select Category</option>
-            <option value="seo">SEO</option>
-            <option value="social">Social</option>
-            <option value="ads">Ads</option>
-            <option value="website">Website</option>
+            {categories.map((serviceCategory) => (
+              <option key={serviceCategory.key} value={serviceCategory.key}>
+                {serviceCategory.label}
+              </option>
+            ))}
           </select>
 
           <input
             placeholder="Description"
             value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+            onChange={(event) => setDesc(event.target.value)}
           />
 
           <textarea
             placeholder="Features (comma separated)"
             value={features}
-            onChange={(e) => setFeatures(e.target.value)}
+            onChange={(event) => setFeatures(event.target.value)}
           />
 
           <label className="checkbox-row">
             <input
               type="checkbox"
               checked={recommended}
-              onChange={(e) => setRecommended(e.target.checked)}
+              onChange={(event) => setRecommended(event.target.checked)}
             />
             Recommended plan
           </label>
         </div>
 
         <button
+          type="button"
           onClick={editing ? handleUpdate : handleAdd}
           className="btn btn-grad full-btn"
         >
@@ -290,60 +382,115 @@ export default function PricingAdmin() {
         </button>
 
         {editing && (
-          <button
-            onClick={resetForm}
-            className="btn btn-dark full-btn"
-          >
+          <button type="button" onClick={resetForm} className="btn btn-dark full-btn">
             Cancel
           </button>
         )}
       </div>
 
-      {/* LIST */}
-      <div className="service-list">
-        {services.map((s) => (
-          <div
-            key={s.id}
-            className={`service-card ${s.id === draggingId ? "dragging" : ""} ${s.id === dropTargetId ? "drop-target" : ""}`}
-            draggable
-            onDragStart={() => handleDragStart(s.id)}
-            onDragEnd={handleDragEnd}
-            onDragOver={(e) => e.preventDefault()}
-            onDragEnter={() => handleDragEnter(s.id)}
-            onDrop={() => handleDrop(s.id)}
-          >
-            <div className="service-card-top">
-              <div className="drag-handle">⋮⋮</div>
-              {s.recommended && <div className="recommended-badge">RECOMMENDED</div>}
+      <div className="pricing-category-list">
+        {groupedServices.map((serviceCategory) => (
+          <section className="pricing-category-group" key={serviceCategory.key}>
+            <div className="pricing-category-head">
+              <h3>{serviceCategory.label}</h3>
+              <span>
+                {serviceCategory.services.length} plan
+                {serviceCategory.services.length === 1 ? "" : "s"}
+              </span>
             </div>
 
-            <h3>{s.title}</h3>
-            <p className="price">{s.price}</p>
-            <p className="cat">{s.category}</p>
+            <div className="service-list">
+              {serviceCategory.services.map((service) => {
+                const isActive = service.active !== false;
 
-            <ul>
-              {(Array.isArray(s.features)
-                ? s.features
-                : s.features?.split(",")
-              )?.map((f: string, i: number) => (
-                <li key={i}>✔ {f.trim()}</li>
-              ))}
-            </ul>
+                return (
+                  <div
+                    key={service.id}
+                    className={`service-card ${!isActive ? "is-hidden" : ""} ${service.id === draggingId ? "dragging" : ""} ${service.id === dropTargetId ? "drop-target" : ""}`}
+                    draggable
+                    onDragStart={(event) => handleDragStart(event, service.id)}
+                    onDragEnd={handleDragEnd}
+                    onDragOver={(event) => {
+                      event.preventDefault();
+                      event.dataTransfer.dropEffect = "move";
+                    }}
+                    onDragEnter={() => handleDragEnter(service.id)}
+                    onDrop={() => handleDrop(service.id)}
+                  >
+                    <div className="service-card-top">
+                      <div
+                        className="drag-handle"
+                        title="Drag to reorder inside this category"
+                        draggable
+                        onDragStart={(event) => {
+                          event.stopPropagation();
+                          handleDragStart(event, service.id);
+                        }}
+                        onDragEnd={handleDragEnd}
+                      >
+                        ::
+                      </div>
 
-            <div className="actions">
-              <button className="btn btn-edit" onClick={() => handleEdit(s)}>
-                Edit
-              </button>
+                      <div className="service-card-badges">
+                        {!isActive && <div className="status-badge">HIDDEN</div>}
+                        {service.recommended && (
+                          <div className="recommended-badge">RECOMMENDED</div>
+                        )}
+                      </div>
+                    </div>
 
-              <button className="btn btn-toggle" onClick={() => toggleActive(s)}>
-                {s.active ? "Hide" : "Show"}
-              </button>
+                    <h3>{service.title}</h3>
+                    <p className="price">{service.price}</p>
+                    <p className="cat">{getCategoryLabel(service.category)}</p>
 
-              <button className="btn btn-delete" onClick={() => handleDelete(s.id)}>
-                Delete
-              </button>
+                    <ul>
+                      {getFeatures(service.features).map((feature, index) => (
+                        <li key={index}>- {feature}</li>
+                      ))}
+                    </ul>
+
+                    <div className="actions">
+                      <button
+                        type="button"
+                        className="btn btn-edit"
+                        draggable={false}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleEdit(service);
+                        }}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-toggle"
+                        draggable={false}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          void toggleActive(service);
+                        }}
+                      >
+                        {isActive ? "Hide" : "Show"}
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-delete"
+                        draggable={false}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          void handleDelete(service.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
+          </section>
         ))}
       </div>
     </div>

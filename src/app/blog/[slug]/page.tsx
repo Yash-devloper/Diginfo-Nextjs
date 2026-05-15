@@ -88,14 +88,14 @@ export default function BlogDetail() {
       </div>
 
       {/* CONTENT */}
-      <div className="content-wrap">
+      <article className="content-wrap">
 
         <div
           className="blog-content"
           dangerouslySetInnerHTML={{ __html: blog.content || "" }}
         />
 
-      </div>
+      </article>
 
       {/* RELATED */}
       {related.length > 0 && (
