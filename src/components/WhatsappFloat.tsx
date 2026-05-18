@@ -8,7 +8,7 @@ export default function WhatsappFloat() {
   return (
 
     <a
-      href="https://wa.me/8889123454"
+      href="https://wa.me/+918889123454"
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-float"
