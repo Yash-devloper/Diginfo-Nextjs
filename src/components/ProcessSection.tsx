@@ -88,13 +88,20 @@ export default function ProcessSection() {
                   active === index ? "active" : ""
                 }`}
                 onMouseEnter={() => setActive(index)}
+                onFocus={() => setActive(index)}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{
+                  y: -14,
+                  scale: 1.015,
+                }}
                 transition={{
-                  duration: 0.5,
+                  duration: 0.55,
                   delay: index * 0.1,
+                  ease: "easeOut",
                 }}
                 viewport={{ once: true }}
+                tabIndex={0}
               >
 
                 <div className="step-circle">
