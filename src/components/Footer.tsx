@@ -93,12 +93,12 @@ export default function Footer() {
           <h4>Services</h4>
 
           <ul className="footer-links">
-            <li><a href="#">SEO Optimization</a></li>
-            <li><a href="#">Social Media Marketing</a></li>
-            <li><a href="#">Google Ads / PPC</a></li>
-            <li><a href="#">Website Development</a></li>
-            <li><a href="#">UI/UX Design</a></li>
-            <li><a href="#">Brand Strategy</a></li>
+            <li><a href="/services/search-engine-optimization">SEO Optimization</a></li>
+            <li><a href="/services/social-media-marketing">Social Media Marketing</a></li>
+            <li><a href="/services/performance-marketing">Performance Marketing</a></li>
+            <li><a href="/services/website-development">Website Development</a></li>
+            <li><a href="/services/erp-crm-solutions">ERP & CRM Solutions</a></li>
+            <li><a href="/services/creative-design-branding">Creative Design & Branding</a></li>
           </ul>
 
         </div>
