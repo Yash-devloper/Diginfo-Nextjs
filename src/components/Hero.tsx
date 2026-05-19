@@ -69,7 +69,7 @@ export default function Hero() {
             </div>
 
             <div className="stat-box">
-              <h3>5+</h3>
+              <h3>7+</h3>
               <p>Years of Excellence</p>
             </div>
 

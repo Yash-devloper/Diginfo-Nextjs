@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { services } from "@/lib/services";
+
 export default function ServicesSection() {
   return (
     <section id="services" className="sec">
@@ -8,20 +11,15 @@ export default function ServicesSection() {
         </div>
 
         <div className="svcs-grid">
-          <div className="svc-card">
-            <h3>SEO Optimization</h3>
-            <p className="svc-desc">Improve ranking and traffic</p>
-          </div>
-
-          <div className="svc-card">
-            <h3>Web Development</h3>
-            <p className="svc-desc">Fast & modern websites</p>
-          </div>
-
-          <div className="svc-card">
-            <h3>Social Media Marketing</h3>
-            <p className="svc-desc">Boost brand engagement</p>
-          </div>
+          {services.slice(0, 3).map((service) => (
+            <div className="svc-card" key={service.slug}>
+              <h3>{service.shortTitle}</h3>
+              <p className="svc-desc">{service.cardDescription}</p>
+              <Link className="svc-link" href={`/services/${service.slug}`}>
+                View More -&gt;
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </section>

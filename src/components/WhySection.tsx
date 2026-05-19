@@ -6,7 +6,7 @@ export default function WhySection() {
         {/* LEFT SIDE */}
         <div className="why-left">
 
-          <div className="pill-label">WHY DIGINFO</div>
+          <div className="pill-label">WHY DIGINFO ?</div>
 
           <h2 className="h2">
             We’re Not Another Agency.<br />

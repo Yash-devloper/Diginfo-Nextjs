@@ -90,7 +90,7 @@ export default function AboutSection() {
           </div>
 
           <div className="stat-box">
-            <h3>6 YRS</h3>
+            <h3>7+ YRS</h3>
             <p>Of Digital Excellence Since 2019</p>
           </div>
 
