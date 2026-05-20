@@ -6002,8 +6002,20 @@ canvas {
 .process-sec,
 .testimonial-sec,
 .blog-sec {
-  padding-top: clamp(82px, 8vw, 120px);
-  padding-bottom: clamp(82px, 8vw, 120px);
+  padding-top: clamp(58px, 6vw, 84px);
+  padding-bottom: clamp(58px, 6vw, 84px);
+}
+
+.hero-sec {
+  padding-bottom: clamp(44px, 5vw, 64px);
+}
+
+.hero-sec + .about-sec,
+.about-sec + .why-sec,
+.why-sec + .process-sec,
+.process-sec + .testimonial-sec,
+.testimonial-sec + .blog-sec {
+  margin-top: 0;
 }
 
 .about-grid,
@@ -6065,8 +6077,12 @@ canvas {
   .process-sec,
   .testimonial-sec,
   .blog-sec {
-    padding-top: 86px;
-    padding-bottom: 86px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .hero-sec {
+    padding-bottom: 52px;
   }
 }
 
@@ -6077,14 +6093,18 @@ canvas {
   .process-sec,
   .testimonial-sec,
   .blog-sec {
-    padding-top: 68px;
-    padding-bottom: 68px;
+    padding-top: 52px;
+    padding-bottom: 52px;
+  }
+
+  .hero-sec {
+    padding-bottom: 42px;
   }
 
   .process-head,
   .testimonial-head,
   .blog-head {
-    margin-bottom: 38px;
+    margin-bottom: 32px;
   }
 
   .pill-label {
