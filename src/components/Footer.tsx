@@ -87,19 +87,27 @@ export default function Footer() {
 
         </div>
 
-        {/* SERVICES */}
-        <div className="footer-col">
+        {/* MAP */}
+        <div className="footer-col footer-map-col">
 
-          <h4>Services</h4>
+          <h4>Find Us</h4>
 
-          <ul className="footer-links">
-            <li><a href="/services/search-engine-optimization">SEO Optimization</a></li>
-            <li><a href="/services/social-media-marketing">Social Media Marketing</a></li>
-            <li><a href="/services/performance-marketing">Performance Marketing</a></li>
-            <li><a href="/services/website-development">Website Development</a></li>
-            <li><a href="/services/erp-crm-solutions">ERP & CRM Solutions</a></li>
-            <li><a href="/services/creative-design-branding">Creative Design & Branding</a></li>
-          </ul>
+          <div className="footer-map">
+            <iframe
+              src="https://www.google.com/maps?q=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India&output=embed"
+              title="Diginfo location on Google Maps"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+
+          <a
+            className="footer-map-link"
+            href="https://www.google.com/maps/dir/?api=1&destination=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India"
+            target="_blank"
+          >
+            Open in Google Maps
+          </a>
 
         </div>
 

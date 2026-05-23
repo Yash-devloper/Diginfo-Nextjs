@@ -1150,6 +1150,39 @@ body{
   padding-left: 4px;
 }
 
+.footer-map-col {
+  min-width: 0;
+}
+
+.footer-map {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+}
+
+.footer-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.footer-map-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #bdbdbd;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.footer-map-link:hover {
+  color: white;
+}
+
 .footer-contact {
   display: flex;
   flex-direction: column;
