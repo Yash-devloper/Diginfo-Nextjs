@@ -5,8 +5,8 @@ import Team from "@/components/Team";
 import LifeAtDiginfo from "@/components/LifeAtDiginfo";
 
 export const metadata = {
-  title: "About Diginfo Agency | Digital Marketing & Web Growth",
-  description: "Discover Diginfo Agency's mission, team, and full-service digital solutions for growing brands.",
+  title: "About Diginfo — Digital Agency Founded 2019, Indore",
+  description: "Diginfo Expert Services: Indore's growth-focused digital marketing agency since 2019",
 };
 
 export default function AboutPage() {

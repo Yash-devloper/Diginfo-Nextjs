@@ -9,8 +9,8 @@ import ProcessSection from "@/components/ProcessSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 
 export const metadata: Metadata = {
-  title: "Diginfo - Digital Agency",
-  description: "Leading digital solutions for SEO, social media, and web development.",
+  title: "Diginfo — Digital Marketing Agency Indore",
+  description: "Leading digital marketing agency in Indore offering SEO, SMM, PPC and web development since 2019.",
 };
 
 export default function Home() {

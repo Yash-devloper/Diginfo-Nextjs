@@ -1,8 +1,8 @@
 import ServicesClient from "./ServicesClient";
 
 export const metadata = {
-  title: "Diginfo Services | SEO, Social Media, PPC & Web Development",
-  description: "Explore Diginfo's full-service digital marketing solutions, from SEO to paid ads and websites.",
+  title: "Digital Marketing Services — SEO, SMM, PPC | Diginfo Indore",
+  description: "Full-service digital marketing: SEO, social media, Google Ads, website development and branding in Indore.",
 };
 
 export default function ServicesPage() {

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Contact Diginfo Agency | Start Your Digital Project",
-  description: "Reach out to Diginfo Agency for SEO, social media, web development, and digital marketing support.",
+  title: "Contact Diginfo | Digital Marketing Agency Indore",
+  description: "Get in touch with Diginfo's team for SEO, social media, web development and digital marketing services.",
 };
 
 export default function ContactLayout({
