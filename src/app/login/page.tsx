@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import {
+  browserSessionPersistence,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  setPersistence,
 } from "firebase/auth";
 import { auth } from "@/lib/firebaseClient";
 import { useRouter } from "next/navigation";
@@ -30,6 +32,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      await setPersistence(auth, browserSessionPersistence);
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Welcome back!");
       router.push("/admin");

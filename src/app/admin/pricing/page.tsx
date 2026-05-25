@@ -42,6 +42,10 @@ const getFeatures = (features?: string[] | string) =>
     .map((feature) => feature.trim())
     .filter(Boolean);
 
+const sortByOrder = (a: Service, b: Service) =>
+  (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER) ||
+  a.title.localeCompare(b.title);
+
 export default function PricingAdmin() {
   const [services, setServices] = useState<Service[]>([]);
   const [title, setTitle] = useState("");
@@ -62,7 +66,7 @@ export default function PricingAdmin() {
           id: d.id,
           ...(d.data() as Omit<Service, "id">),
         }))
-        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+        .sort(sortByOrder);
 
       setServices(data);
     } catch (error) {
@@ -100,14 +104,18 @@ export default function PricingAdmin() {
     const groups = categories
       .map((serviceCategory) => ({
         ...serviceCategory,
-        services: services.filter((service) => service.category === serviceCategory.key),
+        services: services
+          .filter((service) => service.category === serviceCategory.key)
+          .sort(sortByOrder),
       }))
       .filter((serviceCategory) => serviceCategory.services.length > 0);
 
-    const uncategorizedServices = services.filter(
-      (service) =>
-        !categories.some((serviceCategory) => serviceCategory.key === service.category)
-    );
+    const uncategorizedServices = services
+      .filter(
+        (service) =>
+          !categories.some((serviceCategory) => serviceCategory.key === service.category)
+      )
+      .sort(sortByOrder);
 
     return [
       ...groups,
@@ -223,6 +231,10 @@ export default function PricingAdmin() {
       return;
     }
 
+    const movedToDifferentCategory = editing.category !== category;
+    const nextOrder = movedToDifferentCategory
+      ? services.filter((service) => service.category === category).length
+      : editing.order;
     const updatedService = {
       title,
       price,
@@ -230,6 +242,7 @@ export default function PricingAdmin() {
       features: getFeatures(features),
       category,
       recommended,
+      order: nextOrder,
     };
 
     setServices((current) =>
@@ -318,6 +331,39 @@ export default function PricingAdmin() {
     await saveOrder(updated.filter((service) => reorderedIds.has(service.id)));
   };
 
+  const moveService = async (service: Service, direction: -1 | 1) => {
+    const categoryServices = services
+      .filter((item) => item.category === service.category)
+      .sort(sortByOrder);
+    const currentIndex = categoryServices.findIndex((item) => item.id === service.id);
+    const nextIndex = currentIndex + direction;
+
+    if (
+      currentIndex === -1 ||
+      nextIndex < 0 ||
+      nextIndex >= categoryServices.length
+    ) {
+      return;
+    }
+
+    const reorderedCategory = [...categoryServices];
+    const [moved] = reorderedCategory.splice(currentIndex, 1);
+    reorderedCategory.splice(nextIndex, 0, moved);
+    const reorderedIds = new Set(reorderedCategory.map((item) => item.id));
+    const updated = services
+      .map((item) => {
+        const categoryIndex = reorderedCategory.findIndex(
+          (reorderedItem) => reorderedItem.id === item.id
+        );
+
+        return categoryIndex >= 0 ? { ...item, order: categoryIndex } : item;
+      })
+      .sort(sortByOrder);
+
+    setServices(updated);
+    await saveOrder(updated.filter((item) => reorderedIds.has(item.id)));
+  };
+
   return (
     <div className="pricing-admin">
       <div className="pricing-header">
@@ -400,7 +446,7 @@ export default function PricingAdmin() {
             </div>
 
             <div className="service-list">
-              {serviceCategory.services.map((service) => {
+              {serviceCategory.services.map((service, index) => {
                 const isActive = service.active !== false;
 
                 return (
@@ -448,6 +494,32 @@ export default function PricingAdmin() {
                         <li key={index}>- {feature}</li>
                       ))}
                     </ul>
+
+                    <div className="order-actions" aria-label="Plan order controls">
+                      <button
+                        type="button"
+                        className="btn btn-order"
+                        disabled={index === 0}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          void moveService(service, -1);
+                        }}
+                      >
+                        Move Up
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-order"
+                        disabled={index === serviceCategory.services.length - 1}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          void moveService(service, 1);
+                        }}
+                      >
+                        Move Down
+                      </button>
+                    </div>
 
                     <div className="actions">
                       <button

@@ -11,12 +11,12 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <>
+    <main className="about-page">
       <AboutSection />
       <MissionVision />
       <OurStory />
       <Team />
       <LifeAtDiginfo />
-    </>
+    </main>
   );
 }
