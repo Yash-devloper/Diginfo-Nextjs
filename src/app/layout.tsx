@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
          
           {/* Google Analytics */}
         <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          src="https://www.googletagmanager.com/gtag/js?id=G-YJV5LEKNXB"
           strategy="afterInteractive"
         />
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             gtag('js', new Date());
 
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+            gtag('config', 'G-YJV5LEKNXB');
           `}
         </Script>
 
