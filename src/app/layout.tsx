@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LayoutClient from "@/components/LayoutClient";
@@ -9,6 +10,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Diginfo - Digital Information Hub",
   description: "Your go-to source for digital information and services.",
+
+  verification: {
+    google: "Hjo-LbzSb-tyZu6EpL-yQ9olCXBx8jNmHheFbB60Chw",
+  },
+
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,6 +23,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <LayoutClient>{children}</LayoutClient>
         <WhatsappFloat />
+         
+          {/* Google Analytics */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+          strategy="afterInteractive"
+        />
+
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag(){
+              dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+          `}
+        </Script>
+
+
       </body>
     </html>
   );

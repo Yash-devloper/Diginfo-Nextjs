@@ -55,8 +55,8 @@ export default function PricingPageClient() {
             {[
               { key: "seo", label: "SEO Plans" },
               { key: "social", label: "Social Media" },
-              { key: "ads", label: "Ads / PPC" },
-              { key: "website", label: "Website Build" },
+              { key: "ads", label: "Performance Marketing" },
+              { key: "website", label: "Website / Software" },
             ].map((tab) => (
               <button
                 key={tab.key}
