@@ -16,12 +16,40 @@ export default function Team() {
     void fetchTeam();
   }, []);
 
-  const placeholders: TeamMember[] = [
-    { id: "1", name: "XXXX XXXX", role: "Founder & Strategist", imageUrl: "", description: "Leading strategic growth and digital innovation since 2019." },
-    { id: "2", name: "XXX XXXX", role: "Performance Marketer", imageUrl: "", description: "Specialist in data-driven advertising and lead generation." },
-    { id: "3", name: "XXX XXXX", role: "UI/UX Designer", imageUrl: "", description: "Crafting intuitive digital experiences that convert." },
-    { id: "4", name: "Yash Sharma", role: "Full Stack Developer", imageUrl: "", description: "Building high-performance web applications with modern tech." },
-  ];
+ const placeholders: TeamMember[] = [
+  {
+    id: "1",
+    name: "XXXX XXXX",
+    role: "Founder & Strategist",
+    imageUrl: "",
+    description: "Leading strategic growth and digital innovation since 2019.",
+    order: 1,
+  },
+  {
+    id: "2",
+    name: "XXX XXXX",
+    role: "Performance Marketer",
+    imageUrl: "",
+    description: "Specialist in data-driven advertising and lead generation.",
+    order: 2,
+  },
+  {
+    id: "3",
+    name: "XXX XXXX",
+    role: "UI/UX Designer",
+    imageUrl: "",
+    description: "Crafting intuitive digital experiences that convert.",
+    order: 3,
+  },
+  {
+    id: "4",
+    name: "Yash Sharma",
+    role: "Full Stack Developer",
+    imageUrl: "",
+    description: "Building high-performance web applications with modern tech.",
+    order: 4,
+  },
+];
 
   const members = team.length > 0 ? team : placeholders;
 
