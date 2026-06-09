@@ -7,6 +7,7 @@ import PricingSection from "@/components/PricingSection";
 import BlogSection from "@/components/BlogSection";
 import ProcessSection from "@/components/ProcessSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import CtaSection from "@/components/CtaSection";
 
 export const metadata: Metadata = {
   title: "Diginfo — Digital Marketing Agency Indore",
@@ -24,6 +25,7 @@ export default function Home() {
       <TestimonialsSection />
       {/* <PricingSection /> */}
       <BlogSection />
+      <CtaSection />
     </>
   );
 }

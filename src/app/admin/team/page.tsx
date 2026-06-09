@@ -7,11 +7,23 @@ import {
   saveTeamMember,
   updateTeamMember,
   deleteTeamMember,
+  updateTeamMemberOrder,
 } from "@/lib/team";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export default function TeamAdmin() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
+  const [description, setDescription] = useState(""); // New state for description
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [team, setTeam] = useState<TeamMember[]>([]);
   const [saving, setSaving] = useState(false);
@@ -44,8 +56,8 @@ export default function TeamAdmin() {
   };
 
   const handleSave = async () => {
-    if (!name || !role) {
-      alert("Please provide both name and designation.");
+    if (!name || !role || !description) {
+      alert("Please provide name, role, and description.");
       return;
     }
 
@@ -53,10 +65,11 @@ export default function TeamAdmin() {
     setError(null);
 
     try {
-      await saveTeamMember(name, role, imageFile || undefined);
+      await saveTeamMember(name, role, description, imageFile || undefined);
       await refreshTeam();
       setName("");
       setRole("");
+      setDescription("");
       setImageFile(null);
       alert("Team member saved successfully.");
     } catch (err: any) {
@@ -71,13 +84,14 @@ export default function TeamAdmin() {
     setEditingId(member.id);
     setName(member.name);
     setRole(member.role);
+    setDescription(member.description); // Populate description for editing
     setExistingImageUrl(member.imageUrl);
     setImageFile(null);
   };
 
-  const handleUpdate = async () => {
-    if (!editingId || !name || !role) {
-      alert("Please provide name and designation.");
+  const handleUpdate = async () => { // Added description parameter
+    if (!editingId || !name || !role || !description) {
+      alert("Please provide name, role, and description.");
       return;
     }
 
@@ -85,11 +99,12 @@ export default function TeamAdmin() {
     setError(null);
 
     try {
-      await updateTeamMember(editingId, name, role, imageFile || undefined, existingImageUrl);
+      await updateTeamMember(editingId, name, role, imageFile || undefined, existingImageUrl, description);
       await refreshTeam();
       setEditingId(null);
       setName("");
       setRole("");
+      setDescription("");
       setImageFile(null);
       setExistingImageUrl("");
       alert("Team member updated successfully.");
@@ -123,6 +138,7 @@ export default function TeamAdmin() {
     setEditingId(null);
     setName("");
     setRole("");
+    setDescription("");
     setImageFile(null);
     setExistingImageUrl("");
   };
@@ -141,6 +157,45 @@ export default function TeamAdmin() {
         return;
       }
       setImageFile(file);
+    }
+  };
+
+  // DND Kit setup
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Requires moving 8px before drag starts, allows button clicks
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = async (event: any) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = team.findIndex((member) => member.id === active.id);
+      const newIndex = team.findIndex((member) => member.id === over.id);
+
+      const newTeam = arrayMove(team, oldIndex, newIndex);
+      setTeam(newTeam);
+
+      // Update order in Firestore
+      setSaving(true);
+      setError(null);
+      try {
+        for (let i = 0; i < newTeam.length; i++) {
+          await updateTeamMemberOrder(newTeam[i].id, i);
+        }
+        alert("Team member order updated successfully.");
+      } catch (err) {
+        console.error("Error updating team member order:", err);
+        setError("Failed to update team member order.");
+      } finally {
+        setSaving(false);
+      }
     }
   };
 
@@ -175,6 +230,13 @@ export default function TeamAdmin() {
             placeholder="Designation"
             value={role}
             onChange={(e) => setRole(e.target.value)}
+          />
+
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={3}
           />
 
           <div className="file-input-container">
@@ -219,6 +281,13 @@ export default function TeamAdmin() {
               onChange={(e) => setRole(e.target.value)}
             />
 
+            <textarea
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+            />
+
             <div className="file-input-container">
               <input
                 type="file"
@@ -253,37 +322,73 @@ export default function TeamAdmin() {
             <tr>
               <th>Name</th>
               <th>Designation</th>
+              <th>Description</th> {/* New column for description */}
               <th>Image</th>
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {team.map((member) => (
-              <tr key={member.id}>
-                <td>{member.name}</td>
-                <td>{member.role}</td>
-                <td>
-                  {member.imageUrl ? (
-                    <img src={member.imageUrl} alt={member.name} style={{ width: 80, height: 50, objectFit: "cover", borderRadius: 8 }} />
-                  ) : (
-                    "No image"
-                  )}
-                </td>
-                <td>
-                  <div className="action-buttons">
-                    <button onClick={() => handleEdit(member)} className="btn btn-edit" disabled={saving}>
-                      Edit
-                    </button>
-                    <button onClick={() => handleDelete(member.id)} className="btn btn-delete" disabled={saving}>
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={team.map(member => member.id)} strategy={verticalListSortingStrategy}>
+              <tbody>
+                {team.map((member) => (
+                  <SortableItem key={member.id} member={member} handleEdit={handleEdit} handleDelete={handleDelete} saving={saving} />
+                ))}
+              </tbody>
+            </SortableContext>
+          </DndContext>
         </table>
       </div>
     </div>
+  );
+}
+
+interface SortableItemProps {
+  member: TeamMember;
+  handleEdit: (member: TeamMember) => void;
+  handleDelete: (id: string) => void;
+  saving: boolean;
+}
+
+function SortableItem({ member, handleEdit, handleDelete, saving }: SortableItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: member.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <tr ref={setNodeRef} style={style} {...attributes} {...listeners}><td>
+      {member.name}
+    </td><td>
+      {member.role}
+    </td><td>
+      {member.description}
+    </td><td>
+        {member.imageUrl ? (
+          <img src={member.imageUrl} alt={member.name} style={{ width: 80, height: 50, objectFit: "cover", borderRadius: 8 }} />
+        ) : (
+          "No image"
+        )}
+      </td><td>
+        <div className="action-buttons">
+          <button onClick={() => handleEdit(member)} className="btn btn-edit" disabled={saving}>
+            Edit
+          </button>
+          <button onClick={() => handleDelete(member.id)} className="btn btn-delete" disabled={saving}>
+            Delete
+          </button>
+        </div>
+      </td></tr>
   );
 }

@@ -205,10 +205,11 @@ export default function TestimonialsAdmin() {
           </thead>
           <tbody>
             {testimonials.map((testimonial) => (
-              <tr key={testimonial.id}>
-                <td>{testimonial.name}</td>
-                <td>{testimonial.review}</td>
-                <td>
+              <tr key={testimonial.id}><td>
+                {testimonial.name}
+              </td><td>
+                {testimonial.review}
+              </td><td>
                   <div className="action-buttons">
                     <button
                       onClick={() => handleEdit(testimonial)}
@@ -225,8 +226,7 @@ export default function TestimonialsAdmin() {
                       Delete
                     </button>
                   </div>
-                </td>
-              </tr>
+                </td></tr>
             ))}
           </tbody>
         </table>

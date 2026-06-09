@@ -6,28 +6,28 @@ import { useState } from "react";
 const steps = [
   {
     number: "01",
-    title: "Discovery & Audit",
-    desc: "We audit your digital presence and identify growth gaps.",
+    title: "Audit & Discovery",
+    desc: " your full digital presence, including what AI tools currently say about you",
   },
   {
     number: "02",
     title: "Strategy & Planning",
-    desc: "A custom roadmap built around KPIs and growth goals.",
+    desc: "A roadmap built around your revenue goals and KPIs.",
   },
   {
     number: "03",
     title: "Build & Launch",
-    desc: "Campaigns, funnels, and systems launched with precision.",
+    desc: " campaigns, sites, and systems shipped with precision.",
   },
   {
     number: "04",
     title: "Optimize & Scale",
-    desc: "Continuous optimization to maximize ROI and performance.",
+    desc: "continuous improvement against the numbers that matter.",
   },
   {
     number: "05",
     title: "Report & Growth",
-    desc: "Transparent reporting and long-term scaling strategy.",
+    desc: "Transparent reporting, in your currency, every month.",
   },
 ];
 

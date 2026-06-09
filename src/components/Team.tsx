@@ -17,10 +17,10 @@ export default function Team() {
   }, []);
 
   const placeholders: TeamMember[] = [
-    { id: "1", name: "XXXX XXXX", role: "Founder & Strategist", imageUrl: "" },
-    { id: "2", name: "XXX XXXX", role: "Performance Marketer", imageUrl: "" },
-    { id: "3", name: "XXX XXXX", role: "UI/UX Designer", imageUrl: "" },
-    { id: "4", name: "Yash Sharma", role: "Full Stack Developer", imageUrl: "" },
+    { id: "1", name: "XXXX XXXX", role: "Founder & Strategist", imageUrl: "", description: "Leading strategic growth and digital innovation since 2019." },
+    { id: "2", name: "XXX XXXX", role: "Performance Marketer", imageUrl: "", description: "Specialist in data-driven advertising and lead generation." },
+    { id: "3", name: "XXX XXXX", role: "UI/UX Designer", imageUrl: "", description: "Crafting intuitive digital experiences that convert." },
+    { id: "4", name: "Yash Sharma", role: "Full Stack Developer", imageUrl: "", description: "Building high-performance web applications with modern tech." },
   ];
 
   const members = team.length > 0 ? team : placeholders;
@@ -55,6 +55,7 @@ export default function Team() {
 
               <h4>{member.name}</h4>
               <p>{member.role}</p>
+              {member.description && <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', opacity: 0.8, lineHeight: '1.5' }}>{member.description}</p>}
 
             </div>
           ))}

@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, query, limit } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject, getStorage } from "firebase/storage";
 import { db } from "@/lib/firebaseClient";
 
@@ -7,7 +7,9 @@ export type TeamMember = {
   id: string;
   name: string;
   role: string;
+  description: string; // Added description field
   imageUrl: string;
+  order: number; // Added for sorting
   createdAt?: Date;
 };
 
@@ -15,8 +17,7 @@ const storage = getStorage();
 
 export async function getAllTeamMembers(): Promise<TeamMember[]> {
   try {
-    const q = query(collection(db, "team"), limit(3));
-    const snap = await getDocs(q);
+    const snap = await getDocs(query(collection(db, "team"), orderBy("order", "asc"))); // Order by 'order' field
     return snap.docs.map((docSnap) => ({
       id: docSnap.id,
       ...(docSnap.data() as Omit<TeamMember, "id">),
@@ -48,6 +49,7 @@ export const uploadToCloudinary = async (file: File) => {
 export const saveTeamMember = async (
   name: string,
   role: string,
+  description: string, // Added description parameter
   file?: File
 ) => {
   let imageUrl = "";
@@ -55,12 +57,16 @@ export const saveTeamMember = async (
   if (file) {
     imageUrl = await uploadToCloudinary(file);
   }
+  const teamSnapshot = await getDocs(collection(db, "team"));
+  const order = teamSnapshot.size; // Assign order based on current number of members
 
   await addDoc(collection(db, "team"), {
     name,
     role,
     imageUrl,
     createdAt: new Date(),
+    description, // Save description
+    order, // Save order
   });
 };
 
@@ -69,7 +75,8 @@ export const updateTeamMember = async (
   name: string,
   role: string,
   file?: File,
-  existingUrl?: string
+  existingUrl?: string,
+  description?: string // Added description parameter
 ) => {
   let imageUrl = existingUrl || "";
 
@@ -81,6 +88,7 @@ export const updateTeamMember = async (
     name,
     role,
     imageUrl,
+    description, // Update description
   });
 };
 
@@ -108,3 +116,12 @@ export async function deleteTeamMember(id: string) {
     throw error;
   }
 }
+
+export const updateTeamMemberOrder = async (
+  id: string,
+  order: number
+) => {
+  await updateDoc(doc(db, "team", id), {
+    order,
+  });
+};

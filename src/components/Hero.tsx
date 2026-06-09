@@ -5,7 +5,6 @@ import Link from "next/link";
 import EnquiryModal from "@/components/EnquiryModal";
 
 export default function Hero() {
-
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -16,28 +15,34 @@ export default function Hero() {
           {/* BADGE */}
           <div className="hero-badge">
             <span className="dot"></span>
-            Indore’s #1 Full-Service Digital Agency • Since 2019
+            No. #1 Full-Service Digital Agency • Since 2019
           </div>
 
           {/* HEADING */}
           <h1 className="hero-title">
-            Your Business Deserves to <br />
-            <span className="gt">Win Online.</span>
-            <br />
-            We Make That Happen.
+            Digital Marketing & IT. Trusted <br /><span className="gt">since 2019·</span>
+            <span className="hero-subtitle">
+              
+            </span>
           </h1>
+          
+          <h2>
+          <span className="hero-subtitle">
+              Get Found. Get Chosen. Get Measured.
+            </span> </h2>
 
           {/* DESC */}
           <p className="hero-desc">
-            We’re Diginfo — a team of strategists, developers, and creatives who
-            turn ordinary brands into market leaders. Digital marketing, web
-            development, and creative design engineered for measurable growth.
+            Diginfo is a digital marketing and IT services agency. We get
+            businesses found on Google and AI search, turn that visibility into
+            customers, and build the websites and systems behind it — all under
+            one roof, accountable to your revenue.
           </p>
 
           {/* CTA */}
           <div className="hero-ctas">
             <button className="btn btn-grad" onClick={() => setOpenModal(true)}>
-              Get Your Free Digital Audit →
+              Book a Free Digital Audit →
             </button>
             <EnquiryModal
               open={openModal}
@@ -45,7 +50,7 @@ export default function Hero() {
             />
 
             <Link href="/services">
-              <button className="btn btn-ghost">View All Services</button>
+              <button className="btn btn-ghost">See What We Do</button>
             </Link>
           </div>
 
@@ -120,6 +125,36 @@ export default function Hero() {
           </div>
         </div>
       </div>
+
+      <div className="hero-band">
+      <div className="hero-band-content">
+        <span className="band-tag">THE TRANSFORMATION</span>
+
+        <div className="marquee">
+          <div className="marquee-content">
+            <span>
+              We help businesses get found, get chosen, and get measured across Google, social platforms, and  {" "}
+              <strong>the AI tools</strong> of customer discovery.
+            </span>
+
+             <span>
+              We help businesses get found, get chosen, and get measured across Google, social platforms, and  {" "}
+              <strong>the AI tools</strong> of customer discovery.
+            </span>
+
+            {/* <span>
+              Helping businesses dominate search, social, and the{" "}
+              <strong>AI-driven future</strong> of customer discovery.
+            </span>
+
+            <span>
+              Helping businesses dominate search, social, and the{" "}
+              <strong>AI-driven future</strong> of customer discovery.
+            </span> */}
+          </div>
+        </div>
+      </div>
+    </div>
     </section>
   );
 }
