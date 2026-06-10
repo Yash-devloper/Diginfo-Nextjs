@@ -4,6 +4,7 @@ import OurStory from "@/components/OurStory";
 import Team from "@/components/Team";
 import LifeAtDiginfo from "@/components/LifeAtDiginfo";
 import InternationalClients from "@/components/InternationalClients";
+import CtaSection from "@/components/CtaSection";
 
 export const metadata = {
   title: "About Diginfo — Digital Agency Founded 2019, Indore",
@@ -19,6 +20,7 @@ export default function AboutPage() {
       <Team />
       <InternationalClients />
       <LifeAtDiginfo />
+      <CtaSection />
     </main>
   );
 }

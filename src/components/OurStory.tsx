@@ -36,7 +36,7 @@ export default function OurStory() {
           <h3>₹50CR+</h3>
           <p>Revenue generated</p>
 
-          <h3>6+ Years</h3>
+          <h3>7+ Years</h3>
           <p>Of experience</p>
         </div>
 

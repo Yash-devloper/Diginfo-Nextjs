@@ -7,6 +7,7 @@ import PricingSection from "@/components/PricingSection";
 import BlogSection from "@/components/BlogSection";
 import ProcessSection from "@/components/ProcessSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function Home() {
       {/* <ServicesSection /> */}
       <ProcessSection />
       <TestimonialsSection />
+      <FaqSection />
       {/* <PricingSection /> */}
       <BlogSection />
       <CtaSection />

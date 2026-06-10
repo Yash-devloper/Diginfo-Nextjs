@@ -43,8 +43,7 @@ export default function ServicesClient() {
           </div>
         ))}
       </div>
-
-      <div className="wrap center">
+        <div className="wrap center" style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
         <button className="btn btn-grad" onClick={() => setOpenModal(true)}>
           Discover All Services -&gt;
         </button>

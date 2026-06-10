@@ -1,3 +1,4 @@
+import CtaSection from "@/components/CtaSection";
 import ServicesClient from "./ServicesClient";
 
 export const metadata = {
@@ -7,7 +8,12 @@ export const metadata = {
 
 export default function ServicesPage() {
 
-  return <ServicesClient />;
+  return (
+    <>
+    <ServicesClient />
+    <CtaSection />
+    </>
+  );
 
 }
 
