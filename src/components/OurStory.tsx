@@ -1,6 +1,6 @@
 export default function OurStory() {
   return (
-    <section className="sec dark">
+    <section className="sec dark about-sec">
       <div className="wrap story-grid">
 
         <div>

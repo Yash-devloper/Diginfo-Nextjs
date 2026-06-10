@@ -1,6 +1,6 @@
 export default function InternationalClients() {
   return (
-    <section className="sec dark intl-sec">
+    <section className="sec dark about-sec">
       <div className="wrap intl-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}>
         
         <div className="intl-left">
