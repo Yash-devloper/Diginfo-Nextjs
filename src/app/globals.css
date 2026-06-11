@@ -884,6 +884,128 @@ body{
 
 /* ── PROCESS ─────────────────────────────────── */
 
+.ai-search-sec {
+  position: relative;
+  overflow: hidden;
+  padding: 68px 0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(249,115,22,0.12), transparent 28%),
+    radial-gradient(circle at 86% 26%, rgba(138,92,246,0.18), transparent 30%),
+    linear-gradient(90deg, #120c2a 0%, #201341 58%, #2a1844 100%);
+}
+
+.ai-search-sec::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, transparent 0 28%, rgba(249,115,22,0.08) 38%, transparent 52%),
+    linear-gradient(245deg, transparent 0 34%, rgba(217,70,168,0.09) 48%, transparent 62%);
+  pointer-events: none;
+}
+
+.ai-search-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: clamp(32px, 5vw, 70px);
+  align-items: center;
+}
+
+.ai-search-copy {
+  max-width: 710px;
+}
+
+.ai-search-pill {
+  margin-bottom: 1.35rem;
+  color: #ff6f4f !important;
+  background: rgba(23,18,48,0.74);
+  border-color: rgba(138,92,246,0.45);
+}
+
+.ai-search-copy h2 {
+  max-width: 690px;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+.ai-search-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ai-search-proof {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.ai-search-proof-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  color: #ff7255;
+  background: rgba(249,115,22,0.15);
+  border-radius: 9px;
+}
+
+.ai-search-proof p {
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.ai-search-proof span {
+  display: block;
+  margin-top: 0.2rem;
+  color: rgba(232,229,255,0.68);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.ai-certified {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+  min-height: 34px;
+  padding: 0.55rem 0.8rem;
+  color: rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.ai-certified svg,
+.ai-certified strong {
+  color: #ff673a;
+}
+
+.ai-certified strong {
+  font-weight: 900;
+}
+
+.ai-search-btn {
+  margin-top: 0.25rem;
+  padding-inline: 1.6rem;
+}
+
 .process-sec {
   position: relative;
   padding: 140px 0;
@@ -7158,6 +7280,7 @@ canvas {
 .sec,
 .about-sec,
 .why-sec,
+.ai-search-sec,
 .process-sec,
 .testimonial-sec,
 .blog-sec {
@@ -7171,7 +7294,8 @@ canvas {
 
 .hero-sec + .about-sec,
 .about-sec + .why-sec,
-.why-sec + .process-sec,
+.why-sec + .ai-search-sec,
+.ai-search-sec + .process-sec,
 .process-sec + .testimonial-sec,
 .testimonial-sec + .blog-sec {
   margin-top: 0;
@@ -7229,6 +7353,11 @@ canvas {
   margin-top: 0;
 }
 
+.ai-search-sec {
+  padding-top: 68px;
+  padding-bottom: 68px;
+}
+
 .about-sec {
   position: relative;
   overflow: hidden;
@@ -7284,6 +7413,7 @@ canvas {
   .sec,
   .about-sec,
   .why-sec,
+  .ai-search-sec,
   .process-sec,
   .testimonial-sec,
   .blog-sec {
@@ -7298,12 +7428,26 @@ canvas {
   .about-page .about-sec {
     padding-top: 118px;
   }
+
+  .ai-search-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .ai-search-copy {
+    max-width: 760px;
+  }
+
+  .ai-search-action {
+    max-width: 440px;
+  }
 }
 
 @media (max-width: 768px) {
   .sec,
   .about-sec,
   .why-sec,
+  .ai-search-sec,
   .process-sec,
   .testimonial-sec,
   .blog-sec {
@@ -7330,6 +7474,44 @@ canvas {
     padding: 8px 13px;
     font-size: 11px;
     letter-spacing: 0.08em;
+  }
+
+  .ai-search-sec {
+    padding-top: 44px;
+    padding-bottom: 48px;
+  }
+
+  .ai-search-inner {
+    gap: 24px;
+  }
+
+  .ai-search-pill {
+    font-size: 11px;
+  }
+
+  .ai-search-copy h2 {
+    font-size: clamp(30px, 8vw, 38px);
+    line-height: 1.12;
+  }
+
+  .ai-search-action,
+  .ai-certified,
+  .ai-search-btn {
+    width: 100%;
+  }
+
+  .ai-search-proof {
+    align-items: flex-start;
+  }
+
+  .ai-certified {
+    flex-wrap: wrap;
+    line-height: 1.25;
+  }
+
+  .ai-search-btn {
+    padding: 0 18px;
+    font-size: 14px;
   }
 }
 
