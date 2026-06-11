@@ -8,8 +8,16 @@ import {
   Sparkles,
   Workflow,
 } from "lucide-react";
+import type { ComponentType } from "react";
 
-const marketingItems = [
+type CapabilityItem = {
+  icon: ComponentType<{ size?: number; strokeWidth?: number }>;
+  title: string;
+  description: string;
+  badge?: string;
+};
+
+const marketingItems: CapabilityItem[] = [
   {
     icon: Search,
     title: "SEO",
@@ -38,7 +46,7 @@ const marketingItems = [
   },
 ];
 
-const itItems = [
+const itItems: CapabilityItem[] = [
   {
     icon: Code2,
     title: "Web Design & Development",
