@@ -15,7 +15,7 @@ export default function Hero() {
           {/* BADGE */}
           <div className="hero-badge">
             <span className="dot"></span>
-            No. #1 Full-Service Digital Agency • Since 2019
+            Digital marketing & IT · Trusted since 2019
           </div>
 
           {/* HEADING */}
@@ -69,11 +69,6 @@ export default function Hero() {
             </div>
 
             <div className="stat-box">
-              <h3>₹50CR+</h3>
-              <p>Revenue Generated</p>
-            </div>
-
-            <div className="stat-box">
               <h3>7+</h3>
               <p>Years of Excellence</p>
             </div>
@@ -81,6 +76,11 @@ export default function Hero() {
             <div className="stat-box">
               <h3>18+</h3>
               <p>Services</p>
+            </div>
+
+            <div className="stat-box">
+              <h3>100%</h3>
+              <p> In-house team</p>
             </div>
           </div>
         </div>

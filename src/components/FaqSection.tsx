@@ -8,32 +8,48 @@ const faqs = [
   {
     question: "What services does Diginfo offer?",
     answer:
-      "Diginfo offers a comprehensive suite of digital marketing and IT services including Search Engine Optimization (SEO), Social Media Marketing (SMM), Pay-Per-Click (PPC) advertising, website design and development, ERP & CRM solutions, and creative design & branding.",
+      "Diginfo is a digital marketing and IT services agency providing a unified strategy for growth. Our core offerings include:",
+    points: [
+      "Digital Marketing: SEO, AI Search Optimisation (AEO/GEO), Google & Meta Ads, and Social Media.",
+      "IT Services: Website development (React/WordPress), ERP & CRM systems, and Workflow Automation.",
+      "Creative & Branding: Identity design and creative strategy that earns trust.",
+    ],
   },
   {
     question: "How is Diginfo different from other agencies?",
     answer:
-      "We focus on measurable ROI, not just vanity metrics. Our approach is radically transparent, providing you with clear reports on every rupee spent and every metric. We operate as partners, not just vendors, ensuring speed without shortcuts and everything done in-house by our core team.",
+      "We measure success in revenue and qualified leads, not vanity metrics. We focus on three key pillars:",
+    points: [
+      "In-House Expertise: Senior specialists do the work in-house with no outsourcing.",
+      "Radical Transparency: Fully transparent reporting on every rupee spent and every metric.",
+      "AI-First Strategy: Specialising in AEO/GEO to ensure tools like ChatGPT recommend your business.",
+    ],
   },
   {
     question: "What is your pricing model?",
     answer:
-      "We offer flexible pricing plans tailored to your business needs, including packages for SEO, social media, performance marketing, and website/software development. You can view detailed pricing on our dedicated pricing page or contact us for a custom quote.",
+      "Transparent, tiered pricing with no lock-in contracts. Plans start from a clear monthly minimum, and custom scopes are quoted after a free consultation. We support billing in local currencies for international clients.",
   },
   {
     question: "Do you work with international clients?",
     answer:
-      "Yes, we proudly serve businesses both in India and overseas. We ensure clear communication in English, schedule meetings in your timezone, offer billing in local currency, and provide NDA protection for your data.",
+      "Yes. We support businesses globally with clear English communication on your schedule, reporting in your local currency, and NDA-protected workflows.",
   },
   {
     question: "How long does it take to see results?",
     answer:
-      "While results can vary based on the service and industry, we aim to show tangible results within 90 days for most campaigns. Our transparent reporting keeps you updated on progress and performance every month.",
+      "Results vary by service: Paid ads can show leads within days, while SEO and AI-search visibility typically compound over 2–4 months. We set clear KPIs from Day 1.",
   },
   {
     question: "What is your process for a new project?",
-    answer:
-      "Our process typically involves an initial audit & discovery phase, followed by strategy & planning, then building & launching campaigns/systems. We then continuously optimize & scale, and provide transparent reporting & growth insights.",
+    answer: "We follow a structured 5-step growth process:",
+    points: [
+      "Audit & Discovery: A free audit of your digital presence and AI-search visibility.",
+      "Strategy & Planning: A roadmap built around your specific revenue goals.",
+      "Build & Launch: Precision execution of campaigns, sites, or systems.",
+      "Optimise & Scale: Continuous improvement based on data that matters.",
+      "Report & Growth: Transparent monthly reporting and strategy refinement.",
+    ],
   },
 ];
 
@@ -101,6 +117,15 @@ export default function FaqSection() {
                   className="faq-answer"
                 >
                   <p>{faq.answer}</p>
+                  {faq.points && (
+                    <ul style={{ marginTop: "0.8rem", paddingLeft: "1.2rem", listStyleType: "disc" }}>
+                      {faq.points.map((point, i) => (
+                        <li key={i} style={{ marginBottom: "0.5rem", opacity: 0.85 }}>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

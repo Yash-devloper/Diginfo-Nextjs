@@ -2,8 +2,7 @@ import { Metadata } from "next";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import WhySection from "@/components/WhySection";
-import ServicesSection from "@/components/ServicesSection";
-import PricingSection from "@/components/PricingSection";
+import CapabilitiesSection from "@/components/CapabilitiesSection";
 import BlogSection from "@/components/BlogSection";
 import ProcessSection from "@/components/ProcessSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -19,9 +18,9 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <CapabilitiesSection />
       <AboutSection />
-      <WhySection />
-      {/* <ServicesSection /> */}
+      <WhySection />   
       <ProcessSection />
       <TestimonialsSection />
       <FaqSection />
