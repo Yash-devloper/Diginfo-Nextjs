@@ -59,7 +59,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://wa.me/8889123454"
+              href="https://wa.me/+918889123454"
               target="_blank"
             >
               <FaWhatsapp />

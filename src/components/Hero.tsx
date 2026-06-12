@@ -33,7 +33,7 @@ export default function Hero() {
 
           {/* DESC */}
           <p className="hero-desc">
-            Diginfo is a digital marketing and IT services agency. We get
+            We are a digital marketing and IT services agency. We get
             businesses found on Google and AI search, turn that visibility into
             customers, and build the websites and systems behind it — all under
             one roof, accountable to your revenue.

@@ -5,6 +5,7 @@ import {
   Palette,
   Search,
   Settings,
+  Smartphone,
   Sparkles,
   Workflow,
 } from "lucide-react";
@@ -56,6 +57,11 @@ const itItems: CapabilityItem[] = [
     icon: Settings,
     title: "ERP & CRM Solutions",
     description: "Custom systems and automation for your operations.",
+  },
+  {
+    icon: Smartphone,
+    title: "App Development",
+    description: "Mobile apps built for smooth, scalable customer experiences.",
   },
   {
     icon: Workflow,

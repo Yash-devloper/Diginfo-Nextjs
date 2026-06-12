@@ -14,6 +14,7 @@ export default function EnquiryModal({
 }: Props) {
 
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,6 +33,8 @@ export default function EnquiryModal({
       HTMLSelectElement
     >
   ) => {
+
+    setSubmitted(false);
 
     setFormData({
       ...formData,
@@ -52,8 +55,6 @@ export default function EnquiryModal({
 
       await saveLead(formData);
 
-      alert("Enquiry Submitted Successfully!");
-
       setFormData({
         name: "",
         email: "",
@@ -62,7 +63,7 @@ export default function EnquiryModal({
         message: "",
       });
 
-      onClose();
+      setSubmitted(true);
 
     } catch (error) {
 
@@ -77,11 +78,16 @@ export default function EnquiryModal({
     }
 };
 
+  const handleClose = () => {
+    setSubmitted(false);
+    onClose();
+  };
+
  return (
 
     <div
       className="enquiry-modal"
-      onClick={onClose}
+      onClick={handleClose}
     >
 
       <div
@@ -92,7 +98,7 @@ export default function EnquiryModal({
         {/* CLOSE */}
         <button
           className="modal-close"
-          onClick={onClose}
+          onClick={handleClose}
         >
           ✕
         </button>
@@ -154,8 +160,14 @@ export default function EnquiryModal({
             <option value="SEO">
               SEO
             </option>
+            <option value="AEO/GEO">
+              AEO/GEO
+            </option>
             <option value="Website Development">
               Website Development
+            </option>
+            <option value="App Development">
+              App Development
             </option>
 
             <option value="Social Media Marketing">
@@ -184,6 +196,13 @@ export default function EnquiryModal({
               ? "Submitting..."
               : "Submit Enquiry →"}
           </button>
+
+          {submitted ? (
+            <p className="note" role="status">
+              Thank you for your enquiry. We have received your details and
+              our team will contact you shortly.
+            </p>
+          ) : null}
 
         </form>
 

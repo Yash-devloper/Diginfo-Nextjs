@@ -15,8 +15,10 @@ export default function ContactPageClient() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: any) => {
+    setSubmitted(false);
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -43,7 +45,9 @@ export default function ContactPageClient() {
         createdAt: serverTimestamp(),
       });
 
-      toast.success("Enquiry submitted successfully 🚀");
+      setSubmitted(true);
+
+      toast.success("Enquiry submitted successfully");
 
       setForm({
         name: "",
@@ -143,9 +147,11 @@ export default function ContactPageClient() {
             >
               <option value="">Choose a service...</option>
               <option>SEO</option>
+              <option>AEO/GEO</option>
               <option>Social Media</option>
               <option>Ads / PPC</option>
               <option>Website</option>
+              <option>App Development</option>
             </select>
             <textarea
               name="message"
@@ -160,6 +166,12 @@ export default function ContactPageClient() {
             >
               {loading ? "Sending..." : "Send Message & Get My Free Pre-Audit →"}
             </button>
+            {submitted ? (
+              <p className="note" role="status">
+                Thank you for your enquiry. We have received your details and
+                our team will contact you shortly.
+              </p>
+            ) : null}
             <p className="note">
               We respond within 4 hours. No spam, ever. 100% confidential.
             </p>

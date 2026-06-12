@@ -109,6 +109,8 @@ export default function AdminLeads() {
             <option>Social Media</option>
             <option>Ads / PPC</option>
             <option>Website</option>
+            <option>App Development</option>
+            <option>AEO/GEO</option>
           </select>
 
           <button className="export-btn" onClick={exportCSV}>

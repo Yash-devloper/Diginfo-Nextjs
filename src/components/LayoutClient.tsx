@@ -19,7 +19,13 @@ export default function LayoutClient({
   return (
     <>
       <Reveal />
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        containerStyle={{
+          top: 92,
+          zIndex: 9999,
+        }}
+      />
 
       {/* Show Navbar only for public pages */}
       {!isAdmin && <Navbar />}
