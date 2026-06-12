@@ -20,7 +20,7 @@ export default function Hero() {
 
           {/* HEADING */}
           <h1 className="hero-title">
-            Digital Marketing & IT. Trusted <br /><span className="gt">since 2019·</span>
+            Get Found. Get Chosen <br /><span className="gt">Get Results</span>
             <span className="hero-subtitle">
               
             </span>
@@ -28,7 +28,7 @@ export default function Hero() {
           
           <h2>
           <span className="hero-subtitle">
-              Get Found. Get Chosen. Get Measured.
+            Digital marketing & IT, trusted since 2019. 
             </span> </h2>
 
           {/* DESC */}
@@ -126,35 +126,18 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-band">
-      <div className="hero-band-content">
-        <span className="band-tag">THE TRANSFORMATION</span>
-
+      <div className="hero-band" aria-label="Diginfo growth promise">
         <div className="marquee">
           <div className="marquee-content">
-            <span>
-              We help businesses get found, get chosen, and get measured across Google, social platforms, and  {" "}
-              <strong>the AI tools</strong> of customer discovery.
-            </span>
-
-             <span>
-              We help businesses get found, get chosen, and get measured across Google, social platforms, and  {" "}
-              <strong>the AI tools</strong> of customer discovery.
-            </span>
-
-            {/* <span>
-              Helping businesses dominate search, social, and the{" "}
-              <strong>AI-driven future</strong> of customer discovery.
-            </span>
-
-            <span>
-              Helping businesses dominate search, social, and the{" "}
-              <strong>AI-driven future</strong> of customer discovery.
-            </span> */}
+            {Array.from({ length: 4 }).map((_, index) => (
+              <span key={index}>
+                We help businesses get found, get chosen, and get measured across Google,
+                social platforms, and <strong>the AI tools</strong> customers now ask first.
+              </span>
+            ))}
           </div>
         </div>
       </div>
-    </div>
     </section>
   );
 }

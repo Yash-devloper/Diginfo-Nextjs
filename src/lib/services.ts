@@ -42,6 +42,33 @@ export const services: ServiceDetail[] = [
       "Grow organic traffic with Diginfo's SEO services, including technical audits, keyword research, on-page SEO, local SEO, link building, and monthly reporting.",
   },
   {
+    slug: "ai-search-optimisation-aeo-geo",
+    title: "AI Search Optimisation (AEO/GEO)",
+    shortTitle: "AI Search Optimisation",
+    cardDescription: "Win visibility in AI answers",
+    description:
+      "Prepare your brand for AI-powered discovery with answer engine optimization, generative engine optimization, structured content, and authority signals that help your business appear in AI search results.",
+    highlights: ["AEO & GEO strategy", "AI-ready content", "Schema & entity signals", "Brand authority building"],
+    tags: ["AEO", "GEO", "AI Search"],
+    intro:
+      "Diginfo's AI Search Optimisation service helps your business show up when customers ask ChatGPT, Gemini, Perplexity, Google AI Overviews, and other answer engines for recommendations. We structure your website, content, and brand signals so AI systems can understand, trust, and cite your business more confidently.",
+    benefits: [
+      "Better visibility in AI answers, summaries, and recommendation-style searches",
+      "Content built around direct questions, entities, comparisons, and buyer intent",
+      "Improved structured data, internal linking, and topical authority",
+      "A future-ready search strategy that works alongside traditional SEO",
+    ],
+    process: [
+      "Audit your current SEO, content depth, entity clarity, and AI search visibility",
+      "Map the questions, prompts, and topics your ideal customers ask AI tools",
+      "Create answer-focused pages, FAQs, schema, and authority-building content",
+      "Track mentions, rankings, traffic signals, and refine content for better discovery",
+    ],
+    seoTitle: "AI Search Optimisation Services | AEO & GEO Agency | Diginfo",
+    seoDescription:
+      "Grow visibility in AI search with Diginfo's AEO and GEO services, including AI-ready content, answer engine optimization, schema, entity signals, and authority building.",
+  },
+  {
     slug: "social-media-marketing",
     title: "Social Media Marketing (SMM)",
     shortTitle: "Social Media Marketing",
@@ -101,26 +128,26 @@ export const services: ServiceDetail[] = [
     shortTitle: "Web Development",
     cardDescription: "Fast & modern websites",
     description:
-      "Design and develop fast, modern, SEO-ready websites using user-focused UI/UX, React, WordPress, and scalable development practices.",
-    highlights: ["UI/UX design", "React / WordPress", "SEO-ready build"],
-    tags: ["React", "WordPress"],
+      "Design and develop fast, modern, SEO-ready websites using user-focused UI/UX, flexible technology choices, and scalable development practices.",
+    highlights: ["UI/UX website design", "Custom website development", "SEO-ready build"],
+    tags: ["Responsive Design", "Custom Development", "Scalable Tech"],
     intro:
       "Your website is often the first serious proof of your business. Diginfo designs and develops websites that look sharp, load fast, explain your offer clearly, and support search visibility from day one.",
     benefits: [
       "Responsive website design for mobile, tablet, and desktop users",
       "Clear user journeys that guide visitors toward enquiries and sales",
       "SEO-ready structure, metadata, speed, and content foundations",
-      "Flexible builds for business websites, landing pages, and CMS needs",
+      "Flexible builds for business websites, landing pages, CMS needs, and custom development stacks",
     ],
     process: [
       "Map your goals, pages, users, content needs, and conversion actions",
       "Create UI/UX direction with layouts that fit your brand and audience",
-      "Develop the website in React, WordPress, or the right stack for the job",
+      "Develop the website with the right technology stack for your goals, budget, and growth plans",
       "Test responsiveness, speed, forms, SEO basics, and launch readiness",
     ],
     seoTitle: "Website Design & Development Services | Diginfo",
     seoDescription:
-      "Get a modern, responsive, SEO-ready website with Diginfo's website design and development services for React, WordPress, landing pages, and business websites.",
+      "Get a modern, responsive, SEO-ready website with Diginfo's website design and development services for business websites, landing pages, CMS builds, and custom technology stacks.",
   },
   {
     slug: "erp-crm-solutions",

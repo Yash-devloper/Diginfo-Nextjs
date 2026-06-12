@@ -31,9 +31,7 @@ export default function Footer() {
           />
 
           <p>
-            Building brands with digital innovation,
-            scalable web solutions, and performance-driven
-            digital marketing strategies.
+           A digital marketing and IT services agency. We get businesses found, chosen, measured across Google, Social and AI Search.
           </p>
 
           {/* SOCIAL */}

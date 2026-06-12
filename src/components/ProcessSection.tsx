@@ -22,7 +22,7 @@ const steps = [
   {
     number: "04",
     title: "Optimize & Scale",
-    desc: "continuous improvement against the numbers that matter.",
+    desc: "Continuous improvement against the numbers that matter.",
   },
   {
     number: "05",

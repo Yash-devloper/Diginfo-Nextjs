@@ -21,7 +21,7 @@ export default function ServicesClient() {
         </p>
       </div>
 
-      <div className="wrap services-grid">
+      <div className="wrap services-grid services-main-grid">
         {services.map((service) => (
           <div className="service-card" key={service.slug}>
             <h4>{service.title}</h4>
@@ -43,7 +43,7 @@ export default function ServicesClient() {
           </div>
         ))}
       </div>
-        <div className="wrap center" style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
+      <div className="wrap center services-action">
         <button className="btn btn-grad" onClick={() => setOpenModal(true)}>
           Discover All Services -&gt;
         </button>

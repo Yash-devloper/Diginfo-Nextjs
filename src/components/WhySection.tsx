@@ -15,7 +15,7 @@ export default function WhySection() {
 
           <p className="body-lg">
             Hundreds of agencies in India will promise you rankings and followers.
-            Very few will show you the rupee-to-rupee ROI on every decision.
+            Very few will show you the real, measurable ROI on every decision.
             We will — every single month.
           </p>
 

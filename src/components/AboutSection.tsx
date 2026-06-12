@@ -39,7 +39,7 @@ export default function AboutSection() {
 
             <div className="about-card">
               <h4>🔍 Radical Transparency</h4>
-              <p>You see every rupee spent and every metric.</p>
+              <p>You see every spend and every metric.</p>
             </div>
 
             <div className="about-card">
@@ -71,18 +71,18 @@ export default function AboutSection() {
           </div>
 
           <div className="stat-box">
-            <h3>₹50CR+</h3>
-            <p>Revenue Generated for Clients</p>
+            <h3>25+</h3>
+            <p>Clients in india & abroad</p>
           </div>
 
           <div className="stat-box">
-            <h3>98%</h3>
-            <p>Client Retention Rate</p>
+            <h3>100%</h3>
+            <p>In-house team</p>
           </div>
 
           <div className="stat-box">
             <h3>7+ YRS</h3>
-            <p>Of Digital Excellence Since 2019</p>
+            <p>Since 2019</p>
           </div>
         </div>
       </div>
