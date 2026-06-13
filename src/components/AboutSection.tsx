@@ -72,7 +72,7 @@ export default function AboutSection() {
 
           <div className="stat-box">
             <h3>25+</h3>
-            <p>Clients in india & abroad</p>
+            <p>Clients in India & abroad</p>
           </div>
 
           <div className="stat-box">

@@ -1,5 +1,6 @@
 "use client";
 
+import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { db } from "@/lib/firebaseClient";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -17,7 +18,9 @@ export default function ContactPageClient() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: any) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setSubmitted(false);
     setForm({
       ...form,
@@ -25,7 +28,7 @@ export default function ContactPageClient() {
     });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!form.name || !form.phone || !form.email) {
@@ -70,7 +73,7 @@ export default function ContactPageClient() {
         <div className="contact-left">
           <div className="pill-label">GET IN TOUCH</div>
           <h1 className="contact-title">
-            Let's Have an Honest <br />
+            Let&apos;s Have an Honest <br />
             <span className="gt">30–Minute</span>
             <br />
             Conversation.
@@ -85,7 +88,7 @@ export default function ContactPageClient() {
               <span>📍</span>
               <div>
                 <h4>Our Office</h4>
-                <p>Indore, Madhya Pradesh, India — 452001</p>
+                <p>Vijay Nagar, Indore, Madhya Pradesh, India — 452001</p>
               </div>
             </div>
             <div className="info-item">
@@ -150,7 +153,7 @@ export default function ContactPageClient() {
               <option>AEO/GEO</option>
               <option>Social Media</option>
               <option>Ads / PPC</option>
-              <option>Website</option>
+              <option>Website Development</option>
               <option>App Development</option>
             </select>
             <textarea
@@ -176,6 +179,41 @@ export default function ContactPageClient() {
               We respond within 4 hours. No spam, ever. 100% confidential.
             </p>
           </form>
+        </div>
+      </div>
+
+      <div className="wrap contact-map-wrap">
+        <div className="contact-map-head">
+          <div>
+            <div className="pill-label">OUR LOCATION</div>
+            <h2>Visit Diginfo in Indore</h2>
+          </div>
+          <p>
+            Find us around Vijay Nagar, Indore. Use the map for quick
+            directions before your meeting.
+          </p>
+        </div>
+
+        <div className="contact-map-card">
+          <iframe
+            src="https://www.google.com/maps?q=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India&output=embed"
+            title="Diginfo office location in Vijay Nagar, Indore"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+
+          {/* <div className="contact-map-panel">
+            <span className="map-pin">Location Pin</span>
+            <h3>Diginfo</h3>
+            <p>Vijay Nagar, Indore, Madhya Pradesh, India - 452001</p>
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open directions
+            </a>
+          </div> */}
         </div>
       </div>
     </section>

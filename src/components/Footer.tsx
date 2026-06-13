@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { services } from "@/lib/services";
 import {
   FaFacebookF,
   FaInstagram,
@@ -85,27 +86,20 @@ export default function Footer() {
 
         </div>
 
-        {/* MAP */}
-        <div className="footer-col footer-map-col">
+        {/* SERVICES */}
+        <div className="footer-col">
 
-          <h4>Find Us</h4>
+          <h4>Services</h4>
 
-          <div className="footer-map">
-            <iframe
-              src="https://www.google.com/maps?q=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India&output=embed"
-              title="Diginfo location on Google Maps"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-
-          <a
-            className="footer-map-link"
-            href="https://www.google.com/maps/dir/?api=1&destination=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India"
-            target="_blank"
-          >
-            Open in Google Maps
-          </a>
+          <ul className="footer-links">
+            {services.map((service) => (
+              <li key={service.slug}>
+                <Link href={`/services/${service.slug}`}>
+                  {service.shortTitle}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
         </div>
 
