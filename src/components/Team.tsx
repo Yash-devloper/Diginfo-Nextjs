@@ -6,6 +6,8 @@ import { getAllTeamMembers, type TeamMember } from "@/lib/team";
 
 export default function Team() {
   const [team, setTeam] = useState<TeamMember[]>([]);
+  // State to track image loading errors for each team member by ID
+  const [memberImageError, setMemberImageError] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const fetchTeam = async () => {
@@ -15,15 +17,31 @@ export default function Team() {
 
     void fetchTeam();
   }, []);
+ 
+  // Function to get initials from a name
+  const getInitials = (name: string): string => {
+    const parts = name.split(" ");
+    if (parts.length === 1) {
+      return parts[0].charAt(0).toUpperCase();
+    }
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  };
 
- const placeholders: TeamMember[] = [
+  // Function to handle image error for a specific member
+  const handleImageError = (memberId: string) => {
+    setMemberImageError((prevErrors) => ({
+      ...prevErrors,
+      [memberId]: true,
+    }));
+  };
+
+  const placeholders: TeamMember[] = [
   {
     id: "1",
-    name: "XXXX XXXX",
+    name: "Swarnjeet Singh",
     role: "Founder & Strategist",
     imageUrl: "",
     description: "Leading strategic growth and digital innovation since 2019.",
-    order: 1,
   },
   {
     id: "2",
@@ -31,7 +49,6 @@ export default function Team() {
     role: "Performance Marketer",
     imageUrl: "",
     description: "Specialist in data-driven advertising and lead generation.",
-    order: 2,
   },
   {
     id: "3",
@@ -39,7 +56,6 @@ export default function Team() {
     role: "UI/UX Designer",
     imageUrl: "",
     description: "Crafting intuitive digital experiences that convert.",
-    order: 3,
   },
   {
     id: "4",
@@ -47,7 +63,6 @@ export default function Team() {
     role: "Full Stack Developer",
     imageUrl: "",
     description: "Building high-performance web applications with modern tech.",
-    order: 4,
   },
 ];
 
@@ -69,15 +84,22 @@ export default function Team() {
           {members.map((member) => (
             <div key={member.id} className="team-card">
 
-              <div className="team-img">
-                {member.imageUrl && (
+              <div className="team-img" style={{ position: 'relative', height: '220px', borderRadius: '12px', background: 'linear-gradient(135deg,#1a1a2e,#2a2a40)', marginBottom: '15px', overflow: 'hidden' }}>
+                {(member.imageUrl && !memberImageError[member.id]) ? (
                   <Image
                     src={member.imageUrl}
                     alt={member.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 25vw"
                     style={{ objectFit: "cover" }}
+                    onError={() => handleImageError(member.id)}
                   />
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)' }}>
+                    <span style={{ fontSize: '3rem', fontWeight: 900, color: 'rgba(255,255,255,0.1)', letterSpacing: '-1px' }}>
+                      {getInitials(member.name)}
+                    </span>
+                  </div>
                 )}
               </div>
 

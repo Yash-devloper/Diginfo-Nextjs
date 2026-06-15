@@ -30,14 +30,18 @@ export default function OurStory() {
         </div>
 
         <div className="story-highlight">
-          <h3>100+ Clients</h3>
+          <h3>100+ Brands</h3>
           <p>Served across industries</p>
 
-          <h3>₹50CR+</h3>
-          <p>Revenue generated</p>
+          <h3>100%</h3>
+          <p>In-house Senior-lead delivery team</p>
 
           <h3>7+ Years</h3>
           <p>Of experience</p>
+
+          <h3> Marketing + IT </h3>
+          <p>Under one roof</p>
+
         </div>
 
       </div>

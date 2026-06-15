@@ -53,7 +53,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://in.linkedin.com/in/diginfoexpert"
+              href="https://www.linkedin.com/company/diginfo-ai/"
               target="_blank"
             >
               <FaLinkedin />

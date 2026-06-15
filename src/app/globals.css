@@ -3444,8 +3444,8 @@ textarea {
 
 /* TEAM */
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
+  display: grid; /* Use grid for flexible layout */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusts columns to fit, max 4 per row */
   gap: 25px;
   margin-top: 50px;
 }
@@ -7128,7 +7128,7 @@ canvas {
   }
 
   .services-grid,
-  .team-grid,
+  .team-grid, /* Keep this for smaller screens if specific overrides are needed */
   .related-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -7472,6 +7472,7 @@ canvas {
   max-width: 100%;
   min-height: 34px;
   padding: 8px 16px;
+  padding: 10px 22px;
   border-radius: 999px;
   background:
     linear-gradient(135deg, rgba(255,107,0,0.18), rgba(184,77,255,0.24)),
@@ -7488,6 +7489,48 @@ canvas {
   text-transform: uppercase;
   white-space: normal;
   text-align: center;
+}
+
+/* ── LEADERSHIP SECTION ENHANCEMENTS ──────────────── */
+.leadership-sec {
+  padding-top: clamp(80px, 8vw, 110px);
+  padding-bottom: clamp(80px, 8vw, 110px);
+}
+
+.leader-card {
+  background: var(--ink2);
+  padding: clamp(2rem, 4vw, 3.5rem);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease;
+}
+
+.leader-card:hover {
+  border-color: rgba(138, 92, 246, 0.3);
+  transform: translateY(-5px);
+}
+
+.leader-card-inner-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .leader-card-inner-grid {
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+  }
+  
+  .leader-main-info {
+    position: sticky;
+    top: 120px;
+  }
+}
+
+.leader-card .leader-body {
+  flex-grow: unset !important;
 }
 
 .pill-label span {
