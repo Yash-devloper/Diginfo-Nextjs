@@ -42,6 +42,7 @@ export default function Team() {
     role: "Founder & Strategist",
     imageUrl: "",
     description: "Leading strategic growth and digital innovation since 2019.",
+    order: 1,
   },
   {
     id: "2",
@@ -49,6 +50,7 @@ export default function Team() {
     role: "Performance Marketer",
     imageUrl: "",
     description: "Specialist in data-driven advertising and lead generation.",
+    order: 2,
   },
   {
     id: "3",
@@ -56,6 +58,7 @@ export default function Team() {
     role: "UI/UX Designer",
     imageUrl: "",
     description: "Crafting intuitive digital experiences that convert.",
+    order: 3,
   },
   {
     id: "4",
@@ -63,6 +66,7 @@ export default function Team() {
     role: "Full Stack Developer",
     imageUrl: "",
     description: "Building high-performance web applications with modern tech.",
+    order: 4,
   },
 ];
 
