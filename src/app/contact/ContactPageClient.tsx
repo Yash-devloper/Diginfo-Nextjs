@@ -2,11 +2,12 @@
 
 import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
-import { db } from "@/lib/firebaseClient";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { saveLead } from "@/lib/leads";
 import toast from "react-hot-toast";
 
 export default function ContactPageClient() {
+  const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -16,12 +17,10 @@ export default function ContactPageClient() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    setSubmitted(false);
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -39,16 +38,13 @@ export default function ContactPageClient() {
     try {
       setLoading(true);
 
-      await addDoc(collection(db, "leads"), {
+      await saveLead({
         name: form.name,
         phone: form.phone,
         email: form.email,
         service: form.service,
         message: form.message,
-        createdAt: serverTimestamp(),
       });
-
-      setSubmitted(true);
 
       toast.success("Enquiry submitted successfully");
 
@@ -59,6 +55,8 @@ export default function ContactPageClient() {
         service: "",
         message: "",
       });
+
+      router.push("/thank-you");
     } catch (error) {
       console.error("Firestore Error:", error);
       toast.error("Something went wrong. Please try again.");
@@ -169,12 +167,6 @@ export default function ContactPageClient() {
             >
               {loading ? "Sending..." : "Send Message & Get My Free Pre-Audit →"}
             </button>
-            {submitted ? (
-              <p className="note" role="status">
-                Thank you for your enquiry. We have received your details and
-                our team will contact you shortly.
-              </p>
-            ) : null}
             <p className="note">
               We respond within 4 hours. No spam, ever. 100% confidential.
             </p>

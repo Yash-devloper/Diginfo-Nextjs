@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { saveLead } from "@/lib/leads";
 
 interface Props {
@@ -15,7 +16,7 @@ export default function EnquiryModal({
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,10 +33,7 @@ export default function EnquiryModal({
       HTMLTextAreaElement |
       HTMLSelectElement
     >
-  ) => {
-
-    setSubmitted(false);
-
+  ) => { 
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -55,7 +53,8 @@ export default function EnquiryModal({
 
       await saveLead(formData);
 
-      setFormData({
+      // Reset form data and close modal before redirecting
+      setFormData({ 
         name: "",
         email: "",
         phone: "",
@@ -63,7 +62,8 @@ export default function EnquiryModal({
         message: "",
       });
 
-      setSubmitted(true);
+      router.push('/thank-you'); // 1. Start navigation first
+      onClose(); // 2. Then close the modal
 
     } catch (error) {
 
@@ -79,7 +79,6 @@ export default function EnquiryModal({
 };
 
   const handleClose = () => {
-    setSubmitted(false);
     onClose();
   };
 
@@ -196,14 +195,6 @@ export default function EnquiryModal({
               ? "Submitting..."
               : "Submit Enquiry →"}
           </button>
-
-          {submitted ? (
-            <p className="note" role="status">
-              Thank you for your enquiry. We have received your details and
-              our team will contact you shortly.
-            </p>
-          ) : null}
-
         </form>
 
       </div>
