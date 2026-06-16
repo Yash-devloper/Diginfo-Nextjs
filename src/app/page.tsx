@@ -22,7 +22,6 @@ export default function Home() {
       <Hero />
       <CapabilitiesSection />
       <AboutSection />
-      <LeadershipSection />
       <WhySection />   
       <AISearchSection />
       <ProcessSection />
