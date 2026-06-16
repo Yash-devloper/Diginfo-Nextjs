@@ -53,6 +53,23 @@ const faqs = [
   },
 ];
 
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: [
+        faq.answer,
+        ...(faq.points || [])
+      ].join(" ")
+    }
+  }))
+};
+
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -61,6 +78,14 @@ export default function FaqSection() {
   };
 
   return (
+    <>  
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(faqSchema),
+      }}
+    />
+
     <section className="sec hero-sec faq-sec">
       <div className="wrap center">
         <div className="pill-label" style={{ marginBottom: "1.5rem" }}>
@@ -133,5 +158,6 @@ export default function FaqSection() {
         ))}
       </div>
     </section>
+    </>
   );
 }
