@@ -21,7 +21,7 @@ const faqs = [
       "We measure success in revenue and qualified leads, not vanity metrics. We focus on three key pillars:",
     points: [
       "In-House Expertise: Senior specialists do the work in-house with no outsourcing.",
-      "Radical Transparency: Fully transparent reporting on every rupee spent and every metric.",
+      "Radical Transparency: Fully transparent reporting on every spend and every metric.",
       "AI-First Strategy: Specialising in AEO/GEO to ensure tools like ChatGPT recommend your business.",
     ],
   },

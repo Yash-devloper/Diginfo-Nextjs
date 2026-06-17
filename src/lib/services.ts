@@ -150,6 +150,33 @@ export const services: ServiceDetail[] = [
       "Get a modern, responsive, SEO-ready website with Diginfo's website design and development services for business websites, landing pages, CMS builds, and custom technology stacks.",
   },
   {
+    slug: "app-development",
+    title: "APP Development",
+    shortTitle: "APP Development",
+    cardDescription: "Custom mobile and web apps",
+    description:
+      "Plan, design, and develop scalable mobile and web applications with smooth user experiences, secure architecture, and business-ready features.",
+    highlights: ["Android & iOS apps", "Web app development", "UI/UX app design", "API integrations"],
+    tags: ["Mobile Apps", "Web Apps", "UI/UX"],
+    intro:
+      "Diginfo's APP Development service helps businesses turn ideas, workflows, and customer journeys into reliable digital products. We build apps that are easy to use, simple to manage, and ready to grow with your business.",
+    benefits: [
+      "Custom app experiences designed around your users and business goals",
+      "Responsive mobile and web interfaces with clear navigation and fast performance",
+      "Secure backend integrations for payments, forms, dashboards, APIs, and notifications",
+      "Scalable development approach for MVPs, business tools, and customer-facing platforms",
+    ],
+    process: [
+      "Understand your app idea, users, features, workflows, and success goals",
+      "Create app architecture, user flows, wireframes, and UI direction",
+      "Develop frontend, backend, integrations, and admin features in planned milestones",
+      "Test usability, performance, security, and launch readiness before release",
+    ],
+    seoTitle: "APP Development Services | Mobile & Web Apps | Diginfo",
+    seoDescription:
+      "Build custom mobile and web applications with Diginfo's APP development services, including UI/UX design, backend development, API integrations, testing, and launch support.",
+  },
+  {
     slug: "erp-crm-solutions",
     title: "ERP & CRM Solutions",
     shortTitle: "ERP & CRM Solutions",

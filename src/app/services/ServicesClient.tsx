@@ -9,7 +9,7 @@ const marketingOrder = [
   "creative-design-branding",
 ];
 
-const technologyOrder = ["website-design-development", "erp-crm-solutions"];
+const technologyOrder = ["website-design-development", "app-development", "erp-crm-solutions"];
 
 const cardDescriptions: Record<string, string> = {
   "search-engine-optimization": "Sustained organic visibility for the searches that bring qualified buyers.",
@@ -18,12 +18,14 @@ const cardDescriptions: Record<string, string> = {
   "social-media-marketing": "Content and community that build durable demand for your brand.",
   "creative-design-branding": "Brand identity and creative that earn trust at first impression.",
   "website-design-development": "Fast, secure, conversion-focused websites and platforms.",
+  "app-development": "Custom mobile and web apps built around your workflows and users.",
   "erp-crm-solutions": "Custom systems and automation that run your operations at scale.",
 };
 
 const cardTags: Record<string, string[]> = {
   "performance-marketing": ["PPC", "ROAS", "Retargeting"],
   "website-design-development": ["Responsive", "Custom Build", "Scalable Tech"],
+  "app-development": ["Mobile Apps", "Web Apps", "API Integration"],
   "erp-crm-solutions": ["ERP", "CRM", "Automation"],
 };
 
