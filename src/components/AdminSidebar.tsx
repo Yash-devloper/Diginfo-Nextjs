@@ -13,6 +13,7 @@ import {
   IndianRupee,
   Search,
   Menu,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 type AdminSidebarProps = {
@@ -27,6 +28,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Create Blog", href: "/admin/blogs", icon: FileText },
     { name: "All Blogs", href: "/admin/blogs/list", icon: List },
+    { name: "Careers", href: "/admin/careers", icon: BriefcaseBusiness },
     { name: "Leads", href: "/admin/leads", icon: Users },
     { name: "Team", href: "/admin/team", icon: Users },
     { name: "Pricing", href: "/admin/pricing", icon: IndianRupee },

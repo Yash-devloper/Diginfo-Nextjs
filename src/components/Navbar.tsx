@@ -45,6 +45,7 @@ export default function Navbar() {
             <li><Link href="/">Home</Link></li>
             <li><Link href="/about">About</Link></li>
             <li><Link href="/services">Services</Link></li>
+            <li><Link href="/careers">Careers</Link></li>
             {/* <li><Link href="/pricing">Pricing</Link></li> */}
             <li><Link href="/blog">Blog</Link></li>
             <li><Link href="/contact">Contact</Link></li>
@@ -74,6 +75,7 @@ export default function Navbar() {
           <Link href="/" onClick={() => setMobileMenu(false)}>Home</Link>
           <Link href="/about" onClick={() => setMobileMenu(false)}>About</Link>
           <Link href="/services" onClick={() => setMobileMenu(false)}>Services</Link>
+          <Link href="/careers" onClick={() => setMobileMenu(false)}>Careers</Link>
           {/* <Link href="/pricing" onClick={() => setMobileMenu(false)}>Pricing</Link> */}
           <Link href="/blog" onClick={() => setMobileMenu(false)}>Blog</Link>
           <Link href="/contact" onClick={() => setMobileMenu(false)}>Contact</Link>
