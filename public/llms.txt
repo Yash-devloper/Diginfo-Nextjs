@@ -1,0 +1,32 @@
+# Diginfo
+
+> Leading digital marketing agency in Indore, helping businesses get found, chosen, and measured online.
+
+## Core Features / Products
+- [SEO Optimization](https://diginfo.ai/services/search-engine-optimization): Learn how to enhance your visibility on Google.
+- [AI Search Optimisation](https://diginfo.ai/services/ai-search-optimisation-aeo-geo): Optimize for AI tools and increase recommendations.
+- [Social Media Marketing](https://diginfo.ai/services/social-media-marketing): Develop demand through strategic community engagement.
+- [Performance Marketing](https://diginfo.ai/services/performance-marketing): Discover how to achieve ROI with Google and Meta ads.
+- [Web Development](https://diginfo.ai/services/website-design-development): Build fast, high-converting websites with our development team.
+- [APP Development](https://diginfo.ai/services/app-development): Create custom applications tailored to your business needs.
+- [ERP & CRM Solutions](https://diginfo.ai/services/erp-crm-solutions): Build custom systems for enhanced business management.
+- [Creative Design & Branding](https://diginfo.ai/services/creative-design-branding): Develop branding that establishes trust and recognition.
+
+## Pricing and Plans
+- [Pricing](https://diginfo.ai/pricing): Explore our service packages and pricing options for digital marketing solutions.
+
+## Resources and Insights
+- [Blog](https://diginfo.ai/blog): Read articles on digital marketing trends, tips, and success stories.
+- [Case Studies](https://diginfo.ai/case-studies): Review client success stories and results achieved.
+
+## Company Information
+- [About](https://diginfo.ai/about): Learn about our agency, mission, and values.
+- [Careers](https://diginfo.ai/careers): Discover job openings and join our team.
+  
+## Contact and Support
+- [Contact](https://diginfo.ai/contact): Get in touch with us for inquiries or consultations.  
+- [Book a Free Digital Audit](https://diginfo.ai/book-audit): Schedule a complimentary audit of your digital presence.  
+
+## Legal and Compliance
+- [Privacy Policy](https://diginfo.ai/privacy): Understand how we manage and protect your data.
+- [Terms of Service](https://diginfo.ai/terms): Review the terms that govern your use of our services.

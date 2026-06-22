@@ -25,6 +25,7 @@ export const db = initializeFirestore(app, {
 
 export const auth = getAuth(app);
 
+
 //  Error handling for Firestore operations
 export const handleFirestoreError = (error: any) => {
   // Safer logging for errors missing standard gRPC codes
