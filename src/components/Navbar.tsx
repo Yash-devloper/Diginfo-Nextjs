@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import EnquiryModal from "@/components/EnquiryModal";
+import dynamic from "next/dynamic";
 import { Menu, X } from "lucide-react";
+
+// Load the Firebase-backed form only after it is opened.
+const EnquiryModal = dynamic(() => import("@/components/EnquiryModal"), {
+  ssr: false,
+});
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

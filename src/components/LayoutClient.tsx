@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Reveal from "./Reveal";
 import { Toaster } from "react-hot-toast";
 
 export default function LayoutClient({
@@ -19,7 +18,6 @@ export default function LayoutClient({
 
   return (
     <>
-      <Reveal />
       <Toaster
         position="top-right"
         containerStyle={{

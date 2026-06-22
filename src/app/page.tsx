@@ -5,11 +5,10 @@ import LeadershipSection from "@/components/LeadershipSection";
 import WhySection from "@/components/WhySection";
 import CapabilitiesSection from "@/components/CapabilitiesSection";
 import AISearchSection from "@/components/AISearchSection";
-import BlogSection from "@/components/BlogSection";
 import ProcessSection from "@/components/ProcessSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
+import DeferredHomeSections from "@/components/DeferredHomeSections";
 
 export const metadata: Metadata = {
   title: "Diginfo — Digital Marketing Agency Indore",
@@ -25,10 +24,9 @@ export default function Home() {
       <WhySection />   
       <AISearchSection />
       <ProcessSection />
-      <TestimonialsSection />
       <FaqSection />
       {/* <PricingSection /> */}
-      <BlogSection />
+      <DeferredHomeSections />
       <CtaSection />
     </>
   );

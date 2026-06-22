@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import EnquiryModal from "@/components/EnquiryModal";
+import dynamic from "next/dynamic";
+
+// This form brings Firebase into the client bundle. It is only needed after a
+// visitor asks to book an audit, so keep it out of the landing page's initial JS.
+const EnquiryModal = dynamic(() => import("@/components/EnquiryModal"), {
+  ssr: false,
+});
 
 export default function Hero() {
   const [openModal, setOpenModal] = useState(false);

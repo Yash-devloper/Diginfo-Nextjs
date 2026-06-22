@@ -3885,6 +3885,9 @@ textarea {
     0 10px 35px rgba(184,77,255,0.25);
 }
 
+/* Preserves scrolling space while data-driven, below-the-fold sections load. */
+.deferred-home-sections{min-height:900px;}
+
 .services-overview {
   padding: 112px 0 28px;
   background:
