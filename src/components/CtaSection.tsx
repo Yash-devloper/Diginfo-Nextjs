@@ -1,8 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import EnquiryModal from "@/components/EnquiryModal";
+import dynamic from "next/dynamic";
 import { useState } from "react";
+
+const EnquiryModal = dynamic(() => import("@/components/EnquiryModal"), {
+  ssr: false,
+});
 
 export default function CtaSection() {
   const [openModal, setOpenModal] = useState(false);

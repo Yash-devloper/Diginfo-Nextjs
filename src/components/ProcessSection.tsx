@@ -1,8 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { useState } from "react";
-
 const steps = [
   {
     number: "01",
@@ -32,9 +27,6 @@ const steps = [
 ];
 
 export default function ProcessSection() {
-
-  const [active, setActive] = useState(0);
-
   return (
     <section className="process-sec">
 
@@ -65,14 +57,9 @@ export default function ProcessSection() {
           {/* PROGRESS LINE */}
           <div className="timeline-line">
 
-            <motion.div
+            <div
               className="timeline-progress"
-              animate={{
-                width: `${((active + 1) / steps.length) * 100}%`,
-              }}
-              transition={{
-                duration: 0.5,
-              }}
+              style={{ width: "20%" }}
             />
 
           </div>
@@ -82,26 +69,11 @@ export default function ProcessSection() {
 
             {steps.map((step, index) => (
 
-              <motion.div
+              <article
                 key={index}
                 className={`process-card ${
-                  active === index ? "active" : ""
+                  index === 0 ? "active" : ""
                 }`}
-                onMouseEnter={() => setActive(index)}
-                onFocus={() => setActive(index)}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{
-                  y: -14,
-                  scale: 1.015,
-                }}
-                transition={{
-                  duration: 0.55,
-                  delay: index * 0.1,
-                  ease: "easeOut",
-                }}
-                viewport={{ once: true }}
-                tabIndex={0}
               >
 
                 <div className="step-circle">
@@ -112,7 +84,7 @@ export default function ProcessSection() {
 
                 <p>{step.desc}</p>
 
-              </motion.div>
+              </article>
 
             ))}
 

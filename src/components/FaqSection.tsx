@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const faqs = [
@@ -102,15 +101,10 @@ export default function FaqSection() {
 
       <div className="wrap faq-container" style={{ width: "100%" }}>
         {faqs.map((faq, index) => (
-          <motion.div
+          <div
             key={index}
-            className="faq-item"
-            initial={false}
-            animate={{
-              backgroundColor: openIndex === index ? "var(--ink2)" : "var(--ink)",
-            }}
+            className={`faq-item ${openIndex === index ? "is-open" : ""}`}
             style={{ width: "100%" }}
-            transition={{ duration: 0.3 }}
           >
             <button
               className="faq-question"
@@ -125,36 +119,25 @@ export default function FaqSection() {
               }}
             >
               <h3>{faq.question}</h3>
-              <motion.div
-                animate={{ rotate: openIndex === index ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
+              <span className="faq-chevron" aria-hidden="true">
                 <ChevronDown size={24} />
-              </motion.div>
+              </span>
             </button>
-            <AnimatePresence>
-              {openIndex === index && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="faq-answer"
-                >
-                  <p>{faq.answer}</p>
-                  {faq.points && (
-                    <ul style={{ marginTop: "0.8rem", paddingLeft: "1.2rem", listStyleType: "disc" }}>
-                      {faq.points.map((point, i) => (
-                        <li key={i} style={{ marginBottom: "0.5rem", opacity: 0.85 }}>
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
+            {openIndex === index && (
+              <div className="faq-answer">
+                <p>{faq.answer}</p>
+                {faq.points && (
+                  <ul style={{ marginTop: "0.8rem", paddingLeft: "1.2rem", listStyleType: "disc" }}>
+                    {faq.points.map((point, i) => (
+                      <li key={i} style={{ marginBottom: "0.5rem", opacity: 0.85 }}>
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </section>

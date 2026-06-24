@@ -34,8 +34,9 @@ export default function LoginPage() {
     try {
       await setPersistence(auth, browserSessionPersistence);
       await signInWithEmailAndPassword(auth, email, password);
+
       toast.success("Welcome back!");
-      router.push("/admin");
+      router.replace("/admin");
     } catch {
       toast.error("Invalid email or password");
     }

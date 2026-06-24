@@ -1,26 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import {
-  BriefcaseBusiness,
   ChevronLeft,
   ChevronRight,
-  GraduationCap,
   Mail,
   Sparkles,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { db, handleFirestoreError } from "@/lib/firebaseClient";
+import Image from "next/image";
+import Link from "next/link";
+import type { Job } from "@/lib/jobs";
 
-type CareerCategory = "Graduate" | "Experienced";
-
-type CareerOpening = {
-  id: string;
-  designation: string;
-  category: CareerCategory;
-  active?: boolean;
-};
+function formatExperience(experience: string) {
+  return experience.trim() || "Not required";
+}
 
 const lifeGallery = [
   {
@@ -68,81 +62,52 @@ const socialLinks = [
   },
 ];
 
-const categories: Array<{
-  name: CareerCategory;
-  description: string;
-  icon: typeof GraduationCap;
-}> = [
+const careerTeams = [
   {
-    name: "Graduate",
-    description: "Starter roles for freshers ready to learn, execute, and grow.",
-    icon: GraduationCap,
+    icon: "📣",
+    name: "Digital Marketing",
+    description: "SEO, AI Search (AEO/GEO), paid media, and social.",
   },
   {
-    name: "Experienced",
-    description: "Specialist roles for professionals who can own outcomes.",
-    icon: BriefcaseBusiness,
+    icon: "💻",
+    name: "Technology & Development",
+    description: "Web, apps, ERP/CRM, and workflow automation.",
+  },
+  {
+    icon: "🎨",
+    name: "Creative & Design",
+    description: "Brand identity, content, and video.",
+  },
+  {
+    icon: "🤝",
+    name: "Client Success & Growth",
+    description: "Strategy, accounts, and operations.",
   },
 ];
 
-function buildApplyLink(designation: string) {
-  const subject = encodeURIComponent(`Application for ${designation}`);
-  const body = encodeURIComponent(
-    `Hello Diginfo Team,\n\nI would like to apply for the ${designation} role. Please find my resume attached.\n\nRegards,`
-  );
-
-  return `mailto:yash.sharma@diginfoexpert.com?subject=${subject}&body=${body}`;
-}
-
-function sortOpenings(openings: CareerOpening[]) {
-  return [...openings].sort((a, b) => {
-    const categorySort = a.category.localeCompare(b.category);
-    return categorySort || a.designation.localeCompare(b.designation);
-  });
-}
-
 export default function CareersClient() {
-  const [openings, setOpenings] = useState<CareerOpening[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [visibleSlides, setVisibleSlides] = useState(1);
 
   useEffect(() => {
-    const fetchOpenings = async () => {
+    const fetchJobs = async () => {
       try {
-        const snap = await getDocs(collection(db, "careers"));
-        const data = snap.docs
-          .map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as Omit<CareerOpening, "id">),
-          }))
-          .filter((opening) => opening.active !== false && opening.designation)
-          .filter(
-            (opening) =>
-              opening.category === "Graduate" || opening.category === "Experienced"
-          );
-
-        setOpenings(sortOpenings(data));
-      } catch (error) {
-        handleFirestoreError(error);
+        const response = await fetch("/api/jobs", { cache: "no-store" });
+        if (!response.ok) throw new Error("Failed to load jobs");
+        const data = (await response.json()) as { jobs: Job[] };
+        setJobs(data.jobs);
+      } catch {
         setHasError(true);
       } finally {
         setLoading(false);
       }
     };
 
-    void fetchOpenings();
+    void fetchJobs();
   }, []);
-
-  const groupedOpenings = useMemo(
-    () =>
-      categories.map((category) => ({
-        ...category,
-        openings: openings.filter((opening) => opening.category === category.name),
-      })),
-    [openings]
-  );
 
   const maxSlide = Math.max(lifeGallery.length - visibleSlides, 0);
   const slidePositions = Array.from({ length: maxSlide + 1 }, (_, index) => index);
@@ -154,10 +119,6 @@ export default function CareersClient() {
   const goToNextSlide = useCallback(() => {
     setActiveSlide((current) => (current >= maxSlide ? 0 : current + 1));
   }, [maxSlide]);
-
-  const handleApplyClick = useCallback((designation: string) => {
-    window.location.href = buildApplyLink(designation);
-  }, []);
 
   useEffect(() => {
     const updateVisibleSlides = () => {
@@ -200,25 +161,55 @@ export default function CareersClient() {
               Careers at Diginfo
             </span>
             <h1>
-              Build your next chapter with a team that moves fast and learns faster.
+              Build your next chapter with a team that{" "}
+              <span>moves fast and learns faster.</span>
             </h1>
             <p>
-              Join Diginfo to work across digital marketing, technology, creative,
-              and growth projects for ambitious businesses. Explore openings posted
-              by our admin team and apply directly with your resume.
+              Join Diginfo to work across digital marketing, technology, creative, and
+              growth for ambitious businesses in India and abroad — with real ownership,
+              senior mentorship, and work that actually ships.
             </p>
+            <div className="careers-hero-actions">
+              <a className="careers-hero-btn careers-hero-btn-primary" href="#openings">
+                View open roles <span aria-hidden="true">↓</span>
+              </a>
+              <a className="careers-hero-btn careers-hero-btn-secondary" href="#life-at-diginfo">
+                Life at Diginfo
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="careers-openings">
+      <section className="careers-fit">
+        <div className="wrap">
+          <div className="careers-fit-head">
+            <span>Where you fit</span>
+            <h2>Four teams, one mission.</h2>
+          </div>
+
+          <div className="careers-fit-grid">
+            {careerTeams.map((team) => (
+              <article className="careers-fit-card" key={team.name}>
+                <span className="careers-fit-icon" role="img" aria-label="">
+                  {team.icon}
+                </span>
+                <h3>{team.name}</h3>
+                <p>{team.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="careers-openings" id="openings">
         <div className="wrap">
           <div className="careers-section-head">
             <span>Openings</span>
             <h2>Current opportunities</h2>
             <p>
-              Choose your category, review the available designation, and email your
-              resume to our hiring team in one click.
+              Find a role that matches your strengths and see the full details before
+              applying.
             </p>
           </div>
 
@@ -229,53 +220,31 @@ export default function CareersClient() {
           )}
 
           {loading ? (
-            <p className="careers-status">Loading openings...</p>
+            <p className="careers-status">Loading job openings...</p>
           ) : (
-            <div className="careers-category-grid">
-              {groupedOpenings.map((category) => {
-                const Icon = category.icon;
-
-                return (
-                  <article className="career-category-card" key={category.name}>
-                    <div className="career-category-title">
-                      <span>
-                        <Icon size={20} />
-                      </span>
-                      <div>
-                        <h3>{category.name}</h3>
-                        <p>{category.description}</p>
-                      </div>
-                    </div>
-
-                    <div className="career-opening-list">
-                      {category.openings.length > 0 ? (
-                        category.openings.map((opening) => (
-                          <div className="career-opening-row" key={opening.id}>
-                            <strong>{opening.designation}</strong>
-                            <button
-                              className="career-apply-btn"
-                              type="button"
-                              onClick={() => handleApplyClick(opening.designation)}
-                              aria-label={`Apply for ${opening.designation} by email`}
-                            >
-                              <Mail size={16} />
-                              Apply
-                            </button>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="career-empty">No openings posted yet.</p>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
+            <div className="career-job-grid">
+              {jobs.length ? jobs.map((job) => (
+                <article className="career-job-card" key={job.id}>
+                  <span className="career-job-type">{job.employmentType}</span>
+                  <h3>{job.title}</h3>
+                  <dl>
+                    {/* <div><dt>Experience</dt><dd>{formatExperience(job.experienceRequired)}</dd></div> */}
+                    <div><dt>Experience</dt><dd>{formatExperience(job.candidateType)}</dd></div>
+                    {/* <div><dt>For</dt><dd>{job.candidateType}</dd></div> */}
+                  </dl>
+                  <Link className="career-job-link" href={`/careers/${job.id}`}>
+                    View More <span aria-hidden="true">→</span>
+                  </Link>
+                </article>
+              )) : (
+                <p className="career-empty">No openings posted yet. Please check back soon.</p>
+              )}
             </div>
           )}
         </div>
       </section>
 
-      <section className="careers-life">
+      <section className="careers-life" id="life-at-diginfo">
         <div className="wrap">
           <div className="careers-section-head careers-life-head">
             <span>Life at Diginfo</span>
@@ -308,7 +277,7 @@ export default function CareersClient() {
               >
                 {lifeGallery.map((item) => (
                   <div className="careers-gallery-slide" key={item.title}>
-                    <img src={item.image} alt={item.title} />
+                    <Image src={item.image} alt={item.title} width={900} height={600} />
                     <span>{item.title}</span>
                   </div>
                 ))}
@@ -335,6 +304,26 @@ export default function CareersClient() {
                 />
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="careers-resume-cta" aria-labelledby="careers-resume-heading">
+        <div className="wrap">
+          <div className="careers-resume-card">
+            <h2 id="careers-resume-heading">Don&apos;t see your role?</h2>
+            <p>
+              We&apos;re always glad to meet good people. Send your resume and we&apos;ll reach out
+              when something fits.
+            </p>
+            <a className="careers-resume-button" href="mailto:yash.sharma@diginfoexpert.com">
+              <Mail size={17} />
+              Send your resume <span aria-hidden="true">→</span> careers@diginfo.ai
+            </a>
+            <small>
+              Diginfo is an equal-opportunity employer. We hire on merit and welcome
+              applicants of all backgrounds.
+            </small>
           </div>
         </div>
       </section>

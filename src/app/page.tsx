@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
-import LeadershipSection from "@/components/LeadershipSection";
 import WhySection from "@/components/WhySection";
 import CapabilitiesSection from "@/components/CapabilitiesSection";
 import AISearchSection from "@/components/AISearchSection";

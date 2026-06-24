@@ -1,116 +1,128 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { Edit3, Plus, Save, Trash2, X } from "lucide-react";
 import toast from "react-hot-toast";
-import { BriefcaseBusiness, Plus, Trash2 } from "lucide-react";
-import { db, handleFirestoreError } from "@/lib/firebaseClient";
+import {
+  candidateTypes,
+  employmentTypes,
+  type Job,
+  type JobInput,
+} from "@/lib/jobs";
 
-type CareerCategory = "Graduate" | "Experienced";
-
-type CareerOpening = {
-  id: string;
-  designation: string;
-  category: CareerCategory;
-  active?: boolean;
+const emptyJob: JobInput = {
+  title: "",
+  candidateType: "Fresher",
+  experienceRequired: "",
+  description: "",
+  location: "",
+  employmentType: "Full-time",
 };
 
-const categories: CareerCategory[] = ["Graduate", "Experienced"];
+function formatExperience(experience: string) {
+  return experience.trim() || "Not required";
+}
 
-const sortOpenings = (a: CareerOpening, b: CareerOpening) =>
-  a.category.localeCompare(b.category) || a.designation.localeCompare(b.designation);
+async function readError(response: Response) {
+  const data = (await response.json().catch(() => null)) as { error?: string } | null;
+  return data?.error ?? "Something went wrong. Please try again.";
+}
+
+function apiHeaders() {
+  return {
+    "Content-Type": "application/json",
+  };
+}
 
 export default function CareersAdminPage() {
-  const [openings, setOpenings] = useState<CareerOpening[]>([]);
-  const [designation, setDesignation] = useState("");
-  const [category, setCategory] = useState<CareerCategory>("Graduate");
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [form, setForm] = useState<JobInput>(emptyJob);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  const fetchOpenings = async () => {
+  const loadJobs = useCallback(async () => {
     try {
-      const snap = await getDocs(collection(db, "careers"));
-      const data = snap.docs
-        .map((item) => ({
-          id: item.id,
-          ...(item.data() as Omit<CareerOpening, "id">),
-        }))
-        .sort(sortOpenings);
+      const response = await fetch("/api/jobs?includeInactive=true", {
+        headers: apiHeaders(),
+        cache: "no-store",
+      });
+      if (!response.ok) throw new Error(await readError(response));
 
-      setOpenings(data);
+      const data = (await response.json()) as { jobs: Job[] };
+      setJobs(data.jobs);
     } catch (error) {
-      handleFirestoreError(error);
-      toast.error("Failed to load career openings");
+      toast.error(error instanceof Error ? error.message : "Failed to load job openings.");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    void fetchOpenings();
   }, []);
 
-  const groupedOpenings = useMemo(
-    () =>
-      categories.map((item) => ({
-        category: item,
-        openings: openings.filter((opening) => opening.category === item),
-      })),
-    [openings]
-  );
+  useEffect(() => {
+    void loadJobs();
+  }, [loadJobs]);
 
-  const handleAdd = async () => {
-    if (!designation.trim()) {
-      toast.error("Please enter designation");
-      return;
-    }
+  const updateField = <K extends keyof JobInput>(field: K, value: JobInput[K]) => {
+    setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const resetForm = () => {
+    setForm(emptyJob);
+    setEditingId(null);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSaving(true);
 
     try {
-      setSaving(true);
-      await addDoc(collection(db, "careers"), {
-        designation: designation.trim(),
-        category,
-        active: true,
-        createdAt: new Date(),
+      const response = await fetch(editingId ? `/api/jobs/${editingId}` : "/api/jobs", {
+        method: editingId ? "PATCH" : "POST",
+        headers: apiHeaders(),
+        body: JSON.stringify(form),
       });
-      setDesignation("");
-      setCategory("Graduate");
-      toast.success("Opening posted");
-      void fetchOpenings();
+      if (!response.ok) throw new Error(await readError(response));
+
+      toast.success(editingId ? "Job opening updated." : "Job opening posted.");
+      resetForm();
+      await loadJobs();
     } catch (error) {
-      handleFirestoreError(error);
-      toast.error("Failed to post opening");
+      toast.error(error instanceof Error ? error.message : "Unable to save the job opening.");
     } finally {
       setSaving(false);
     }
   };
 
-  const toggleStatus = async (opening: CareerOpening) => {
-    try {
-      await updateDoc(doc(db, "careers", opening.id), {
-        active: !(opening.active !== false),
-      });
-      void fetchOpenings();
-    } catch (error) {
-      handleFirestoreError(error);
-      toast.error("Failed to update opening");
-    }
+  const startEditing = (job: Job) => {
+    setForm({
+      title: job.title,
+      candidateType: job.candidateType,
+      experienceRequired: job.experienceRequired,
+      description: job.description,
+      location: job.location,
+      employmentType: job.employmentType,
+    });
+    setEditingId(job.id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this opening?")) return;
+  const isExperienceRequired = form.candidateType === "Experienced";
+
+  const deleteJob = async (job: Job) => {
+    if (!window.confirm(`Delete “${job.title}”? This cannot be undone.`)) return;
 
     try {
-      await deleteDoc(doc(db, "careers", id));
-      toast.success("Opening deleted");
-      void fetchOpenings();
+      const response = await fetch(`/api/jobs/${job.id}`, {
+        method: "DELETE",
+        headers: apiHeaders(),
+      });
+      if (!response.ok) throw new Error(await readError(response));
+
+      if (editingId === job.id) resetForm();
+      toast.success("Job opening deleted.");
+      await loadJobs();
     } catch (error) {
-      handleFirestoreError(error);
-      toast.error("Failed to delete opening");
+      toast.error(error instanceof Error ? error.message : "Unable to delete the job opening.");
     }
   };
 
@@ -119,80 +131,132 @@ export default function CareersAdminPage() {
       <div className="admin-title-row">
         <div>
           <h2 className="admin-title">
-            Career <span className="gt">Openings</span>
+            Job <span className="gt">Openings</span>
           </h2>
-          <p>Post roles here to show them on the public careers page.</p>
+          <p>Create and manage the roles displayed on the public careers page.</p>
         </div>
       </div>
 
-      <div className="career-admin-form">
-        <div className="career-admin-field">
-          <label>Designation</label>
+      <form className="career-admin-form" onSubmit={handleSubmit}>
+        <div className="career-admin-field career-admin-field-wide">
+          <label htmlFor="job-title">Job Title</label>
           <input
+            id="job-title"
             className="input"
-            value={designation}
-            onChange={(event) => setDesignation(event.target.value)}
+            value={form.title}
+            onChange={(event) => updateField("title", event.target.value)}
             placeholder="e.g. Digital Marketing Executive"
+            maxLength={120}
+            required
           />
         </div>
 
         <div className="career-admin-field">
-          <label>Category</label>
+          <label htmlFor="candidate-type">Candidate Type</label>
           <select
+            id="candidate-type"
             className="input"
-            value={category}
-            onChange={(event) => setCategory(event.target.value as CareerCategory)}
+            value={form.candidateType}
+            onChange={(event) => updateField("candidateType", event.target.value as JobInput["candidateType"])}
           >
-            {categories.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
+            {candidateTypes.map((type) => <option key={type}>{type}</option>)}
           </select>
         </div>
 
-        <button className="btn btn-grad" onClick={handleAdd} disabled={saving}>
-          <Plus size={16} />
-          {saving ? "Posting..." : "Post Opening"}
-        </button>
-      </div>
+        <div className="career-admin-field">
+          <label htmlFor="experience-required">Experience Required</label>
+          <input
+            id="experience-required"
+            className="input"
+            value={form.experienceRequired}
+            onChange={(event) => updateField("experienceRequired", event.target.value)}
+            placeholder={isExperienceRequired ? "e.g. 2-4 years" : "Optional"}
+            maxLength={100}
+            required={isExperienceRequired}
+          />
+        </div>
 
-      <div className="career-admin-groups">
-        {groupedOpenings.map((group) => (
-          <section className="career-admin-group" key={group.category}>
-            <h3>
-              <BriefcaseBusiness size={18} />
-              {group.category}
-            </h3>
+        <div className="career-admin-field">
+          <label htmlFor="job-location">Location</label>
+          <input
+            id="job-location"
+            className="input"
+            value={form.location}
+            onChange={(event) => updateField("location", event.target.value)}
+            placeholder="e.g. Indore / Hybrid"
+            maxLength={160}
+            required
+          />
+        </div>
 
-            {group.openings.length > 0 ? (
-              group.openings.map((opening) => (
-                <div className="career-admin-row" key={opening.id}>
-                  <div>
-                    <strong>{opening.designation}</strong>
-                    <span>{opening.active === false ? "Hidden" : "Visible"}</span>
-                  </div>
+        <div className="career-admin-field">
+          <label htmlFor="employment-type">Job Type</label>
+          <select
+            id="employment-type"
+            className="input"
+            value={form.employmentType}
+            onChange={(event) => updateField("employmentType", event.target.value as JobInput["employmentType"])}
+          >
+            {employmentTypes.map((type) => <option key={type}>{type}</option>)}
+          </select>
+        </div>
 
-                  <div className="career-admin-actions">
-                    <button className="btn btn-edit" onClick={() => toggleStatus(opening)}>
-                      {opening.active === false ? "Show" : "Hide"}
-                    </button>
-                    <button
-                      className="btn btn-delete"
-                      onClick={() => handleDelete(opening.id)}
-                    >
-                      <Trash2 size={15} />
-                      Delete
-                    </button>
-                  </div>
+        <div className="career-admin-field career-admin-field-full">
+          <label htmlFor="job-description">Job Description</label>
+          <textarea
+            id="job-description"
+            className="input career-admin-textarea"
+            value={form.description}
+            onChange={(event) => updateField("description", event.target.value)}
+            placeholder="Describe the role, responsibilities, and what success looks like."
+            maxLength={5000}
+            minLength={20}
+            required
+          />
+        </div>
+
+        <div className="career-admin-form-actions">
+          <button className="btn btn-grad" type="submit" disabled={saving}>
+            {editingId ? <Save size={16} /> : <Plus size={16} />}
+            {saving ? "Saving..." : editingId ? "Save Changes" : "Post Job"}
+          </button>
+          {editingId && (
+            <button className="btn btn-edit" type="button" onClick={resetForm}>
+              <X size={16} /> Cancel
+            </button>
+          )}
+        </div>
+      </form>
+
+      <section className="career-admin-jobs" aria-labelledby="published-jobs-heading">
+        <h3 id="published-jobs-heading">Published job openings</h3>
+        {loading ? (
+          <p className="career-admin-empty">Loading job openings...</p>
+        ) : jobs.length ? (
+          <div className="career-admin-jobs-list">
+            {jobs.map((job) => (
+              <article className="career-admin-job" key={job.id}>
+                <div>
+                  <strong>{job.title}</strong>
+                  <span>
+                    {job.candidateType} · {job.employmentType} · {formatExperience(job.experienceRequired)} · {job.location}
+                  </span>
                 </div>
-              ))
-            ) : (
-              <p className="career-admin-empty">No openings in this category.</p>
-            )}
-          </section>
-        ))}
-      </div>
+                <div className="career-admin-actions">
+                  <button className="btn btn-edit" type="button" onClick={() => startEditing(job)}>
+                    <Edit3 size={15} /> Edit
+                  </button>
+                  <button className="btn btn-delete" type="button" onClick={() => void deleteJob(job)}>
+                    <Trash2 size={15} /> Delete
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="career-admin-empty">No job openings have been posted yet.</p>
+        )}
+      </section>
     </div>
   );
 }

@@ -2,11 +2,7 @@
 
 import { useEffect, useState, ReactNode } from "react";
 import { auth } from "@/lib/firebaseClient";
-import {
-  browserSessionPersistence,
-  onAuthStateChanged,
-  setPersistence,
-} from "firebase/auth";
+import { browserSessionPersistence, onAuthStateChanged, setPersistence } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 export default function AdminGuard({ children }: { children: ReactNode }) {
@@ -21,12 +17,13 @@ export default function AdminGuard({ children }: { children: ReactNode }) {
       .then(() => {
         if (!mounted) return;
 
-        unsub = onAuthStateChanged(auth, (user) => {
+        unsub = onAuthStateChanged(auth, async (user) => {
           if (!user) {
             router.replace("/login");
-          } else {
-            setLoading(false);
+            return;
           }
+
+          setLoading(false);
         });
       })
       .catch(() => {
