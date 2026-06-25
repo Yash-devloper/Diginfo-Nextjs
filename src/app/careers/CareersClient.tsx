@@ -215,7 +215,7 @@ export default function CareersClient() {
 
           {hasError && (
             <p className="careers-status">
-              We could not load admin openings right now. Please check again later.
+              We could not have openings right now. Please check again later.
             </p>
           )}
 

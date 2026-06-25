@@ -1,4 +1,14 @@
 :root {
+  /* Shared type scale: use these values for every standard UI element. */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: clamp(1.5rem, 2vw, 1.875rem);
+  --font-size-2xl: clamp(2rem, 3.5vw, 2.75rem);
+  --font-size-3xl: clamp(2.5rem, 5vw, 4rem);
+  --line-height-tight: 1.15;
+  --line-height-body: 1.6;
   --ink:        #09080F;
   --ink2:       #110F1C;
   --ink3:       #1C1829;
@@ -38,12 +48,29 @@
   --sh3: 0 0 80px rgba(217,70,168,0.2);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;font-size:16px;}
+html{
+  scroll-behavior:smooth;
+  font-size:16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 body{
   font-family:'Plus Jakarta Sans',sans-serif;
   background:var(--ink); color:var(--white);
-  overflow-x:hidden; line-height:1.6;
+  overflow-x:hidden;
+  font-size:var(--font-size-base);
+  line-height:var(--line-height-body);
 }
+
+/* Defaults for content that does not use a component-specific type class. */
+:where(h1, h2, h3, h4, p) { font: inherit; }
+:where(h1, h2, h3, h4) { line-height: var(--line-height-tight); }
+:where(h1) { font-size: var(--font-size-3xl); font-weight: 800; letter-spacing: -0.02em; }
+:where(h2) { font-size: var(--font-size-2xl); font-weight: 700; letter-spacing: -0.015em; }
+:where(h3) { font-size: var(--font-size-xl); font-weight: 700; }
+:where(h4) { font-size: var(--font-size-lg); font-weight: 600; }
+:where(p) { font-size: var(--font-size-base); line-height: var(--line-height-body); }
+:where(button, input, select, textarea) { font: inherit; }
 
 /* ── TYPOGRAPHY ──────────────────────────────── */
 .display{
@@ -62,13 +89,13 @@ body{
   font-size:clamp(1.7rem,2.8vw,2.6rem);
   font-weight:700; line-height:1.15; letter-spacing:-0.02em;
 }
-.h3{font-size:1.3rem;font-weight:700;line-height:1.25;}
-.h4{font-size:1.05rem;font-weight:600;}
-.body-xl{font-size:1.2rem;line-height:1.8;font-weight:300;}
-.body-lg{font-size:1.05rem;line-height:1.8;font-weight:400;}
-.body{font-size:0.95rem;line-height:1.75;}
-.small{font-size:0.82rem;line-height:1.6;}
-.micro{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
+.h3{font-size:var(--font-size-xl);font-weight:700;line-height:1.25;}
+.h4{font-size:var(--font-size-lg);font-weight:600;}
+.body-xl{font-size:var(--font-size-lg);line-height:1.8;font-weight:300;}
+.body-lg{font-size:var(--font-size-base);line-height:1.8;font-weight:400;}
+.body{font-size:var(--font-size-base);line-height:1.75;}
+.small{font-size:var(--font-size-sm);line-height:1.6;}
+.micro{font-size:var(--font-size-xs);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;}
 
 .gt{
   background:var(--grad-text);
