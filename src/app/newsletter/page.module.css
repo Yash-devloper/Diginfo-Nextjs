@@ -1,0 +1,484 @@
+.page {
+  --plum: #4b113f;
+  --plum-dark: #2b0d24;
+  --pink: #d8328c;
+  --ink: #3a2d3e;
+  --muted: #756579;
+  --paper: #fffafc;
+  --wash: #f4ecf4;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 636px;
+  background: var(--plum);
+  color: #fff;
+}
+
+.heroNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0 9.6%;
+}
+
+.heroNav p,
+.heroNav span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.heroNav span {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.heroInner {
+  width: min(760px, 82vw);
+  margin-left: 9.6%;
+  padding: 58px 0 80px;
+}
+
+.eyebrow {
+  color: var(--pink);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.hero .eyebrow {
+  color: #e9a3c8;
+}
+
+.hero h1,
+.assessment h2,
+.inbox h2,
+.forWhom h2,
+.cta h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0;
+}
+
+.hero h1 {
+  max-width: 720px;
+  margin-top: 24px;
+  font-size: clamp(3rem, 6vw, 5.05rem);
+  font-weight: 700;
+  line-height: 0.98;
+}
+
+.heroText {
+  max-width: 650px;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(1rem, 1.35vw, 1.32rem);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.signup {
+  display: flex;
+  gap: 12px;
+  width: min(520px, 100%);
+  margin-top: 32px;
+}
+
+.signup input {
+  min-width: 0;
+  flex: 1;
+  height: 58px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: #281b2b;
+  padding: 0 22px;
+  font-size: 0.96rem;
+  outline: none;
+}
+
+.signup input:focus {
+  box-shadow: 0 0 0 3px rgba(216, 50, 140, 0.28);
+}
+
+.signup button {
+  height: 58px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--pink);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.96rem;
+  font-weight: 900;
+  padding: 0 30px;
+  white-space: nowrap;
+}
+
+.note,
+.annotation {
+  width: fit-content;
+  max-width: 260px;
+  border: 2px dotted #d8328c;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--pink);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.16;
+  padding: 9px 12px;
+}
+
+.note {
+  margin-top: 14px;
+}
+
+.socialProof {
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.94rem;
+}
+
+.socialProof strong {
+  color: #fff;
+}
+
+.annotationTop {
+  position: absolute;
+  top: 84px;
+  right: 9.6%;
+}
+
+.assessment {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 440px;
+  gap: 72px;
+  align-items: center;
+  padding: 80px 9.6% 64px;
+  min-height: 610px;
+}
+
+.assessmentCopy {
+  max-width: 680px;
+}
+
+.assessment h2,
+.inbox h2,
+.forWhom h2 {
+  margin-top: 18px;
+  color: var(--ink);
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.08;
+}
+
+.assessment p,
+.forWhom p {
+  max-width: 680px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1.03rem;
+  line-height: 1.6;
+}
+
+.bookWrap {
+  display: flex;
+  justify-content: center;
+  perspective: 1100px;
+}
+
+.book {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 338px;
+  aspect-ratio: 0.78;
+  border-radius: 10px;
+  background: linear-gradient(150deg, #65164f, #430f35);
+  box-shadow: 0 32px 54px rgba(75, 17, 63, 0.24);
+  padding: 46px 34px;
+  transform: rotateX(2deg) rotateY(-7deg) rotateZ(2deg);
+}
+
+.book::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 8px;
+  border-radius: 10px 10px 0 0;
+  background: var(--pink);
+}
+
+.book span {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.book h3 {
+  margin-top: 20px;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.48rem;
+  line-height: 1.08;
+}
+
+.book p {
+  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.book small {
+  margin-top: auto;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+}
+
+.inbox {
+  background: var(--paper);
+  padding: 72px 0 82px;
+}
+
+.sectionInner {
+  width: min(1120px, 80.8vw);
+  margin: 0 auto;
+}
+
+.inboxGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 42px 88px;
+  margin-top: 40px;
+}
+
+.inboxItem {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 18px;
+}
+
+.inboxItem span {
+  width: 12px;
+  height: 12px;
+  margin-top: 8px;
+  border-radius: 3px;
+  background: var(--pink);
+  transform: rotate(45deg);
+}
+
+.inboxItem h3 {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.inboxItem p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.forWhom {
+  background: var(--wash);
+  padding: 72px 0 76px;
+}
+
+.author {
+  background: #fff;
+  padding: 70px 0;
+}
+
+.authorCard {
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 32px;
+  align-items: center;
+  width: min(1020px, 80.8vw);
+  margin: 0 auto;
+  border: 1px solid #eadce7;
+  border-radius: 14px;
+  padding: 30px 34px;
+}
+
+.authorPhoto {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #f5edf5;
+}
+
+.authorPhoto img {
+  width: 62px;
+  height: auto;
+}
+
+.authorCard p:last-child {
+  margin-top: 8px;
+  color: #65576b;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.authorCard strong {
+  color: var(--ink);
+}
+
+.cta {
+  display: grid;
+  justify-items: center;
+  background: var(--plum);
+  color: #fff;
+  padding: 82px 24px 76px;
+  text-align: center;
+}
+
+.cta h2 {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  line-height: 1.08;
+}
+
+.cta p {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.04rem;
+}
+
+.cta .signup {
+  margin-top: 30px;
+}
+
+.cta small {
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer {
+  background: var(--plum-dark);
+  color: rgba(255, 255, 255, 0.58);
+  padding: 27px 24px;
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+.footer strong {
+  color: #e9a3c8;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+  }
+
+  .heroNav,
+  .heroInner,
+  .assessment {
+    padding-left: 6vw;
+    padding-right: 6vw;
+  }
+
+  .heroInner {
+    width: auto;
+    margin: 0;
+  }
+
+  .annotationTop {
+    display: none;
+  }
+
+  .assessment {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    min-height: 0;
+    padding-top: 64px;
+  }
+
+  .book {
+    width: min(320px, 78vw);
+  }
+
+  .sectionInner,
+  .authorCard {
+    width: min(100% - 12vw, 720px);
+  }
+}
+
+@media (max-width: 640px) {
+  .heroNav {
+    min-height: 58px;
+  }
+
+  .heroNav p {
+    font-size: 1rem;
+  }
+
+  .heroNav span {
+    font-size: 0.78rem;
+  }
+
+  .heroInner {
+    padding-top: 44px;
+    padding-bottom: 58px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.45rem, 12vw, 3.3rem);
+  }
+
+  .signup {
+    flex-direction: column;
+  }
+
+  .signup input,
+  .signup button {
+    width: 100%;
+  }
+
+  .assessment,
+  .inbox,
+  .forWhom,
+  .author,
+  .cta {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .inboxGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .authorCard {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 26px;
+  }
+}

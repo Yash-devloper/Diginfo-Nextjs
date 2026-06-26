@@ -318,7 +318,7 @@ export default function CareersClient() {
             </p>
             <a className="careers-resume-button" href="mailto:yash.sharma@diginfoexpert.com">
               <Mail size={17} />
-              Send your resume <span aria-hidden="true">→</span> careers@diginfo.ai
+              Send your resume <span aria-hidden="true">→</span> career@diginfo.ai
             </a>
             <small>
               Diginfo is an equal-opportunity employer. We hire on merit and welcome

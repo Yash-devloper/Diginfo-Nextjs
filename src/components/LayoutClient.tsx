@@ -15,6 +15,8 @@ export default function LayoutClient({
   // ✅ Detect admin routes
   const isAdmin = pathname.startsWith("/admin");
   const isGrowLanding = pathname === "/grow";
+  const isNewsletterLanding = pathname === "/newsletter";
+  const isStandaloneLanding = isGrowLanding || isNewsletterLanding;
 
   return (
     <>
@@ -27,12 +29,12 @@ export default function LayoutClient({
       />
 
       {/* Show Navbar only for public pages */}
-      {!isAdmin && !isGrowLanding && <Navbar />}
+      {!isAdmin && !isStandaloneLanding && <Navbar />}
 
       {children}
 
       {/* Show Footer only for public pages */}
-      {!isAdmin && !isGrowLanding && <Footer />}
+      {!isAdmin && !isStandaloneLanding && <Footer />}
     </>
   );
 }
