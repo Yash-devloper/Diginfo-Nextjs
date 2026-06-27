@@ -110,6 +110,7 @@ export default function CareersClient() {
   }, []);
 
   const maxSlide = Math.max(lifeGallery.length - visibleSlides, 0);
+  const clampedActiveSlide = Math.min(activeSlide, maxSlide);
   const slidePositions = Array.from({ length: maxSlide + 1 }, (_, index) => index);
 
   const goToPreviousSlide = useCallback(() => {
@@ -140,10 +141,6 @@ export default function CareersClient() {
 
     return () => window.removeEventListener("resize", updateVisibleSlides);
   }, []);
-
-  useEffect(() => {
-    setActiveSlide((current) => Math.min(current, maxSlide));
-  }, [maxSlide]);
 
   useEffect(() => {
     const timer = window.setInterval(goToNextSlide, 4200);
@@ -270,7 +267,7 @@ export default function CareersClient() {
                 className="careers-gallery-track"
                 style={
                   {
-                    "--carousel-index": activeSlide,
+                    "--carousel-index": clampedActiveSlide,
                     "--visible-slides": visibleSlides,
                   } as CSSProperties
                 }
@@ -297,7 +294,7 @@ export default function CareersClient() {
               {slidePositions.map((index) => (
                 <button
                   key={index}
-                  className={index === activeSlide ? "active" : ""}
+                  className={index === clampedActiveSlide ? "active" : ""}
                   type="button"
                   onClick={() => setActiveSlide(index)}
                   aria-label={`Show Life at Diginfo image group ${index + 1}`}
