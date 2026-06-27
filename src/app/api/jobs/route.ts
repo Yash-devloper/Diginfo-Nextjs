@@ -5,27 +5,57 @@ import { getAdminDb } from "@/lib/firebaseAdminDb";
 import { isJobAuthError, requireJobsAdmin } from "@/lib/jobAuth";
 import { serializeJob } from "@/lib/jobServer";
 import { validateJobInput } from "@/lib/jobs";
-import { isFirebaseAdminConfigError } from "@/lib/firebaseAdmin";
+// import { isFirebaseAdminConfigError } from "@/lib/firebaseAdmin";
 
 export const runtime = "nodejs";
 
+// function jobApiError(error: unknown, fallback: string) {
+//   if (isFirebaseAdminConfigError(error)) {
+//     return NextResponse.json(
+//       {
+//         error:
+//           "Firebase service account is missing or invalid. Add FIREBASE_SERVICE_ACCOUNT_KEY, or FIREBASE_PROJECT_ID/FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY, in Vercel.",
+//       },
+//       { status: 500 }
+//     );
+//   }
+
+//   if (isJobAuthError(error)) {
+//     return NextResponse.json({ error: error.message }, { status: error.status });
+//   }
+
+//   console.error(fallback, error);
+//   return NextResponse.json({ error: "Unable to connect to the jobs database. Check the server logs and Firebase service-account permissions." }, { status: 500 });
+// }
+
 function jobApiError(error: unknown, fallback: string) {
-  if (isFirebaseAdminConfigError(error)) {
+  if (isJobAuthError(error)) {
     return NextResponse.json(
       {
-        error:
-          "Firebase service account is missing or invalid. Add FIREBASE_SERVICE_ACCOUNT_KEY, or FIREBASE_PROJECT_ID/FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY, in Vercel.",
+        error: error.message,
       },
-      { status: 500 }
+      {
+        status: error.status,
+      }
     );
   }
 
-  if (isJobAuthError(error)) {
-    return NextResponse.json({ error: error.message }, { status: error.status });
-  }
+  console.error("==================================");
+  console.error(fallback);
+  console.error(error);
+  console.error("==================================");
 
-  console.error(fallback, error);
-  return NextResponse.json({ error: "Unable to connect to the jobs database. Check the server logs and Firebase service-account permissions." }, { status: 500 });
+  return NextResponse.json(
+    {
+      error:
+        error instanceof Error
+          ? error.message
+          : "Internal Server Error",
+    },
+    {
+      status: 500,
+    }
+  );
 }
 
 export async function GET(request: Request) {
@@ -70,8 +100,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ job: serializeJob(job) }, { status: 201 });
   } catch (error) {
-    const response = jobApiError(error, "Failed to create job opening");
-    if (response.status !== 500) return response;
-    return NextResponse.json({ error: "Unable to create the job opening. Please try again." }, { status: 500 });
+    // const response = jobApiError(error, "Failed to create job opening");
+    // if (response.status !== 500) return response;
+    // return NextResponse.json({ error: "Unable to create the job opening. Please try again." }, { status: 500 });
+    return jobApiError(error, "Failed to create job opening");
   }
 }
