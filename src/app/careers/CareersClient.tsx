@@ -11,6 +11,7 @@ import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import type { Job } from "@/lib/jobs";
+import { getJobs } from "@/lib/jobClient";
 
 function formatExperience(experience: string) {
   return experience.trim() || "Not required";
@@ -95,10 +96,7 @@ export default function CareersClient() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("/api/jobs", { cache: "no-store" });
-        if (!response.ok) throw new Error("Failed to load jobs");
-        const data = (await response.json()) as { jobs: Job[] };
-        setJobs(data.jobs);
+        setJobs(await getJobs());
       } catch {
         setHasError(true);
       } finally {

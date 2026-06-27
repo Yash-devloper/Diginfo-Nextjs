@@ -4,46 +4,43 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import type { Job } from "@/lib/jobs";
-
-function formatExperience(experience: string) {
-  return experience.trim() || "Not required";
-}
+import { getActiveJob } from "@/lib/jobClient";
 
 type JobResponse = {
   job: Job;
   applicationEmail: string;
 };
 
+const jobApplicationEmail = "yash.sharma@diginfoexpert.com";
+
 export default function JobDetailsClient({ jobId }: { jobId: string }) {
   const [data, setData] = useState<JobResponse | null>(null);
   const [status, setStatus] = useState<"loading" | "not-found" | "error">("loading");
 
   useEffect(() => {
-    const controller = new AbortController();
+    let mounted = true;
 
     const loadJob = async () => {
       try {
-        const response = await fetch(`/api/jobs/${encodeURIComponent(jobId)}`, {
-          cache: "no-store",
-          signal: controller.signal,
-        });
-        if (response.status === 404) {
+        const job = await getActiveJob(jobId);
+        if (!mounted) return;
+
+        if (!job) {
           setStatus("not-found");
           return;
         }
-        if (!response.ok) throw new Error("Unable to load job.");
 
-        setData((await response.json()) as JobResponse);
-      } catch (error) {
-        if ((error as Error).name !== "AbortError") {
-          setStatus("error");
-        }
+        setData({ job, applicationEmail: jobApplicationEmail });
+      } catch {
+        if (mounted) setStatus("error");
       }
     };
 
     void loadJob();
 
-    return () => controller.abort();
+    return () => {
+      mounted = false;
+    };
   }, [jobId]);
 
   if (!data) {
@@ -58,12 +55,12 @@ export default function JobDetailsClient({ jobId }: { jobId: string }) {
     );
   }
 
-  const { job, applicationEmail } = data;
+  const { job, applicationEmail: applyToEmail } = data;
   const subject = encodeURIComponent(`Application for ${job.title}`);
   const body = encodeURIComponent(
     `Hello Diginfo Team,\n\nI would like to apply for the ${job.title} role. Please find my resume attached.\n\nRegards,`
   );
-  const applyLink = `mailto:${applicationEmail}?subject=${subject}&body=${body}`;
+  const applyLink = `mailto:${applyToEmail}?subject=${subject}&body=${body}`;
 
   return (
     <main className="job-details-page">

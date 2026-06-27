@@ -1,8 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { Edit3, Plus, Save, Trash2, X } from "lucide-react";
-import { auth } from "@/lib/firebaseClient";
+import { Edit3, ExternalLink, Plus, Save, Trash2, X } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   candidateTypes,
@@ -10,6 +9,14 @@ import {
   type Job,
   type JobInput,
 } from "@/lib/jobs";
+import {
+  createJob,
+  deleteJobById,
+  getJobApplications,
+  getJobs,
+  updateJob,
+  type JobApplication,
+} from "@/lib/jobClient";
 
 const emptyJob: JobInput = {
   title: "",
@@ -24,40 +31,22 @@ function formatExperience(experience: string) {
   return experience.trim() || "Not required";
 }
 
-async function readError(response: Response) {
-  const data = (await response.json().catch(() => null)) as { error?: string } | null;
-  return data?.error ?? "Something went wrong. Please try again.";
-}
-
-async function apiHeaders() {
-  const token = await auth.currentUser?.getIdToken();
-  if (!token) {
-    throw new Error("Please sign in again before managing job openings.");
-  }
-
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
+function formatDate(value?: string) {
+  return value ? new Date(value).toLocaleDateString() : "Date unavailable";
 }
 
 export default function CareersAdminPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [applications, setApplications] = useState<JobApplication[]>([]);
   const [form, setForm] = useState<JobInput>(emptyJob);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [applicationsLoading, setApplicationsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   const loadJobs = useCallback(async () => {
     try {
-      const response = await fetch("/api/jobs?includeInactive=true", {
-        headers: await apiHeaders(),
-        cache: "no-store",
-      });
-      if (!response.ok) throw new Error(await readError(response));
-
-      const data = (await response.json()) as { jobs: Job[] };
-      setJobs(data.jobs);
+      setJobs(await getJobs({ includeInactive: true }));
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to load job openings.");
     } finally {
@@ -65,9 +54,20 @@ export default function CareersAdminPage() {
     }
   }, []);
 
+  const loadApplications = useCallback(async () => {
+    try {
+      setApplications(await getJobApplications());
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to load job applications.");
+    } finally {
+      setApplicationsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     void loadJobs();
-  }, [loadJobs]);
+    void loadApplications();
+  }, [loadApplications, loadJobs]);
 
   const updateField = <K extends keyof JobInput>(field: K, value: JobInput[K]) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -83,12 +83,11 @@ export default function CareersAdminPage() {
     setSaving(true);
 
     try {
-      const response = await fetch(editingId ? `/api/jobs/${editingId}` : "/api/jobs", {
-        method: editingId ? "PATCH" : "POST",
-        headers: await apiHeaders(),
-        body: JSON.stringify(form),
-      });
-      if (!response.ok) throw new Error(await readError(response));
+      if (editingId) {
+        await updateJob(editingId, form);
+      } else {
+        await createJob(form);
+      }
 
       toast.success(editingId ? "Job opening updated." : "Job opening posted.");
       resetForm();
@@ -119,11 +118,7 @@ export default function CareersAdminPage() {
     if (!window.confirm(`Delete “${job.title}”? This cannot be undone.`)) return;
 
     try {
-      const response = await fetch(`/api/jobs/${job.id}`, {
-        method: "DELETE",
-        headers: await apiHeaders(),
-      });
-      if (!response.ok) throw new Error(await readError(response));
+      await deleteJobById(job.id);
 
       if (editingId === job.id) resetForm();
       toast.success("Job opening deleted.");
@@ -246,7 +241,7 @@ export default function CareersAdminPage() {
                 <div>
                   <strong>{job.title}</strong>
                   <span>
-                    {job.candidateType} · {job.employmentType} · {formatExperience(job.experienceRequired)} · {job.location}
+                    {job.candidateType} - {job.employmentType} - {formatExperience(job.experienceRequired)} - {job.location}
                   </span>
                 </div>
                 <div className="career-admin-actions">
@@ -262,6 +257,37 @@ export default function CareersAdminPage() {
           </div>
         ) : (
           <p className="career-admin-empty">No job openings have been posted yet.</p>
+        )}
+      </section>
+
+      <section className="career-admin-jobs" aria-labelledby="job-applications-heading">
+        <h3 id="job-applications-heading">Job Applications</h3>
+        {applicationsLoading ? (
+          <p className="career-admin-empty">Loading job applications...</p>
+        ) : applications.length ? (
+          <div className="career-admin-jobs-list">
+            {applications.map((application) => (
+              <article className="career-admin-job career-admin-application" key={application.id}>
+                <div>
+                  <strong>{application.name}</strong>
+                  <span>
+                    {application.jobTitle ?? "General application"} - {application.email || "No email"} - {formatDate(application.createdAt)}
+                  </span>
+                  {application.phone && <span>{application.phone}</span>}
+                  {application.message && <p>{application.message}</p>}
+                </div>
+                {application.resumeUrl && (
+                  <div className="career-admin-actions">
+                    <a className="btn btn-edit" href={application.resumeUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink size={15} /> Resume
+                    </a>
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="career-admin-empty">No job applications have been submitted yet.</p>
         )}
       </section>
     </div>

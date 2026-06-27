@@ -9587,8 +9587,20 @@ canvas {
 }
 
 .career-admin-job span {
+  display: block;
   color: #a9a4b8;
   font-size: 13px;
+}
+
+.career-admin-application {
+  align-items: flex-start;
+}
+
+.career-admin-application p {
+  margin: 10px 0 0;
+  color: #d8d3e5;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .career-admin-groups {
