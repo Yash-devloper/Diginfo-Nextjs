@@ -1,6 +1,7 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { NextResponse } from "next/server";
-import { getAdminDb, isFirebaseAdminConfigError } from "@/lib/firebaseAdmin";
+import { isFirebaseAdminConfigError } from "@/lib/firebaseAdmin";
+import { getAdminDb } from "@/lib/firebaseAdminDb";
 import { isJobAuthError, requireJobsAdmin } from "@/lib/jobAuth";
 import { serializeJob } from "@/lib/jobServer";
 import { validateJobInput } from "@/lib/jobs";
