@@ -8,6 +8,10 @@ export const firebaseAdminConfigErrorMessage = "FIREBASE_SERVICE_ACCOUNT_KEY is 
 
 type ServiceAccount = Parameters<typeof cert>[0];
 
+function normalizePrivateKey(value: string) {
+  return value.replace(/\\n/g, "\n");
+}
+
 function decodeServiceAccount(value: string) {
   try {
     return Buffer.from(value, "base64").toString("utf8");
@@ -34,6 +38,20 @@ function getServiceAccount() {
   const rawServiceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY?.trim();
 
   if (!rawServiceAccount) {
+    const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
+    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.trim();
+
+    if (projectId && clientEmail && privateKey) {
+      return {
+        projectId,
+        clientEmail,
+        privateKey: normalizePrivateKey(privateKey),
+      } as ServiceAccount;
+    }
+  }
+
+  if (!rawServiceAccount) {
     throw new Error(firebaseAdminConfigErrorMessage);
   }
 
@@ -47,7 +65,7 @@ function getServiceAccount() {
 
     const privateKey = (serviceAccount as { private_key?: unknown }).private_key;
     if (typeof privateKey === "string") {
-      (serviceAccount as { private_key: string }).private_key = privateKey.replace(/\\n/g, "\n");
+      (serviceAccount as { private_key: string }).private_key = normalizePrivateKey(privateKey);
     }
 
     return serviceAccount as ServiceAccount;

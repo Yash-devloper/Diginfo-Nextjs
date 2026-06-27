@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { Edit3, Plus, Save, Trash2, X } from "lucide-react";
+import { auth } from "@/lib/firebaseClient";
 import toast from "react-hot-toast";
 import {
   candidateTypes,
@@ -28,9 +29,15 @@ async function readError(response: Response) {
   return data?.error ?? "Something went wrong. Please try again.";
 }
 
-function apiHeaders() {
+async function apiHeaders() {
+  const token = await auth.currentUser?.getIdToken();
+  if (!token) {
+    throw new Error("Please sign in again before managing job openings.");
+  }
+
   return {
     "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
   };
 }
 
@@ -44,7 +51,7 @@ export default function CareersAdminPage() {
   const loadJobs = useCallback(async () => {
     try {
       const response = await fetch("/api/jobs?includeInactive=true", {
-        headers: apiHeaders(),
+        headers: await apiHeaders(),
         cache: "no-store",
       });
       if (!response.ok) throw new Error(await readError(response));
@@ -78,7 +85,7 @@ export default function CareersAdminPage() {
     try {
       const response = await fetch(editingId ? `/api/jobs/${editingId}` : "/api/jobs", {
         method: editingId ? "PATCH" : "POST",
-        headers: apiHeaders(),
+        headers: await apiHeaders(),
         body: JSON.stringify(form),
       });
       if (!response.ok) throw new Error(await readError(response));
@@ -114,7 +121,7 @@ export default function CareersAdminPage() {
     try {
       const response = await fetch(`/api/jobs/${job.id}`, {
         method: "DELETE",
-        headers: apiHeaders(),
+        headers: await apiHeaders(),
       });
       if (!response.ok) throw new Error(await readError(response));
 

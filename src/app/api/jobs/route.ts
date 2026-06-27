@@ -1,15 +1,39 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { NextResponse } from "next/server";
 import { getAdminDb, isFirebaseAdminConfigError } from "@/lib/firebaseAdmin";
+import { isJobAuthError, requireJobsAdmin } from "@/lib/jobAuth";
 import { serializeJob } from "@/lib/jobServer";
 import { validateJobInput } from "@/lib/jobs";
 
 export const runtime = "nodejs";
 
+function jobApiError(error: unknown, fallback: string) {
+  if (isFirebaseAdminConfigError(error)) {
+    return NextResponse.json(
+      {
+        error:
+          "Firebase service account is missing or invalid. Add FIREBASE_SERVICE_ACCOUNT_KEY, or FIREBASE_PROJECT_ID/FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY, in Vercel.",
+      },
+      { status: 500 }
+    );
+  }
+
+  if (isJobAuthError(error)) {
+    return NextResponse.json({ error: error.message }, { status: error.status });
+  }
+
+  console.error(fallback, error);
+  return NextResponse.json({ error: "Unable to connect to the jobs database. Check the server logs and Firebase service-account permissions." }, { status: 500 });
+}
+
 export async function GET(request: Request) {
   const includeInactive = new URL(request.url).searchParams.get("includeInactive") === "true";
 
   try {
+    if (includeInactive) {
+      await requireJobsAdmin(request);
+    }
+
     const db = getAdminDb();
     // Keep this as a single-field query. Combining `active == true` with an
     // order by `createdAt` requires a Firestore composite index, which caused
@@ -20,23 +44,13 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ jobs: includeInactive ? jobs : jobs.filter((job) => job.active) });
   } catch (error) {
-    if (isFirebaseAdminConfigError(error)) {
-      return NextResponse.json(
-        { error: "Firebase service account is missing. Add FIREBASE_SERVICE_ACCOUNT_KEY to your environment." },
-        { status: 500 }
-      );
-    }
-
-    console.error("Failed to load job openings", error);
-    return NextResponse.json(
-      { error: "Unable to connect to the jobs database. Check the server logs and Firebase service-account permissions." },
-      { status: 500 }
-    );
+    return jobApiError(error, "Failed to load job openings");
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const admin = await requireJobsAdmin(request);
     const payload = await request.json().catch(() => null);
     const validation = validateJobInput(payload);
     if (!validation.data) {
@@ -46,7 +60,7 @@ export async function POST(request: Request) {
     const reference = await getAdminDb().collection("jobs").add({
       ...validation.data,
       active: true,
-      createdBy: "admin",
+      createdBy: admin.uid,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
@@ -54,14 +68,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ job: serializeJob(job) }, { status: 201 });
   } catch (error) {
-    if (isFirebaseAdminConfigError(error)) {
-      return NextResponse.json(
-        { error: "Firebase service account is missing or invalid. Check FIREBASE_SERVICE_ACCOUNT_KEY." },
-        { status: 500 }
-      );
-    }
-
-    console.error("Failed to create job opening", error);
+    const response = jobApiError(error, "Failed to create job opening");
+    if (response.status !== 500) return response;
     return NextResponse.json({ error: "Unable to create the job opening. Please try again." }, { status: 500 });
   }
 }
