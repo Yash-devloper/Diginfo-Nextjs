@@ -20,28 +20,27 @@ function formatExperience(experience: string) {
 const lifeGallery = [
   {
     title: "Team Learning",
-    image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80",
+    image: "/learn2.webp",
   },
   {
     title: "Strategy Sessions",
-    image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=80",
+    image: "/stratagy.webp",
   },
   {
-    title: "Creative Reviews",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80",
+    title: "Office Events",
+    image: "/culture.webp",
   },
   {
     title: "Office Moments",
-    image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
+    image: "/learning.webp",
   },
   {
     title: "Campaign Planning",
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=80",
+    image: "/campaign.webp",
+  },
+  {
+    title: "Team Celebration",
+    image:  "/celebration.webp",
   },
 ];
 
