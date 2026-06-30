@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import NewsletterSignupForm from "./NewsletterSignupForm";
 import styles from "./page.module.css";
 
 const inboxItems = [
@@ -35,8 +37,14 @@ export default function NewsletterPage() {
     <main className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.heroNav}>
-          <p>AI BizBytes</p>
-          <span>-- diginfo.ai</span>
+          <Link
+            className={styles.headerLogo}
+            href="/"
+            aria-label="Go to Diginfo home page"
+          >
+            <Image src="/logo2.webp" width={274} height={89} alt="Diginfo" />
+          </Link>
+          <span>AI BizBytes</span>
         </div>
 
         <div className={styles.heroInner}>
@@ -48,19 +56,12 @@ export default function NewsletterPage() {
             Three-minute reads, no fluff.
           </p>
 
-          <form className={styles.signup} action="mailto:contact@diginfo.ai">
-            <label className={styles.srOnly} htmlFor="newsletter-email">
-              Email address
-            </label>
-            <input
-              id="newsletter-email"
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-            />
-            <button type="submit">Subscribe free -&gt;</button>
-          </form>
+          <div className={styles.subscribeRow}>
+            <NewsletterSignupForm id="newsletter-email" />
+            <Link className={styles.homeCta} href="/">
+              Visit website <span aria-hidden="true">-&gt;</span>
+            </Link>
+          </div>
 
           {/* <p className={styles.note}>
             One field only (email) - every extra field cuts conversion
@@ -89,10 +90,53 @@ export default function NewsletterPage() {
 
         <div className={styles.bookWrap} aria-hidden="true">
           <div className={styles.book}>
-            <span>Free Assessment</span>
-            <h3>Is Your Brand AI-Search Ready?</h3>
-            <p>The AEO/GEO Readiness Checklist - 20 checks</p>
-            <small>DIGINFO</small>
+            <div className={styles.bookPages} />
+            <div className={styles.bookCover}>
+              <div className={styles.coverArrow} />
+              <div className={styles.coverBrand}>
+                <Image
+                  src="/logo2.webp"
+                  width={274}
+                  height={89}
+                  alt=""
+                />
+              </div>
+              <p className={styles.coverKicker}>
+                AI-Search Readiness <i /> A Diginfo Briefing
+              </p>
+
+              <h3>Is Your Brand AI-Search Ready?</h3>
+              <div className={styles.coverRule} />
+              <p className={styles.coverIntro}>
+                A structured readiness assessment for brands competing to be
+                found — and cited — in AI-driven search.
+              </p>
+
+              <div className={styles.coverStats}>
+                <div>
+                  <strong>5</strong>
+                  <span>Sections</span>
+                </div>
+                <div>
+                  <strong>20</strong>
+                  <span>Checkpoints</span>
+                </div>
+                <div>
+                  <strong>1</strong>
+                  <span>Clear score</span>
+                </div>
+              </div>
+
+              <p className={styles.coverAuthor}>
+                Prepared by <b>Jaya Panjwani</b>
+                <span>Founder &amp; Chief Growth Officer, Diginfo</span>
+              </p>
+
+              <div className={styles.coverFooter}>
+                <span>Diginfo · Growth Briefing</span>
+                <span>Diginfo.ai</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -131,7 +175,12 @@ export default function NewsletterPage() {
       <section className={styles.author}>
         <div className={styles.authorCard}>
           <div className={styles.authorPhoto}>
-            <Image src="/logo.png" width={72} height={72} alt="Diginfo" />
+            <Image
+              src="/jaya-panjwani.webp"
+              width={1920}
+              height={1280}
+              alt="Jaya Panjwani, Founder and Chief Growth Officer of Diginfo"
+            />
           </div>
           <div>
             <p className={styles.eyebrow}>Who writes it</p>
@@ -148,19 +197,7 @@ export default function NewsletterPage() {
       <section className={styles.cta}>
         <h2>Be the brand AI recommends.</h2>
         <p>One sharp playbook a week. Free.</p>
-        <form className={styles.signup} action="mailto:contact@diginfo.ai">
-          <label className={styles.srOnly} htmlFor="newsletter-email-bottom">
-            Email address
-          </label>
-          <input
-            id="newsletter-email-bottom"
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            required
-          />
-          <button type="submit">Subscribe free -&gt;</button>
-        </form>
+        <NewsletterSignupForm id="newsletter-email-bottom" />
         <small>No spam. Unsubscribe anytime.</small>
       </section>
 

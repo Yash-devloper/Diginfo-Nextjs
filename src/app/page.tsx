@@ -8,6 +8,7 @@ import ProcessSection from "@/components/ProcessSection";
 import FaqSection from "@/components/FaqSection";
 import CtaSection from "@/components/CtaSection";
 import DeferredHomeSections from "@/components/DeferredHomeSections";
+import HomeNewsletterSection from "@/components/HomeNewsletterSection";
 
 export const metadata: Metadata = {
   title: "Diginfo — Digital Marketing Agency Indore",
@@ -27,6 +28,7 @@ export default function Home() {
       {/* <PricingSection /> */}
       <DeferredHomeSections />
       <CtaSection />
+      <HomeNewsletterSection />
     </>
   );
 }

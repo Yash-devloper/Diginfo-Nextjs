@@ -6,6 +6,7 @@ import { db } from "@/lib/firebaseClient";
 import { collection, getDocs } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
+import HomeNewsletterSection from "@/components/HomeNewsletterSection";
 
 interface Blog {
   id: string;
@@ -82,6 +83,7 @@ export default function BlogPage() {
           <p className="tc t-soft">No blogs found at the moment. Stay tuned!</p>
         )}
       </div>
+      <HomeNewsletterSection />
     </section>
   );
 }

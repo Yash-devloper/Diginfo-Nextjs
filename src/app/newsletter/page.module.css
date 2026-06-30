@@ -28,7 +28,6 @@
   padding: 0 9.6%;
 }
 
-.heroNav p,
 .heroNav span {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.08rem;
@@ -37,9 +36,36 @@
 }
 
 .heroNav span {
-  font-family: Inter, Arial, sans-serif;
-  font-size: 0.86rem;
-  font-weight: 600;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.headerLogo {
+  display: grid;
+  width: 132px;
+  height: 44px;
+  place-items: center;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(18, 8, 34, 0.2);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.headerLogo:hover {
+  box-shadow: 0 8px 24px rgba(18, 8, 34, 0.32);
+  transform: translateY(-1px);
+}
+
+.headerLogo:focus-visible,
+.homeCta:focus-visible {
+  outline: 3px solid #f4bad9;
+  outline-offset: 3px;
+}
+
+.headerLogo img {
+  width: 108px;
+  height: auto;
 }
 
 .heroInner {
@@ -94,6 +120,72 @@
   margin-top: 32px;
 }
 
+.signupBlock {
+  width: min(520px, 100%);
+}
+
+.signupBlock .signup {
+  width: 100%;
+}
+
+.signupStatus {
+  min-height: 20px;
+  margin-top: 10px;
+  color: #a9efc5;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.signupError {
+  color: #ffb3c4;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.subscribeRow {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  width: min(750px, 100%);
+  margin-top: 32px;
+}
+
+.subscribeRow .signup {
+  margin-top: 0;
+}
+
+.homeCta {
+  display: inline-flex;
+  min-width: 176px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+  white-space: nowrap;
+}
+
+.homeCta:hover {
+  background: #fff;
+  color: var(--plum);
+  transform: translateY(-1px);
+}
+
 .signup input {
   min-width: 0;
   flex: 1;
@@ -122,6 +214,12 @@
   font-weight: 900;
   padding: 0 30px;
   white-space: nowrap;
+}
+
+.signup button:disabled,
+.signup input:disabled {
+  cursor: wait;
+  opacity: 0.68;
 }
 
 .note,
@@ -191,62 +289,272 @@
 }
 
 .bookWrap {
+  position: relative;
   display: flex;
   justify-content: center;
-  perspective: 1100px;
+  padding: 24px 24px 38px;
+  perspective: 1400px;
+}
+
+.bookWrap::after {
+  position: absolute;
+  z-index: 0;
+  right: 9%;
+  bottom: 13px;
+  left: 17%;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(25, 16, 48, 0.24);
+  content: "";
+  filter: blur(18px);
+  transform: rotate(-2deg);
 }
 
 .book {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 338px;
-  aspect-ratio: 0.78;
-  border-radius: 10px;
-  background: linear-gradient(150deg, #65164f, #430f35);
-  box-shadow: 0 32px 54px rgba(75, 17, 63, 0.24);
-  padding: 46px 34px;
-  transform: rotateX(2deg) rotateY(-7deg) rotateZ(2deg);
+  z-index: 1;
+  width: 330px;
+  aspect-ratio: 0.702;
+  transform: rotateX(2deg) rotateY(-10deg) rotateZ(1.25deg);
+  transform-style: preserve-3d;
 }
 
 .book::before {
   content: "";
   position: absolute;
-  inset: 0 0 auto;
-  height: 8px;
-  border-radius: 10px 10px 0 0;
-  background: var(--pink);
+  z-index: -2;
+  top: 5px;
+  bottom: -5px;
+  left: -12px;
+  width: 15px;
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(90deg, #080719, #27203d 72%, #0d0b21);
+  transform: rotateY(-34deg);
+  transform-origin: right;
 }
 
-.book span {
-  color: rgba(255, 255, 255, 0.56);
-  font-size: 0.62rem;
+.bookPages {
+  position: absolute;
+  z-index: -1;
+  top: 7px;
+  right: -8px;
+  bottom: -7px;
+  left: 7px;
+  border-radius: 1px 3px 3px 1px;
+  background: repeating-linear-gradient(
+    0deg,
+    #ded9d1 0,
+    #f9f7f1 1px,
+    #eeeae2 2px,
+    #eeeae2 4px
+  );
+  box-shadow: 9px 14px 28px rgba(28, 17, 50, 0.2);
+  transform: translateZ(-5px);
+}
+
+.bookCover {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+  border-radius: 2px 4px 4px 2px;
+  background:
+    radial-gradient(circle at 80% 38%, rgba(65, 30, 86, 0.18), transparent 36%),
+    linear-gradient(145deg, #1c1738 0%, #15112f 70%, #120e2a 100%);
+  box-shadow:
+    inset 9px 0 18px rgba(5, 4, 16, 0.2),
+    inset 1px 0 rgba(255, 255, 255, 0.08),
+    0 30px 50px rgba(31, 17, 52, 0.24);
+  color: #f7f4fb;
+  padding: 85px 36px 28px 39px;
+  transform: translateZ(2px);
+}
+
+.bookCover::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  background: linear-gradient(90deg, rgba(3, 2, 12, 0.7), rgba(87, 73, 113, 0.16));
+  content: "";
+}
+
+.coverArrow {
+  position: absolute;
+  right: -77px;
+  bottom: 19px;
+  width: 190px;
+  height: 190px;
+  border-top: 47px solid rgba(87, 20, 80, 0.19);
+  border-right: 47px solid rgba(87, 20, 80, 0.19);
+  transform: rotate(45deg);
+}
+
+.coverArrow::after {
+  position: absolute;
+  right: 33px;
+  bottom: 33px;
+  width: 128px;
+  height: 128px;
+  border-top: 24px solid rgba(87, 20, 80, 0.1);
+  border-right: 24px solid rgba(87, 20, 80, 0.1);
+  content: "";
+}
+
+.coverBrand {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  height: 54px;
+  place-items: center;
+  border-bottom: 1px solid rgba(21, 17, 47, 0.1);
+  background: #fff;
+}
+
+.coverBrand img {
+  width: 88px;
+  height: auto;
+}
+
+.coverKicker {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: #d4a53a;
+  font-size: 0.37rem;
   font-weight: 900;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.24em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 
-.book h3 {
-  margin-top: 20px;
-  color: #fff;
+.coverKicker i {
+  width: 3px;
+  height: 3px;
+  margin: 0 8px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.bookCover h3 {
+  position: relative;
+  z-index: 1;
+  max-width: 238px;
+  margin: 17px 0 0;
+  color: #f8f6fc;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.48rem;
-  line-height: 1.08;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
 }
 
-.book p {
-  margin-top: 22px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.78rem;
-  line-height: 1.5;
+.coverRule {
+  position: relative;
+  z-index: 1;
+  width: 122px;
+  height: 1px;
+  margin-top: 18px;
+  background: rgba(213, 165, 58, 0.72);
 }
 
-.book small {
+.bookCover .coverIntro {
+  position: relative;
+  z-index: 1;
+  max-width: 242px;
+  margin: 17px 0 0;
+  color: rgba(234, 230, 242, 0.68);
+  font-size: 0.52rem;
+  line-height: 1.48;
+}
+
+.coverStats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 0.8fr 1.35fr 1fr;
+  width: 100%;
+  margin-top: 21px;
+}
+
+.coverStats div {
+  min-width: 0;
+  border-right: 1px solid rgba(225, 219, 235, 0.22);
+  padding: 0 12px;
+}
+
+.coverStats div:first-child {
+  padding-left: 0;
+}
+
+.coverStats div:last-child {
+  border-right: 0;
+}
+
+.coverStats strong,
+.coverStats span {
+  display: block;
+}
+
+.coverStats strong {
+  color: #d7a52f;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.86rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.coverStats span {
+  margin-top: 7px;
+  color: rgba(234, 230, 242, 0.56);
+  font-size: 0.29rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.bookCover .coverAuthor {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  margin: 27px 0 0;
+  color: rgba(234, 230, 242, 0.53);
+  font-size: 0.38rem;
+  line-height: 1.45;
+  white-space: normal;
+}
+
+.coverAuthor b {
+  margin-left: 3px;
+  color: rgba(248, 246, 252, 0.82);
+  font-weight: 600;
+}
+
+.coverAuthor span {
+  margin-left: 4px;
+}
+
+.coverFooter {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
   margin-top: auto;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.68rem;
-  font-weight: 900;
-  letter-spacing: 0.22em;
+  border-top: 1px solid rgba(225, 219, 235, 0.21);
+  padding-top: 11px;
+  color: rgba(234, 230, 242, 0.45);
+  font-size: 0.28rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .inbox {
@@ -307,7 +615,7 @@
 
 .authorCard {
   display: grid;
-  grid-template-columns: 82px 1fr;
+  grid-template-columns: 116px 1fr;
   gap: 32px;
   align-items: center;
   width: min(1020px, 80.8vw);
@@ -320,16 +628,18 @@
 .authorPhoto {
   display: grid;
   place-items: center;
-  width: 82px;
-  height: 82px;
+  width: 116px;
+  height: 116px;
   overflow: hidden;
   border-radius: 50%;
   background: #f5edf5;
 }
 
 .authorPhoto img {
-  width: 62px;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 34%;
 }
 
 .authorCard p:last-child {
@@ -365,6 +675,15 @@
 
 .cta .signup {
   margin-top: 30px;
+}
+
+.cta .signupBlock {
+  display: grid;
+  justify-items: center;
+}
+
+.cta .signupStatus {
+  text-align: center;
 }
 
 .cta small {
@@ -436,8 +755,13 @@
     min-height: 58px;
   }
 
-  .heroNav p {
-    font-size: 1rem;
+  .headerLogo {
+    width: 116px;
+    height: 40px;
+  }
+
+  .headerLogo img {
+    width: 96px;
   }
 
   .heroNav span {
@@ -457,6 +781,14 @@
     flex-direction: column;
   }
 
+  .subscribeRow {
+    flex-direction: column;
+  }
+
+  .homeCta {
+    width: 100%;
+  }
+
   .signup input,
   .signup button {
     width: 100%;
@@ -469,6 +801,23 @@
   .cta {
     padding-top: 56px;
     padding-bottom: 56px;
+  }
+
+  .bookWrap {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .book {
+    width: min(306px, calc(100vw - 48px));
+  }
+
+  .bookCover {
+    padding: 82px 28px 25px 32px;
+  }
+
+  .bookCover h3 {
+    font-size: 1.46rem;
   }
 
   .inboxGrid {
