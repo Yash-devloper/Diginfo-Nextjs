@@ -43,8 +43,8 @@ export const services: ServiceDetail[] = [
   },
   {
     slug: "ai-search-optimisation-aeo-geo",
-    title: "AI Search Optimisation (AEO/GEO)",
-    shortTitle: "AI Search Optimisation",
+    title: "AI Search Optimization (AEO/GEO)",
+    shortTitle: "AI Search Optimization",
     cardDescription: "Win visibility in AI answers",
     description:
       "Prepare your brand for AI-powered discovery with answer engine optimization, generative engine optimization, structured content, and authority signals that help your business appear in AI search results.",
