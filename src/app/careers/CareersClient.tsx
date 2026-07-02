@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import {
   ChevronLeft,
   ChevronRight,
+  BriefcaseBusiness,
   Mail,
+  MapPin,
   Sparkles,
 } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -272,16 +274,24 @@ export default function CareersClient() {
             <div className="career-job-grid">
               {jobs.length ? jobs.map((job) => (
                 <article className="career-job-card" key={job.id}>
-                  <span className="career-job-type">{job.employmentType}</span>
+                  <div className="career-job-card-topline">
+                    <span className="career-job-type">{job.employmentType}</span>
+                    <span className="career-job-team">{job.team}</span>
+                  </div>
                   <h3>{job.title}</h3>
-                  <dl>
-                    {/* <div><dt>Experience</dt><dd>{formatExperience(job.experienceRequired)}</dd></div> */}
-                    <div><dt>Experience</dt><dd>{formatExperience(job.candidateType)}</dd></div>
-                    {/* <div><dt>For</dt><dd>{job.candidateType}</dd></div> */}
-                  </dl>
+                  <div className="career-job-meta">
+                    <span><BriefcaseBusiness size={15} /> {job.candidateType}</span>
+                    <span>{formatExperience(job.experienceRequired)}</span>
+                    <span><MapPin size={15} /> {job.location}</span>
+                  </div>
+                  <div className="career-job-actions">
                   <Link className="career-job-link" href={`/careers/${job.id}`}>
-                    View More <span aria-hidden="true">→</span>
+                    View details <span aria-hidden="true">&rarr;</span>
                   </Link>
+                    <Link className="career-job-apply" href={`/careers/${job.id}#apply`}>
+                      Apply now
+                    </Link>
+                  </div>
                 </article>
               )) : (
                 <p className="career-empty">No openings posted yet. Please check back soon.</p>

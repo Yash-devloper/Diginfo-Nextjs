@@ -6,6 +6,7 @@ export type EmploymentType = (typeof employmentTypes)[number];
 
 export type JobInput = {
   title: string;
+  team: string;
   candidateType: CandidateType;
   experienceRequired: string;
   description: string;
@@ -32,6 +33,7 @@ export function validateJobInput(value: unknown): ValidationResult {
   const source = value && typeof value === "object" ? (value as Record<string, unknown>) : {};
   const data = {
     title: text(source.title),
+    team: text(source.team),
     candidateType: text(source.candidateType),
     experienceRequired: text(source.experienceRequired),
     description: text(source.description),
@@ -42,6 +44,9 @@ export function validateJobInput(value: unknown): ValidationResult {
 
   if (data.title.length < 2 || data.title.length > 120) {
     errors.push("Job title must be between 2 and 120 characters.");
+  }
+  if (data.team.length < 2 || data.team.length > 100) {
+    errors.push("Team must be between 2 and 100 characters.");
   }
   if (!candidateTypes.includes(data.candidateType as CandidateType)) {
     errors.push("Select Fresher, Experienced, or Internship.");
@@ -67,6 +72,7 @@ export function validateJobInput(value: unknown): ValidationResult {
   return {
     data: {
       title: data.title,
+      team: data.team,
       candidateType: data.candidateType as CandidateType,
       experienceRequired: data.experienceRequired,
       description: data.description,

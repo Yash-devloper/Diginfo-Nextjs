@@ -5,32 +5,27 @@ import Link from "next/link";
 import { ArrowLeft, MapPin } from "lucide-react";
 import type { Job } from "@/lib/jobs";
 import { getActiveJob } from "@/lib/jobClient";
-
-type JobResponse = {
-  job: Job;
-  applicationEmail: string;
-};
-
-const jobApplicationEmail = "yash.sharma@diginfoexpert.com";
+import JobApplicationForm from "./JobApplicationForm";
 
 export default function JobDetailsClient({ jobId }: { jobId: string }) {
-  const [data, setData] = useState<JobResponse | null>(null);
+  const [job, setJob] = useState<Job | null>(null);
   const [status, setStatus] = useState<"loading" | "not-found" | "error">("loading");
+  const [showApplication, setShowApplication] = useState(false);
 
   useEffect(() => {
     let mounted = true;
 
     const loadJob = async () => {
       try {
-        const job = await getActiveJob(jobId);
+        const activeJob = await getActiveJob(jobId);
         if (!mounted) return;
 
-        if (!job) {
+        if (!activeJob) {
           setStatus("not-found");
           return;
         }
 
-        setData({ job, applicationEmail: jobApplicationEmail });
+        setJob(activeJob);
       } catch {
         if (mounted) setStatus("error");
       }
@@ -43,7 +38,11 @@ export default function JobDetailsClient({ jobId }: { jobId: string }) {
     };
   }, [jobId]);
 
-  if (!data) {
+  useEffect(() => {
+    if (window.location.hash === "#apply") setShowApplication(true);
+  }, []);
+
+  if (!job) {
     return (
       <main className="job-details-page">
         <section className="job-details-status wrap">
@@ -55,12 +54,12 @@ export default function JobDetailsClient({ jobId }: { jobId: string }) {
     );
   }
 
-  const { job, applicationEmail: applyToEmail } = data;
-  const subject = encodeURIComponent(`Application for ${job.title}`);
-  const body = encodeURIComponent(
-    `Hello Diginfo Team,\n\nI would like to apply for the ${job.title} role. Please find my resume attached.\n\nRegards,`
-  );
-  const applyLink = `mailto:${applyToEmail}?subject=${subject}&body=${body}`;
+  const openApplication = () => {
+    setShowApplication(true);
+    window.setTimeout(() => {
+      document.getElementById("apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
+  };
 
   return (
     <main className="job-details-page">
@@ -70,8 +69,9 @@ export default function JobDetailsClient({ jobId }: { jobId: string }) {
           <span className="job-details-type">{job.employmentType}</span>
           <h1>{job.title}</h1>
           <div className="job-details-meta">
+            <span>{job.team}</span>
             <span>{job.candidateType}</span>
-            {/* <span>{formatExperience(job.experienceRequired)}</span> */}
+            {job.experienceRequired && <span>{job.experienceRequired}</span>}
             <span><MapPin size={18} /> {job.location}</span>
           </div>
         </div>
@@ -86,11 +86,21 @@ export default function JobDetailsClient({ jobId }: { jobId: string }) {
           </div>
           <aside className="job-apply-card">
             <h2>Ready to apply?</h2>
-            <p>Send your resume to our hiring team and mention the role in your application.</p>
-            <a className="job-apply-btn" href={applyLink}>Apply by email <span aria-hidden="true">→</span></a>
+            <p>Complete the short form and send your resume directly to our hiring team.</p>
+            <button className="job-apply-btn" type="button" onClick={openApplication}>
+              Apply for this role <span aria-hidden="true">&rarr;</span>
+            </button>
           </aside>
         </div>
       </section>
+
+      {showApplication && (
+        <section className="job-application-section" id="apply">
+          <div className="wrap">
+            <JobApplicationForm jobId={job.id} jobTitle={job.title} />
+          </div>
+        </section>
+      )}
     </main>
   );
 }

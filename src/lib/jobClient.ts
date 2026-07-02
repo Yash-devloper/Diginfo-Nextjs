@@ -32,6 +32,7 @@ export type JobApplication = {
   name: string;
   email: string;
   phone?: string;
+  portfolioUrl?: string;
   resumeUrl?: string;
   message?: string;
   createdAt?: string;
@@ -59,6 +60,7 @@ export function serializeJob(snapshot: DocumentSnapshot<DocumentData> | QueryDoc
   return {
     id: snapshot.id,
     title: typeof data.title === "string" ? data.title : "",
+    team: typeof data.team === "string" ? data.team : "General",
     candidateType: readCandidateType(data.candidateType),
     experienceRequired: typeof data.experienceRequired === "string" ? data.experienceRequired : "",
     description: typeof data.description === "string" ? data.description : "",
@@ -82,6 +84,7 @@ export function serializeJobApplication(
     name: typeof data.name === "string" ? data.name : "Applicant",
     email: typeof data.email === "string" ? data.email : "",
     phone: typeof data.phone === "string" ? data.phone : undefined,
+    portfolioUrl: typeof data.portfolioUrl === "string" ? data.portfolioUrl : undefined,
     resumeUrl: typeof data.resumeUrl === "string" ? data.resumeUrl : undefined,
     message: typeof data.message === "string" ? data.message : undefined,
     createdAt: toIso(data.createdAt),

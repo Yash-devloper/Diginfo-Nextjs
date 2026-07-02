@@ -3,7 +3,7 @@ import JobDetailsClient from "./JobDetailsClient";
 
 export const metadata: Metadata = {
   title: "Job Opening | Diginfo Careers",
-  description: "Review this Diginfo career opportunity and apply by email.",
+  description: "Review this Diginfo career opportunity and apply online.",
 };
 
 export default async function JobDetailsPage({

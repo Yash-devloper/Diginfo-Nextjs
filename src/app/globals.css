@@ -9187,6 +9187,23 @@ canvas {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
+.career-job-card-topline {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.career-job-team {
+  overflow: hidden;
+  color: #bdb6da;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .career-job-type,
 .job-details-type {
   display: inline-flex;
@@ -9290,6 +9307,9 @@ canvas {
   color: #190920;
   background: linear-gradient(90deg, #f0a1ee, #c87cff);
   font-weight: 800;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .job-apply-btn:hover { filter: brightness(1.08); }
@@ -9314,6 +9334,25 @@ canvas {
   font-size: 24px;
   line-height: 1.22;
 }
+
+.career-job-meta {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 15px;
+  margin-bottom: 27px;
+  color: #bdb7d2;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.career-job-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.career-job-meta span:nth-child(2) { color: #e4d9ff; }
 
 .career-job-card dl {
   width: 100%;
@@ -9354,6 +9393,35 @@ canvas {
 
 .career-job-link:hover {
   color: #ce8dff;
+}
+
+.career-job-actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.career-job-apply {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 17px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(100deg, #ff7048, #ba46dc);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.career-job-apply:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(186, 70, 220, 0.28);
 }
 
 .careers-section-head {

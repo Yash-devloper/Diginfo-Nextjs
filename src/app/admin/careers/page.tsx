@@ -20,6 +20,7 @@ import {
 
 const emptyJob: JobInput = {
   title: "",
+  team: "",
   candidateType: "Fresher",
   experienceRequired: "",
   description: "",
@@ -102,6 +103,7 @@ export default function CareersAdminPage() {
   const startEditing = (job: Job) => {
     setForm({
       title: job.title,
+      team: job.team,
       candidateType: job.candidateType,
       experienceRequired: job.experienceRequired,
       description: job.description,
@@ -149,6 +151,19 @@ export default function CareersAdminPage() {
             onChange={(event) => updateField("title", event.target.value)}
             placeholder="e.g. Digital Marketing Executive"
             maxLength={120}
+            required
+          />
+        </div>
+
+        <div className="career-admin-field career-admin-field-wide">
+          <label htmlFor="job-team">Team</label>
+          <input
+            id="job-team"
+            className="input"
+            value={form.team}
+            onChange={(event) => updateField("team", event.target.value)}
+            placeholder="e.g. Creative & Design"
+            maxLength={100}
             required
           />
         </div>
@@ -241,7 +256,7 @@ export default function CareersAdminPage() {
                 <div>
                   <strong>{job.title}</strong>
                   <span>
-                    {job.candidateType} - {job.employmentType} - {formatExperience(job.experienceRequired)} - {job.location}
+                    {job.team} - {job.candidateType} - {job.employmentType} - {formatExperience(job.experienceRequired)} - {job.location}
                   </span>
                 </div>
                 <div className="career-admin-actions">
@@ -274,6 +289,11 @@ export default function CareersAdminPage() {
                     {application.jobTitle ?? "General application"} - {application.email || "No email"} - {formatDate(application.createdAt)}
                   </span>
                   {application.phone && <span>{application.phone}</span>}
+                  {application.portfolioUrl && (
+                    <a href={application.portfolioUrl} target="_blank" rel="noopener noreferrer">
+                      Portfolio / showreel
+                    </a>
+                  )}
                   {application.message && <p>{application.message}</p>}
                 </div>
                 {application.resumeUrl && (
