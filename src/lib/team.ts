@@ -1,6 +1,7 @@
 import { collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL, deleteObject, getStorage } from "firebase/storage";
+import { ref, deleteObject, getStorage } from "firebase/storage";
 import { db } from "@/lib/firebaseClient";
+import { uploadImageToCloudinary } from "@/lib/cloudinary";
 
 
 export type TeamMember = {
@@ -29,19 +30,7 @@ export async function getAllTeamMembers(): Promise<TeamMember[]> {
 }
 
 export const uploadToCloudinary = async (file: File) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const res = await fetch("/api/upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) throw new Error(data.error);
-
-  return data.url;
+  return uploadImageToCloudinary(file);
 };
 
 

@@ -9,8 +9,8 @@ export default function LeadershipSection() {
   const [coFounderError, setCoFounderError] = useState(false);
 
   // Define image paths here. If empty or invalid, the initials will show.
-  const founderPhoto = "/founder.jpg";
-  const coFounderPhoto = "/co-founder.jpg";
+  const founderPhoto = "/sj.webp";
+  const coFounderPhoto = "/jaya-panjwani.webp";
 
   return (
     <section className="sec dark leadership-sec" id="leadership">

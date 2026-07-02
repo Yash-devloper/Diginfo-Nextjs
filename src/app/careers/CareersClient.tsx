@@ -44,6 +44,33 @@ const lifeGallery = [
   },
 ];
 
+const teamVoices = [
+  {
+    quote:
+      "You get real ownership here. The team trusts you with meaningful work, while still making sure you have the guidance to keep improving.",
+    name: "Team Member",
+    role: "Digital Marketing",
+  },
+  {
+    quote:
+      "Every project brings something new to learn. Ideas move quickly, feedback is direct, and you can see the impact of what you build.",
+    name: "Team Member",
+    role: "Technology & Development",
+  },
+  {
+    quote:
+      "The best part is how collaborative the work feels. Strategy, design, and execution come together without unnecessary layers.",
+    name: "Team Member",
+    role: "Creative & Design",
+  },
+  {
+    quote:
+      "You are encouraged to ask questions, take initiative, and grow beyond your job title. That makes every week feel genuinely useful.",
+    name: "Team Member",
+    role: "Client Success & Growth",
+  },
+];
+
 const socialLinks = [
   {
     name: "Facebook",
@@ -90,6 +117,7 @@ export default function CareersClient() {
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [activeVoiceSlide, setActiveVoiceSlide] = useState(0);
   const [visibleSlides, setVisibleSlides] = useState(1);
 
   useEffect(() => {
@@ -109,6 +137,13 @@ export default function CareersClient() {
   const maxSlide = Math.max(lifeGallery.length - visibleSlides, 0);
   const clampedActiveSlide = Math.min(activeSlide, maxSlide);
   const slidePositions = Array.from({ length: maxSlide + 1 }, (_, index) => index);
+  const visibleVoiceSlides = visibleSlides === 1 ? 1 : 2;
+  const maxVoiceSlide = Math.max(teamVoices.length - visibleVoiceSlides, 0);
+  const clampedVoiceSlide = Math.min(activeVoiceSlide, maxVoiceSlide);
+  const voiceSlidePositions = Array.from(
+    { length: maxVoiceSlide + 1 },
+    (_, index) => index
+  );
 
   const goToPreviousSlide = useCallback(() => {
     setActiveSlide((current) => (current === 0 ? maxSlide : current - 1));
@@ -117,6 +152,18 @@ export default function CareersClient() {
   const goToNextSlide = useCallback(() => {
     setActiveSlide((current) => (current >= maxSlide ? 0 : current + 1));
   }, [maxSlide]);
+
+  const goToPreviousVoice = useCallback(() => {
+    setActiveVoiceSlide((current) =>
+      current === 0 ? maxVoiceSlide : current - 1
+    );
+  }, [maxVoiceSlide]);
+
+  const goToNextVoice = useCallback(() => {
+    setActiveVoiceSlide((current) =>
+      current >= maxVoiceSlide ? 0 : current + 1
+    );
+  }, [maxVoiceSlide]);
 
   useEffect(() => {
     const updateVisibleSlides = () => {
@@ -144,6 +191,12 @@ export default function CareersClient() {
 
     return () => window.clearInterval(timer);
   }, [goToNextSlide]);
+
+  useEffect(() => {
+    const timer = window.setInterval(goToNextVoice, 5600);
+
+    return () => window.clearInterval(timer);
+  }, [goToNextVoice]);
 
   return (
     <main className="careers-page">
@@ -297,6 +350,67 @@ export default function CareersClient() {
                   aria-label={`Show Life at Diginfo image group ${index + 1}`}
                 />
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="careers-voices" aria-labelledby="team-voices-heading">
+        <div className="wrap">
+          <div className="careers-voices-head">
+            <span>Team Voices</span>
+            <h2 id="team-voices-heading">In their words.</h2>
+          </div>
+
+          <div className="careers-voices-slider" aria-roledescription="carousel">
+            <div className="careers-voices-window">
+              <div
+                className="careers-voices-track"
+                style={
+                  {
+                    "--voice-index": clampedVoiceSlide,
+                    "--visible-voices": visibleVoiceSlides,
+                  } as CSSProperties
+                }
+              >
+                {teamVoices.map((voice, index) => (
+                  <article
+                    className="careers-voice-card"
+                    key={`${voice.role}-${index}`}
+                    aria-label={`Team voice ${index + 1} of ${teamVoices.length}`}
+                  >
+                    <span className="careers-voice-quote" aria-hidden="true">&ldquo;</span>
+                    <blockquote>{voice.quote}</blockquote>
+                    <p>
+                      <strong>{voice.name}</strong>
+                      <span>{voice.role}</span>
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="careers-voices-controls">
+              <div className="careers-voices-dots" aria-label="Team voice slide controls">
+                {voiceSlidePositions.map((index) => (
+                  <button
+                    key={index}
+                    className={index === clampedVoiceSlide ? "active" : ""}
+                    type="button"
+                    onClick={() => setActiveVoiceSlide(index)}
+                    aria-label={`Show team voice group ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <div className="careers-voices-arrows">
+                <button type="button" onClick={goToPreviousVoice} aria-label="Show previous team voices">
+                  <ChevronLeft size={22} />
+                </button>
+                <button type="button" onClick={goToNextVoice} aria-label="Show next team voices">
+                  <ChevronRight size={22} />
+                </button>
+              </div>
             </div>
           </div>
         </div>

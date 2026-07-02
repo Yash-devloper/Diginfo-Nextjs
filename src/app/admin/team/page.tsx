@@ -84,9 +84,10 @@ export default function TeamAdmin() {
     setEditingId(member.id);
     setName(member.name);
     setRole(member.role);
-    setDescription(member.description); // Populate description for editing
-    setExistingImageUrl(member.imageUrl);
+    setDescription(member.description ?? "");
+    setExistingImageUrl(member.imageUrl ?? "");
     setImageFile(null);
+    setError(null);
   };
 
   const handleUpdate = async () => { // Added description parameter
@@ -109,7 +110,12 @@ export default function TeamAdmin() {
       setExistingImageUrl("");
       alert("Team member updated successfully.");
     } catch (err) {
-      setError("Failed to update team member. Please try again.");
+      console.error("Team member update error:", err);
+      setError(
+        err instanceof Error
+          ? `Failed to update team member: ${err.message}`
+          : "Failed to update team member. Please try again."
+      );
     } finally {
       setSaving(false);
     }
@@ -175,7 +181,7 @@ export default function TeamAdmin() {
   const handleDragEnd = async (event: any) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = team.findIndex((member) => member.id === active.id);
       const newIndex = team.findIndex((member) => member.id === over.id);
 
@@ -218,8 +224,9 @@ export default function TeamAdmin() {
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
 
-      <div className="pricing-form-card">
-        <div className="form-grid">
+      {!editingId && (
+        <div className="pricing-form-card">
+          <div className="form-grid">
           <input
             placeholder="Member Name"
             value={name}
@@ -254,16 +261,17 @@ export default function TeamAdmin() {
               Recommended: 400×400px (square images work best)
             </span>
           </div>
-        </div>
+          </div>
 
-        <button
-          onClick={editingId ? handleUpdate : handleSave}
-          className="btn btn-grad full-btn"
-          disabled={saving}
-        >
-          {saving ? (editingId ? "Saving..." : "Saving...") : editingId ? "Update Team Member" : "Save Team Member"}
-        </button>
-      </div>
+          <button
+            onClick={handleSave}
+            className="btn btn-grad full-btn"
+            disabled={saving}
+          >
+            {saving ? "Saving..." : "Save Team Member"}
+          </button>
+        </div>
+      )}
 
       {editingId && (
         <div className="pricing-form-card edit-modal">
@@ -317,30 +325,31 @@ export default function TeamAdmin() {
       )}
 
       <div className="service-list">
-        <table className="testimonials-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Designation</th>
-              <th>Description</th> {/* New column for description */}
-              <th>Image</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={team.map(member => member.id)} strategy={verticalListSortingStrategy}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={team.map(member => member.id)} strategy={verticalListSortingStrategy}>
+            <table className="testimonials-table">
+              <thead>
+                <tr>
+                  <th aria-label="Reorder" />
+                  <th>Name</th>
+                  <th>Designation</th>
+                  <th>Description</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
               <tbody>
                 {team.map((member) => (
                   <SortableItem key={member.id} member={member} handleEdit={handleEdit} handleDelete={handleDelete} saving={saving} />
                 ))}
               </tbody>
-            </SortableContext>
-          </DndContext>
-        </table>
+            </table>
+          </SortableContext>
+        </DndContext>
       </div>
     </div>
   );
@@ -368,19 +377,30 @@ function SortableItem({ member, handleEdit, handleDelete, saving }: SortableItem
   };
 
   return (
-    <tr ref={setNodeRef} style={style} {...attributes} {...listeners}><td>
-      {member.name}
-    </td><td>
-      {member.role}
-    </td><td>
-      {member.description}
-    </td><td>
+    <tr ref={setNodeRef} style={style}>
+      <td>
+        <button
+          type="button"
+          className="btn"
+          style={{ cursor: "grab", minWidth: 36, padding: "0 8px" }}
+          aria-label={`Reorder ${member.name}`}
+          {...attributes}
+          {...listeners}
+        >
+          Drag
+        </button>
+      </td>
+      <td>{member.name}</td>
+      <td>{member.role}</td>
+      <td>{member.description}</td>
+      <td>
         {member.imageUrl ? (
           <img src={member.imageUrl} alt={member.name} style={{ width: 80, height: 50, objectFit: "cover", borderRadius: 8 }} />
         ) : (
           "No image"
         )}
-      </td><td>
+      </td>
+      <td>
         <div className="action-buttons">
           <button onClick={() => handleEdit(member)} className="btn btn-edit" disabled={saving}>
             Edit
@@ -389,6 +409,7 @@ function SortableItem({ member, handleEdit, handleDelete, saving }: SortableItem
             Delete
           </button>
         </div>
-      </td></tr>
+      </td>
+    </tr>
   );
 }
