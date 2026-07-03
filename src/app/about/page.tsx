@@ -8,8 +8,8 @@ import CtaSection from "@/components/CtaSection";
 import LeadershipSection from "@/components/LeadershipSection";
 
 export const metadata = {
-  title: "About Diginfo — Digital Agency Founded 2019, Indore",
-  description: "Diginfo Expert Services: Indore's growth-focused digital marketing agency since 2019",
+  title: "About Diginfo — Our Story, Founders & Team",
+  description: "A digital marketing and IT services agency since 2019, working with clients in India and abroad. Meet the founders and how we work.",
 };
 
 export default function AboutPage() {

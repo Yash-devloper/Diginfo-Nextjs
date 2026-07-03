@@ -34,7 +34,6 @@ export const uploadToCloudinary = async (file: File) => {
 };
 
 
-
 export const saveTeamMember = async (
   name: string,
   role: string,

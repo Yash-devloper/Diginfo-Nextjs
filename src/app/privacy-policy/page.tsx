@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy | Diginfo Agency",
+  title: "Privacy Policy | Diginfo",
   description:
-    "Read how Diginfo collects, uses, protects, and manages personal information for digital marketing and IT services.",
+    "How Diginfo collects, uses and protects your data, in line with India's DPDP Act and GDPR.",
 };
 
 const highlights = [

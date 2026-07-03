@@ -11,8 +11,8 @@ import DeferredHomeSections from "@/components/DeferredHomeSections";
 import HomeNewsletterSection from "@/components/HomeNewsletterSection";
 
 export const metadata: Metadata = {
-  title: "Diginfo — Digital Marketing Agency Indore",
-  description: "Leading digital marketing agency in Indore offering SEO, SMM, PPC and web development since 2019.",
+  title: "Diginfo — Digital Marketing, AI Search & IT Agency",
+  description: "Get found on Google and AI search, turn visibility into customers, and build the tech behind it — digital marketing, AEO/GEO and IT under one roof, for clients worldwide.",
 };
 
 export default function Home() {

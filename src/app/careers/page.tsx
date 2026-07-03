@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import CareersClient from "./CareersClient";
 
 export const metadata: Metadata = {
-  title: "Careers at Diginfo | Graduate & Experienced Openings",
+  title: "Careers at Diginfo — Join Our Team",
   description:
-    "Explore graduate and experienced career openings at Diginfo and apply directly by email.",
+    "Build your career across digital marketing, AI search, technology and creative at Diginfo. See current openings and apply.",
 };
 
 export default function CareersPage() {

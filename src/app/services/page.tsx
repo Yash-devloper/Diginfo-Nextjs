@@ -3,7 +3,7 @@ import ServicesClient from "./ServicesClient";
 
 export const metadata = {
   title: "Digital Marketing & IT Services | Diginfo",
-  description: "SEO, AI Search Optimisation (AEO/GEO), paid media, social, web development, and ERP/CRM — one accountable team for marketing and the technology behind it. Serving clients in India and abroad.",
+  description: "SEO, AI Search Optimisation (AEO/GEO), paid media, social, web development and ERP/CRM — one accountable team for marketing and the technology behind it.",
 };
 
 export default function ServicesPage() {

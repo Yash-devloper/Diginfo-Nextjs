@@ -37,9 +37,9 @@ export const services: ServiceDetail[] = [
       "Create SEO content opportunities and strengthen internal linking",
       "Track progress monthly and refine the strategy based on search data",
     ],
-    seoTitle: "SEO Services | Search Engine Optimization Agency | Diginfo",
+    seoTitle: "SEO Services — Get Found by Buyers Who Convert | Diginfo",
     seoDescription:
-      "Grow organic traffic with Diginfo's SEO services, including technical audits, keyword research, on-page SEO, local SEO, link building, and monthly reporting.",
+      "Technical SEO, content and link building that get you found by buyers ready to act. Sustainable organic visibility for India and global markets.",
   },
   {
     slug: "ai-search-optimisation-aeo-geo",
@@ -64,9 +64,9 @@ export const services: ServiceDetail[] = [
       "Create answer-focused pages, FAQs, schema, and authority-building content",
       "Track mentions, rankings, traffic signals, and refine content for better discovery",
     ],
-    seoTitle: "AI Search Optimisation Services | AEO & GEO Agency | Diginfo",
+    seoTitle: "AI Search Optimisation (AEO/GEO) Agency | Diginfo",
     seoDescription:
-      "Grow visibility in AI search with Diginfo's AEO and GEO services, including AI-ready content, answer engine optimization, schema, entity signals, and authority building.",
+      "Be the business AI engines recommend. AEO/GEO strategy, AIready content and entity signals so ChatGPT, Gemini and AI Overviews cite your brand.",
   },
   {
     slug: "social-media-marketing",
@@ -91,9 +91,9 @@ export const services: ServiceDetail[] = [
       "Create posts, reels, captions, and platform-ready creatives",
       "Review performance and adjust content based on engagement and leads",
     ],
-    seoTitle: "Social Media Marketing Services | SMM Agency | Diginfo",
+    seoTitle: "Social Media Marketing Services | Diginfo",
     seoDescription:
-      "Build your brand with Diginfo's social media marketing services for Instagram, Facebook, LinkedIn, YouTube, WhatsApp, content strategy, reels, and community management.",
+      "Content, creative and community that build durable demand across Instagram, LinkedIn, Facebook and YouTube.",
   },
   {
     slug: "performance-marketing",
@@ -118,9 +118,9 @@ export const services: ServiceDetail[] = [
       "Launch Google, Meta, and retargeting campaigns with controlled tests",
       "Optimize bids, budgets, audiences, and creatives based on results",
     ],
-    seoTitle: "Performance Marketing Services | Google & Meta Ads | Diginfo",
+    seoTitle: "Performance Marketing — Google & Meta Ads | Diginfo",
     seoDescription:
-      "Run ROI-focused performance marketing campaigns with Diginfo, including Google Ads, Meta Ads, retargeting, conversion tracking, and campaign optimization.",
+      "Paid acquisition engineered around return on spend. Google and Meta ads with conversion tracking, retargeting and transparent reporting.",
   },
   {
     slug: "website-design-development",
@@ -145,9 +145,9 @@ export const services: ServiceDetail[] = [
       "Develop the website with the right technology stack for your goals, budget, and growth plans",
       "Test responsiveness, speed, forms, SEO basics, and launch readiness",
     ],
-    seoTitle: "Website Design & Development Services | Diginfo",
+    seoTitle: "Website Design & Development — React & WordPress | Diginfo",
     seoDescription:
-      "Get a modern, responsive, SEO-ready website with Diginfo's website design and development services for business websites, landing pages, CMS builds, and custom technology stacks.",
+      "Fast, secure, conversion-focused websites and platforms — custom React or WordPress, SEO-ready, with analytics and integrations.",
   },
   {
     slug: "app-development",
@@ -172,9 +172,9 @@ export const services: ServiceDetail[] = [
       "Develop frontend, backend, integrations, and admin features in planned milestones",
       "Test usability, performance, security, and launch readiness before release",
     ],
-    seoTitle: "APP Development Services | Mobile & Web Apps | Diginfo",
+    seoTitle: "App Development Services | Diginfo",
     seoDescription:
-      "Build custom mobile and web applications with Diginfo's APP development services, including UI/UX design, backend development, API integrations, testing, and launch support.",
+      "Mobile apps built for smooth, scalable customer experiences — from concept to launch and beyond.",
   },
   {
     slug: "erp-crm-solutions",
@@ -199,9 +199,9 @@ export const services: ServiceDetail[] = [
       "Develop the ERP or CRM system with testing at each workflow stage",
       "Train users, collect feedback, and improve the system after launch",
     ],
-    seoTitle: "Custom ERP & CRM Solutions | Business Automation | Diginfo",
+    seoTitle: "ERP & CRM Solutions and Automation | Diginfo",
     seoDescription:
-      "Digitize operations with Diginfo's custom ERP and CRM solutions for workflow automation, lead management, reporting, dashboards, and business process systems.",
+      "Custom ERP, CRM and workflow automation that run your operations at scale — built and integrated in-house.",
   },
   {
     slug: "creative-design-branding",
@@ -228,7 +228,7 @@ export const services: ServiceDetail[] = [
     ],
     seoTitle: "Creative Design & Branding Services | Diginfo",
     seoDescription:
-      "Create a strong brand identity with Diginfo's creative design and branding services, including logo design, social creatives, packaging design, videos, and campaign assets.",
+      "Brand identity, social creative and design that earns trust at first impression.",
   },
 ];
 

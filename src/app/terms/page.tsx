@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms & Conditions | Diginfo Agency",
+  title: "Terms & Conditions | Diginfo",
   description:
-    "Review Diginfo's terms for digital marketing, website development, design, automation, and IT services.",
+    "The terms governing use of the Diginfo website and our services.",
 };
 
 const highlights = [
