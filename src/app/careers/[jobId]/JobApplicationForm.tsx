@@ -1,7 +1,20 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { CheckCircle2, FileUp, LoaderCircle, Send } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  CheckCircle2,
+  FileText,
+  FileUp,
+  Link2,
+  LoaderCircle,
+  Mail,
+  MessageSquareText,
+  Phone,
+  Send,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
 import { uploadResumeToCloudinary } from "@/lib/cloudinary";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
@@ -77,8 +90,11 @@ export default function JobApplicationForm({
   if (status === "success") {
     return (
       <div className="job-application-success" role="status">
-        <CheckCircle2 size={42} />
-        <h3>Application received</h3>
+        <span className="job-application-success-icon">
+          <CheckCircle2 size={42} />
+        </span>
+        <span>Application received</span>
+        <h3>Thank you for applying.</h3>
         <p>{feedback}</p>
       </div>
     );
@@ -87,32 +103,53 @@ export default function JobApplicationForm({
   return (
     <form className="job-application-form" onSubmit={handleSubmit}>
       <div className="job-application-heading">
-        <span>Apply now</span>
-        <h2>{jobTitle}</h2>
-        <p>Share your details and we&apos;ll send your application directly to our hiring team.</p>
+        <div>
+          <span className="job-application-kicker">
+            <BriefcaseBusiness size={15} /> Apply now
+          </span>
+          <h2>{jobTitle}</h2>
+          <p>Share your profile and resume with the hiring team.</p>
+        </div>
+        <span className="job-application-badge">
+          <Sparkles size={15} /> Fast review
+        </span>
       </div>
 
       <div className="job-application-grid">
-        <label>
-          Full name
-          <input name="name" autoComplete="name" maxLength={100} required />
+        <label className="job-application-field">
+          <span>Full name</span>
+          <div className="job-application-control">
+            <UserRound size={18} />
+            <input name="name" autoComplete="name" maxLength={100} placeholder="Your full name" required />
+          </div>
         </label>
-        <label>
-          Email address
-          <input name="email" type="email" autoComplete="email" maxLength={254} required />
+        <label className="job-application-field">
+          <span>Email address</span>
+          <div className="job-application-control">
+            <Mail size={18} />
+            <input name="email" type="email" autoComplete="email" maxLength={254} placeholder="you@example.com" required />
+          </div>
         </label>
-        <label>
-          Phone number
-          <input name="phone" type="tel" autoComplete="tel" maxLength={30} required />
+        <label className="job-application-field">
+          <span>Phone number</span>
+          <div className="job-application-control">
+            <Phone size={18} />
+            <input name="phone" type="tel" autoComplete="tel" maxLength={30} placeholder="+91 98765 43210" required />
+          </div>
         </label>
-        <label>
-          Portfolio / showreel URL <small>Optional</small>
-          <input name="portfolioUrl" type="url" placeholder="https://" maxLength={500} />
+        <label className="job-application-field">
+          <span>Portfolio / showreel URL <small>Optional</small></span>
+          <div className="job-application-control">
+            <Link2 size={18} />
+            <input name="portfolioUrl" type="url" placeholder="https://" maxLength={500} />
+          </div>
         </label>
         <label className="job-application-file">
-          Resume <small>PDF, DOC or DOCX - max 5 MB</small>
+          <span>Resume <small>PDF, DOC or DOCX - max 5 MB</small></span>
           <span>
-            <FileUp size={19} /> {fileName || "Choose your resume"}
+            <FileUp size={20} />
+            <strong>{fileName || "Choose your resume"}</strong>
+            <small>{fileName ? "Ready to upload" : "Attach your latest CV"}</small>
           </span>
           <input
             name="resume"
@@ -123,8 +160,11 @@ export default function JobApplicationForm({
           />
         </label>
         <label className="job-application-message">
-          Why are you a good fit? <small>Optional</small>
-          <textarea name="message" rows={5} maxLength={2000} />
+          <span>Why are you a good fit? <small>Optional</small></span>
+          <div className="job-application-textarea-wrap">
+            <MessageSquareText size={18} />
+            <textarea name="message" rows={5} maxLength={2000} placeholder="Tell us about the work you are proud of, your strengths, or why this role fits you." />
+          </div>
         </label>
       </div>
 
@@ -139,6 +179,7 @@ export default function JobApplicationForm({
       </button>
 
       <p className={`job-application-feedback ${status === "error" ? "is-error" : ""}`} role="status">
+        {status === "error" && <FileText size={16} />}
         {feedback}
       </p>
     </form>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import JobDetailsClient from "./JobDetailsClient";
+import "./job-details.css";
 
 export const metadata: Metadata = {
   title: "Job Opening | Diginfo Careers",

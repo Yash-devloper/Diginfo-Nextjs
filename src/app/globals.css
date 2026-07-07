@@ -4709,13 +4709,46 @@ textarea {
 
 
 .blog-section {
-  padding: 100px 20px;
-  background: #050507;
+  padding: 112px 20px 74px;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(249, 115, 22, 0.1), transparent 28%),
+    radial-gradient(circle at 88% 2%, rgba(168, 85, 247, 0.12), transparent 30%),
+    #050507;
 }
 
 .container {
   max-width: 1200px;
   margin: auto;
+}
+
+.blog-page {
+  background: #050507;
+}
+
+.blog-page-container {
+  position: relative;
+  z-index: 1;
+}
+
+.blog-page-head {
+  max-width: 760px;
+  margin: 0 auto 46px;
+  text-align: center;
+}
+
+.blog-page-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 13px;
+  border: 1px solid rgba(217, 70, 168, 0.28);
+  border-radius: 999px;
+  background: rgba(217, 70, 168, 0.08);
+  color: #ec8ac7;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .blog-title {
@@ -5699,7 +5732,7 @@ select.input option {
   text-align: center;
   color: #aaa;
   margin-top: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 0;
 }
 
 /* FILTER */
@@ -5857,11 +5890,53 @@ select.input option {
 
 /* BUTTON */
 .read-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 38px;
   margin-top: auto;
-  background: none;
-  border: none;
-  color: #a855f7;
+  padding: 0 15px;
+  border: 1px solid rgba(168, 85, 247, 0.32);
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.08);
+  color: #cda7ff;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.read-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(249, 115, 22, 0.48);
+  background: rgba(249, 115, 22, 0.11);
+  color: #ffd2b6;
+}
+
+.blog-newsletter-wrap {
+  position: relative;
+  padding-top: 42px;
+  background:
+    linear-gradient(180deg, #050507 0%, #09080f 22%, #09080f 100%);
+}
+
+.blog-newsletter-wrap::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: min(1120px, calc(100% - 40px));
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.42), rgba(217, 70, 168, 0.52), rgba(138, 92, 246, 0.46), transparent);
+}
+
+.blog-newsletter-wrap .home-newsletter {
+  border-top: 0;
+  padding-top: 76px;
+  padding-bottom: 78px;
 }
 
 /* PAGINATION */
@@ -10141,6 +10216,100 @@ canvas {
   height: 36px;
 }
 
+.career-admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(7, 6, 18, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.career-admin-modal {
+  width: min(720px, 100%);
+  max-height: min(720px, calc(100vh - 44px));
+  overflow: auto;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: #151022;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+}
+
+.career-admin-modal-head,
+.career-admin-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.career-admin-modal-head {
+  margin-bottom: 18px;
+}
+
+.career-admin-modal-head span,
+.career-admin-details span {
+  display: block;
+  margin-bottom: 5px;
+  color: #a9a4b8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.career-admin-modal-head h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.career-admin-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.career-admin-details > div {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.career-admin-details strong,
+.career-admin-details a {
+  color: #ffffff;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.career-admin-details a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.career-admin-detail-wide {
+  grid-column: 1 / -1;
+}
+
+.career-admin-detail-wide p {
+  margin: 0;
+  color: #d8d3e5;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.career-admin-modal-actions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
 @media (max-width: 900px) {
   .careers-fit-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -10231,6 +10400,23 @@ canvas {
   .career-opening-row,
   .career-admin-row {
     align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .career-admin-modal {
+    padding: 18px;
+  }
+
+  .career-admin-modal-head {
+    align-items: flex-start;
+  }
+
+  .career-admin-details {
+    grid-template-columns: 1fr;
+  }
+
+  .career-admin-modal-actions {
+    align-items: stretch;
     flex-direction: column;
   }
 

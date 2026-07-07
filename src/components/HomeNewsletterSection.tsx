@@ -57,13 +57,13 @@ export default function HomeNewsletterSection() {
 
       <div className="wrap home-newsletter-inner">
         <div className="home-newsletter-copy">
-          <span className="home-newsletter-kicker">AI BizBytes · Weekly</span>
+          <span className="home-newsletter-kicker">AI BizBytes - Weekly</span>
           <h2 id="newsletter-heading">
             Be the brand <span className="gt">AI recommends.</span>
           </h2>
           <p>
             Sharp, practical playbooks for SEO, performance, and AI-search
-            visibility—delivered in a three-minute weekly read.
+            visibility - delivered in a three-minute weekly read.
           </p>
 
           <div className="home-newsletter-benefits" aria-label="Newsletter benefits">
@@ -96,7 +96,7 @@ export default function HomeNewsletterSection() {
                 required
               />
               <button type="submit" disabled={status === "submitting"}>
-                {status === "submitting" ? "Sending…" : "Subscribe free →"}
+                {status === "submitting" ? "Sending..." : "Subscribe free ->"}
               </button>
             </div>
 

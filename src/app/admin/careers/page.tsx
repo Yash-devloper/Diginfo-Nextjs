@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { Edit3, ExternalLink, Plus, Save, Trash2, X } from "lucide-react";
+import { Download, Edit3, ExternalLink, Eye, Plus, Save, Trash2, X } from "lucide-react";
 import toast from "react-hot-toast";
 import {
   candidateTypes,
@@ -11,6 +11,7 @@ import {
 } from "@/lib/jobs";
 import {
   createJob,
+  deleteJobApplicationById,
   deleteJobById,
   getJobApplications,
   getJobs,
@@ -36,9 +37,31 @@ function formatDate(value?: string) {
   return value ? new Date(value).toLocaleDateString() : "Date unavailable";
 }
 
+function getResumeDownloadUrl(resumeUrl: string) {
+  try {
+    const url = new URL(resumeUrl);
+
+    if (url.hostname.includes("cloudinary.com") && url.pathname.includes("/upload/")) {
+      if (!url.pathname.includes("/fl_attachment/")) {
+        url.pathname = url.pathname.replace("/upload/", "/upload/fl_attachment/");
+      }
+    }
+
+    return url.toString();
+  } catch {
+    return resumeUrl;
+  }
+}
+
+function getResumeFileName(application: JobApplication) {
+  const cleanName = application.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${cleanName || "candidate"}-resume`;
+}
+
 export default function CareersAdminPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [applications, setApplications] = useState<JobApplication[]>([]);
+  const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
   const [form, setForm] = useState<JobInput>(emptyJob);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -66,8 +89,12 @@ export default function CareersAdminPage() {
   }, []);
 
   useEffect(() => {
-    void loadJobs();
-    void loadApplications();
+    const timer = window.setTimeout(() => {
+      void loadJobs();
+      void loadApplications();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [loadApplications, loadJobs]);
 
   const updateField = <K extends keyof JobInput>(field: K, value: JobInput[K]) => {
@@ -127,6 +154,19 @@ export default function CareersAdminPage() {
       await loadJobs();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Unable to delete the job opening.");
+    }
+  };
+
+  const deleteApplication = async (application: JobApplication) => {
+    if (!window.confirm(`Delete application from "${application.name}"? This cannot be undone.`)) return;
+
+    try {
+      await deleteJobApplicationById(application.id);
+      setSelectedApplication((current) => current?.id === application.id ? null : current);
+      toast.success("Job application deleted.");
+      await loadApplications();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to delete the job application.");
     }
   };
 
@@ -296,13 +336,24 @@ export default function CareersAdminPage() {
                   )}
                   {application.message && <p>{application.message}</p>}
                 </div>
-                {application.resumeUrl && (
-                  <div className="career-admin-actions">
-                    <a className="btn btn-edit" href={application.resumeUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink size={15} /> Resume
+                <div className="career-admin-actions">
+                  <button className="btn btn-edit" type="button" onClick={() => setSelectedApplication(application)}>
+                    <Eye size={15} /> View
+                  </button>
+                  {application.resumeUrl && (
+                    <a
+                      className="btn btn-edit"
+                      href={getResumeDownloadUrl(application.resumeUrl)}
+                      download={getResumeFileName(application)}
+                      rel="noopener noreferrer"
+                    >
+                      <Download size={15} /> Resume
                     </a>
-                  </div>
-                )}
+                  )}
+                  <button className="btn btn-delete" type="button" onClick={() => void deleteApplication(application)}>
+                    <Trash2 size={15} /> Delete
+                  </button>
+                </div>
               </article>
             ))}
           </div>
@@ -310,6 +361,81 @@ export default function CareersAdminPage() {
           <p className="career-admin-empty">No job applications have been submitted yet.</p>
         )}
       </section>
+
+      {selectedApplication && (
+        <div className="career-admin-modal-backdrop" role="presentation" onClick={() => setSelectedApplication(null)}>
+          <section
+            className="career-admin-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="application-details-heading"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="career-admin-modal-head">
+              <div>
+                <span>Application details</span>
+                <h3 id="application-details-heading">{selectedApplication.name}</h3>
+              </div>
+              <button className="btn btn-edit" type="button" onClick={() => setSelectedApplication(null)} aria-label="Close details">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="career-admin-details">
+              <div>
+                <span>Applied for</span>
+                <strong>{selectedApplication.jobTitle ?? "General application"}</strong>
+              </div>
+              <div>
+                <span>Applied on</span>
+                <strong>{formatDate(selectedApplication.createdAt)}</strong>
+              </div>
+              <div>
+                <span>Email</span>
+                <a href={`mailto:${selectedApplication.email}`}>{selectedApplication.email || "No email"}</a>
+              </div>
+              <div>
+                <span>Phone</span>
+                {selectedApplication.phone ? (
+                  <a href={`tel:${selectedApplication.phone}`}>{selectedApplication.phone}</a>
+                ) : (
+                  <strong>No phone</strong>
+                )}
+              </div>
+              {selectedApplication.portfolioUrl && (
+                <div>
+                  <span>Portfolio / showreel</span>
+                  <a href={selectedApplication.portfolioUrl} target="_blank" rel="noopener noreferrer">
+                    Open portfolio <ExternalLink size={14} />
+                  </a>
+                </div>
+              )}
+              {selectedApplication.message && (
+                <div className="career-admin-detail-wide">
+                  <span>Message</span>
+                  <p>{selectedApplication.message}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="career-admin-modal-actions">
+              {selectedApplication.resumeUrl && (
+                <a
+                  className="btn btn-grad"
+                  href={getResumeDownloadUrl(selectedApplication.resumeUrl)}
+                  download={getResumeFileName(selectedApplication)}
+                  rel="noopener noreferrer"
+                >
+                  <Download size={16} /> Download Resume
+                </a>
+              )}
+              <button className="btn btn-delete" type="button" onClick={() => void deleteApplication(selectedApplication)}>
+                <Trash2 size={16} /> Delete Application
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

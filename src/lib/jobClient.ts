@@ -140,3 +140,7 @@ export async function getJobApplications() {
   const snapshot = await getDocs(query(collection(db, "jobApplications"), orderBy("createdAt", "desc")));
   return snapshot.docs.map(serializeJobApplication);
 }
+
+export async function deleteJobApplicationById(applicationId: string) {
+  await deleteDoc(doc(db, "jobApplications", applicationId));
+}
