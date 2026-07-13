@@ -37,7 +37,7 @@ export const uploadToCloudinary = async (file: File) => {
 export const saveTeamMember = async (
   name: string,
   role: string,
-  description: string, // Added description parameter
+  description: string,
   file?: File
 ) => {
   let imageUrl = "";
@@ -54,7 +54,7 @@ export const saveTeamMember = async (
     imageUrl,
     createdAt: new Date(),
     description, // Save description
-    order, // Save order
+    order,
   });
 };
 
@@ -76,7 +76,7 @@ export const updateTeamMember = async (
     name,
     role,
     imageUrl,
-    description, // Update description
+    description,
   });
 };
 

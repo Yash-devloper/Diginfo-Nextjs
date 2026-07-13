@@ -17,17 +17,13 @@ export default function AboutSection() {
           </h2>
 
           <p className="body-lg">
-            In 2019, our founders left corporate roles to answer it. Most
-            businesses weren't losing on product they were losing because
-            customers couldn't find them, trust them, or understand them online.
-            Diginfo was built to fix that.
+            In 2019, our founders left corporate roles to answer one question: why do good businesses in Indore stay invisible online? Most weren't losing on 
+            product — they were losing because customers couldn't find them, trust them, or understand them on Google. 
           </p>
 
           <p className="body-lg">
-            Today we're a digital marketing and IT services agency helping
-            businesses in India and abroad turn digital presence into
-            measurable revenue, with marketing, creative, and technology under
-            one roof.
+            Today, Diginfo is recognised as one of the best digital marketing companies in Indore, helping local businesses — from Vijay Nagar to Rajwada — as well as brands across India and abroad, turn digital presence into measurable revenue. 
+            Our digital marketing services in Indore span SEO, social media, performance ads, creative, and the technology stack behind it all, under one roof.
           </p>
 
           {/* SMALL FEATURE CARDS */}

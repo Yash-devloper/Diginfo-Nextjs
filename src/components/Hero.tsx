@@ -34,15 +34,12 @@ export default function Hero() {
           
           <h2>
           <span className="hero-subtitle">
-            Digital marketing & IT, trusted since 2019. 
+            Indore's trusted digital marketing & IT partner since 2019. 
             </span> </h2>
 
           {/* DESC */}
           <p className="hero-desc">
-            We are a digital marketing and IT services agency. We get
-            businesses found on Google and AI search, turn that visibility into
-            customers, and build the websites and systems behind it — all under
-            one roof, accountable to your revenue.
+            We're a digital marketing company in Indore built for businesses that want more than vanity metrics. From ranking on Google and AI search tools, to turning that visibility into paying customers, to building the websites and systems behind it all — we do it under one roof, accountable to your revenue, not just your reach.
           </p>
 
           {/* CTA */}
@@ -137,8 +134,8 @@ export default function Hero() {
           <div className="marquee-content">
             {Array.from({ length: 4 }).map((_, index) => (
               <span key={index}>
-                We help businesses get found, get chosen, and get measured across Google,
-                social platforms, and <strong>the AI tools</strong> customers now ask first.
+                As a digital marketing agency near you in Indore, we help local and national businesses get found, get chosen, and get measured — across Google, social platforms, 
+                and <strong>the AI tools</strong> customers now ask first.
               </span>
             ))}
           </div>

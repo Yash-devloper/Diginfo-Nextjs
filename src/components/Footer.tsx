@@ -32,7 +32,7 @@ export default function Footer() {
           />
 
           <p>
-           A digital marketing and IT services agency. We get businesses found, chosen, measured across Google, Social and AI Search.
+           A digital marketing and IT services agency based in Indore. We get businesses found, chosen, and measured across Google, Social and AI Search — for clients across Indore, India, and abroad.
           </p>
 
           {/* SOCIAL */}

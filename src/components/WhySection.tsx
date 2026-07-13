@@ -14,9 +14,9 @@ export default function WhySection() {
           </h2>
 
           <p className="body-lg">
-            Hundreds of agencies in India will promise you rankings and followers.
-            Very few will show you the real, measurable ROI on every decision.
-            We will — every single month.
+            Indore has no shortage of agencies promising rankings and followers. What it lacks is one that shows you the real, measurable ROI on every decision. 
+            As a digital marketing agency near you in Indore, we help local and national businesses get found, get chosen, and get measured across Google, social platforms, 
+            and <strong>the AI tools</strong> customers now ask first.
           </p>
 
           {/* FEATURE CARDS */}
