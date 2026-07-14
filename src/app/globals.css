@@ -5654,9 +5654,15 @@ select.input option {
   cursor: pointer;
 }
 
-.editor-html-preview {
+.editor-html-input {
+  display: block;
+  width: 100%;
   min-height: 300px;
-  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  resize: vertical;
+  background: transparent;
   color: #e9d5ff;
   font-family: var(--font-geist-mono), monospace;
   font-size: 14px;

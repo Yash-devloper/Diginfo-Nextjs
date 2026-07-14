@@ -5,7 +5,6 @@ import { useEditor, EditorContent } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import Heading from "@tiptap/extension-heading";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 
@@ -33,9 +32,10 @@ export default function BlogUpload() {
   // ✅ TipTap Editor
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        heading: { levels: [1, 2, 3, 4] },
+      }),
       Image,
-      Heading.configure({ levels: [1, 2, 3] }),
       Link,
       Placeholder.configure({
         placeholder: "Write your blog content here...",
@@ -100,6 +100,10 @@ export default function BlogUpload() {
     if (!editor) {
       toast.error("Editor not ready");
       return;
+    }
+
+    if (showHtml) {
+      editor.commands.setContent(editorHtml);
     }
 
     const contentText = editor.getText().trim();
@@ -223,6 +227,8 @@ export default function BlogUpload() {
         <button onClick={() => editor.chain().focus().toggleItalic().run()}>I</button>
         <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
         <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
+        <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>H3</button>
+        <button onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}>H4</button>
         <button onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
         <button onClick={addLink}>🔗</button>
         <button onClick={addImage}>🖼</button>
@@ -232,8 +238,14 @@ export default function BlogUpload() {
         type="button"
         className="html-toggle"
         onClick={() => {
-          if (!showHtml) setEditorHtml(editor.getHTML());
-          setShowHtml((current) => !current);
+          if (showHtml) {
+            editor.commands.setContent(editorHtml);
+            setShowHtml(false);
+            return;
+          }
+
+          setEditorHtml(editor.getHTML());
+          setShowHtml(true);
         }}
         aria-pressed={showHtml}
       >
@@ -243,7 +255,13 @@ export default function BlogUpload() {
       {/* EDITOR */}
       <div className="editor-box">
         {showHtml ? (
-          <pre className="editor-html-preview">{editorHtml}</pre>
+          <textarea
+            className="editor-html-input"
+            value={editorHtml}
+            onChange={(event) => setEditorHtml(event.target.value)}
+            aria-label="Blog HTML source"
+            spellCheck={false}
+          />
         ) : (
           <EditorContent editor={editor} />
         )}
