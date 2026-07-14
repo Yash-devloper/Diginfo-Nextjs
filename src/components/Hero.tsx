@@ -26,9 +26,8 @@ export default function Hero() {
 
           {/* HEADING */}
           <h1 className="hero-title">
-            Get Found. Get Chosen <br /><span className="gt">Get Results</span>
+            Get Found <br /> Get Chosen <br /><span className="gt">Get Results</span>
             <span className="hero-subtitle">
-              
             </span>
           </h1>
           

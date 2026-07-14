@@ -1509,11 +1509,19 @@ body{
   transition: opacity 0.45s ease;
 }
 
-.process-card:hover {
+.process-card:hover,
+.process-card.active:hover {
+  transform: translateY(-8px);
+  z-index: 2;
+  border-color: rgba(184,77,255,0.4);
   box-shadow:
     0 26px 75px rgba(24,18,43,0.16),
     0 0 38px rgba(184,77,255,0.12),
     inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.process-card:hover .step-circle {
+  transform: translateX(-50%) scale(1.08);
 }
 
 .process-card:hover::before,
@@ -1579,6 +1587,7 @@ body{
   box-shadow:
     0 10px 30px rgba(184,77,255,0.25);
   animation: processPulse 3.4s ease-in-out infinite;
+  transition: transform 0.35s ease;
 }
 
 .process-card h3 {
@@ -8156,10 +8165,11 @@ canvas {
 
   .process-card {
     padding: 72px 22px 26px;
+    overflow: visible;
   }
 
   .step-circle {
-    top: -8px;
+    top: 8px;
   }
 
   .testimonial-card {
