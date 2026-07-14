@@ -25,9 +25,13 @@ export default function EditBlogPage() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
   const [cover, setCover] = useState("");
   const [category, setCategory] = useState("SEO");
   const [loading, setLoading] = useState(false);
+  const [showHtml, setShowHtml] = useState(false);
+  const [editorHtml, setEditorHtml] = useState("");
 
   // ✅ EDITOR
   const editor = useEditor({
@@ -54,9 +58,11 @@ export default function EditBlogPage() {
           return;
         }
 
-        const data: any = snap.data();
+        const data = snap.data();
 
         setTitle(data.title);
+        setMetaTitle(data.metaTitle || "");
+        setMetaDescription(data.metaDescription || "");
         setCover(data.cover);
         setCategory(data.category || "SEO");
 
@@ -89,6 +95,8 @@ export default function EditBlogPage() {
     try {
       await updateDoc(doc(db, "blogs", id as string), {
         title,
+        metaTitle,
+        metaDescription,
         cover,
         category,
         content: editor.getHTML(),
@@ -129,6 +137,20 @@ export default function EditBlogPage() {
         className="input"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+      />
+
+      <input
+        className="input"
+        placeholder="Meta title (shown in search results)"
+        value={metaTitle}
+        onChange={(e) => setMetaTitle(e.target.value)}
+      />
+      <textarea
+        className="input meta-description-input"
+        placeholder="Meta description (shown in search results)"
+        value={metaDescription}
+        onChange={(e) => setMetaDescription(e.target.value)}
+        rows={3}
       />
 
       {/* CATEGORY */}
@@ -172,9 +194,25 @@ export default function EditBlogPage() {
         </button>
       </div>
 
+      <button
+        type="button"
+        className="html-toggle"
+        onClick={() => {
+          if (!showHtml) setEditorHtml(editor.getHTML());
+          setShowHtml((current) => !current);
+        }}
+        aria-pressed={showHtml}
+      >
+        {showHtml ? "Edit content" : "View HTML"}
+      </button>
+
       {/* EDITOR */}
       <div className="editor-box">
-        <EditorContent editor={editor} />
+        {showHtml ? (
+          <pre className="editor-html-preview">{editorHtml}</pre>
+        ) : (
+          <EditorContent editor={editor} />
+        )}
       </div>
 
       {/* ACTIONS */}

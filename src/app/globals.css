@@ -5640,6 +5640,31 @@ select.input option {
   outline: none;
 }
 
+.meta-description-input {
+  resize: vertical;
+}
+
+.html-toggle {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #1a1a22;
+  color: #fff;
+  cursor: pointer;
+}
+
+.editor-html-preview {
+  min-height: 300px;
+  margin: 0;
+  color: #e9d5ff;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 /* ACTIONS */
 .edit-actions {
    display: flex;
