@@ -128,7 +128,11 @@ export default function BlogUpload() {
       setLoading(true);
 
       const blogId = `blog_${Date.now()}`;
-      const slug = title.toLowerCase().replace(/\s+/g, "-");
+      const slug = title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
 
       const blogData = {
         title,

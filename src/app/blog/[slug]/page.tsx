@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { db } from "@/lib/firebaseClient";
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
 } from "firebase/firestore";
 import Image from "next/image";
@@ -29,6 +31,31 @@ export default function BlogDetail() {
 
   useEffect(() => {
     const fetchBlog = async () => {
+      const routeValue = Array.isArray(slug) ? slug[0] : slug;
+      if (!routeValue) return;
+
+      // Each Firestore document ID is unique. Prefer it over a title-based slug,
+      // which can be duplicated by two posts with the same title.
+      const directSnapshot = await getDoc(doc(db, "blogs", routeValue));
+
+      if (directSnapshot.exists()) {
+        const current = {
+          id: directSnapshot.id,
+          ...directSnapshot.data(),
+        } as Blog;
+
+        setBlog(current);
+
+        const allBlogsSnapshot = await getDocs(collection(db, "blogs"));
+        const relatedBlogs = allBlogsSnapshot.docs
+          .map((blogDoc) => ({ id: blogDoc.id, ...blogDoc.data() } as Blog))
+          .filter((item) => item.category === current.category && item.id !== current.id)
+          .slice(0, 3);
+        setRelated(relatedBlogs);
+        return;
+      }
+
+      // Preserve existing shared/indexed URLs that use the older slug format.
       const snap = await getDocs(collection(db, "blogs"));
 
       const blogs = snap.docs.map((doc) => ({
@@ -36,13 +63,13 @@ export default function BlogDetail() {
         ...doc.data(),
       } as Blog));
 
-      const current = blogs.find((b) => b.slug === slug);
+      const current = blogs.find((b) => b.slug === routeValue);
       setBlog(current || null);
 
       // related blogs (same category)
       const rel = blogs
         .filter(
-          (b) => b.category === current?.category && b.slug !== slug
+          (b) => b.category === current?.category && b.id !== current?.id
         )
         .slice(0, 3);
 
@@ -105,7 +132,7 @@ export default function BlogDetail() {
 
           <div className="related-grid">
             {related.map((item) => (
-              <Link href={`/blog/${item.slug}`} key={item.id}>
+              <Link href={`/blog/${encodeURIComponent(item.id)}`} key={item.id}>
 
                 <div className="related-card">
 

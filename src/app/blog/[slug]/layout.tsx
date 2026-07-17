@@ -20,8 +20,37 @@ const getStringField = (
   fieldName: string,
 ) => fields?.[fieldName]?.stringValue;
 
-async function getBlogMetadata(slug: string): Promise<BlogMetadata | null> {
+const toBlogMetadata = (
+  fields: Record<string, { stringValue?: string }> | undefined,
+): BlogMetadata | null => {
+  const title = getStringField(fields, "title");
+  if (!title) return null;
+
+  return {
+    title,
+    metaTitle: getStringField(fields, "metaTitle"),
+    metaDescription: getStringField(fields, "metaDescription"),
+    cover: getStringField(fields, "cover"),
+  };
+};
+
+async function getBlogMetadata(identifier: string): Promise<BlogMetadata | null> {
   try {
+    // New internal links use the document ID, avoiding collisions between posts
+    // that share a title-derived slug.
+    const documentResponse = await fetch(
+      `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/blogs/${encodeURIComponent(identifier)}?key=${FIREBASE_WEB_API_KEY}`,
+      { cache: "no-store" },
+    );
+
+    if (documentResponse.ok) {
+      const document = (await documentResponse.json()) as {
+        fields?: Record<string, { stringValue?: string }>;
+      };
+      return toBlogMetadata(document.fields);
+    }
+
+    // Keep metadata for legacy URLs that still use a slug.
     const response = await fetch(
       `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents:runQuery?key=${FIREBASE_WEB_API_KEY}`,
       {
@@ -34,7 +63,7 @@ async function getBlogMetadata(slug: string): Promise<BlogMetadata | null> {
               fieldFilter: {
                 field: { fieldPath: "slug" },
                 op: "EQUAL",
-                value: { stringValue: slug },
+                value: { stringValue: identifier },
               },
             },
             limit: 1,
@@ -51,17 +80,7 @@ async function getBlogMetadata(slug: string): Promise<BlogMetadata | null> {
         fields?: Record<string, { stringValue?: string }>;
       };
     }>;
-    const fields = results[0]?.document?.fields;
-    const title = getStringField(fields, "title");
-
-    if (!title) return null;
-
-    return {
-      title,
-      metaTitle: getStringField(fields, "metaTitle"),
-      metaDescription: getStringField(fields, "metaDescription"),
-      cover: getStringField(fields, "cover"),
-    };
+    return toBlogMetadata(results[0]?.document?.fields);
   } catch (error) {
     console.error("Unable to load blog metadata", error);
     return null;
@@ -69,8 +88,8 @@ async function getBlogMetadata(slug: string): Promise<BlogMetadata | null> {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const blog = await getBlogMetadata(slug);
+  const { slug: identifier } = await params;
+  const blog = await getBlogMetadata(identifier);
 
   if (!blog) {
     return { title: "Blog | Diginfo" };
@@ -82,12 +101,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `/blog/${slug}` },
+    alternates: { canonical: `/blog/${identifier}` },
     openGraph: {
       title,
       description,
       type: "article",
-      url: `/blog/${slug}`,
+      url: `/blog/${identifier}`,
       images: blog.cover ? [{ url: blog.cover }] : undefined,
     },
   };

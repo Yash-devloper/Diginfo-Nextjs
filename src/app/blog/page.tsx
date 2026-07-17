@@ -77,7 +77,7 @@ export default function BlogPage() {
                   <div className="blog-content">
                     <h3>{blog.title}</h3>
                     <p>{blog.content?.replace(/<[^>]+>/g, "").slice(0, 100)}...</p>
-                    <Link href={`/blog/${blog.slug}`} className="read-btn">
+                    <Link href={`/blog/${encodeURIComponent(blog.id)}`} className="read-btn">
                       Read More -&gt;
                     </Link>
                   </div>
