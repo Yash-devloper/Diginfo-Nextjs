@@ -16,15 +16,15 @@ export type ServiceDetail = {
 export const services: ServiceDetail[] = [
   {
     slug: "search-engine-optimization",
-    title: "Search Engine Optimization (SEO)",
+    title: "The SEO Company That Turns Rankings Into Revenue",
     shortTitle: "SEO Optimization",
     cardDescription: "Improve ranking and traffic",
     description:
-      "Build long-term organic visibility with technical SEO, keyword strategy, on-page optimization, and reporting that connects rankings to real business growth.",
+      "A full-service SEO agency delivering organic search optimisation — technical SEO, content, and link building — for businesses across industries, from SaaS and B2B to e-commerce. Work directly with a senior SEO consultant from day one: no account managers relaying messages, no junior teams learning on your budget.",
     highlights: ["Full technical SEO audit", "Keyword research", "On-page optimization", "Monthly reporting"],
     tags: ["Technical", "Local SEO", "Link Building"],
     intro:
-      "Diginfo's SEO service helps your business appear where customers are already searching. We improve site health, align pages with search intent, and build a practical growth plan for organic traffic, leads, and brand trust.",
+      "Search sends more ready-to-buy traffic than almost any other channel — but only to businesses that show up. Diginfo builds that visibility from the ground up: fixing the technical issues holding your site back, aligning every page with what your buyers actually search for, and building the authority signals that move you up the results — and keep you there.",
     benefits: [
       "Higher visibility for high-intent commercial keywords",
       "Better website structure, speed, indexing, and crawlability",
@@ -37,9 +37,9 @@ export const services: ServiceDetail[] = [
       "Create SEO content opportunities and strengthen internal linking",
       "Track progress monthly and refine the strategy based on search data",
     ],
-    seoTitle: "SEO Services — Get Found by Buyers Who Convert | Diginfo",
+    seoTitle: "SEO Company & Agency — Organic Search That Drives Revenue | Diginfo",
     seoDescription:
-      "Technical SEO, content and link building that get you found by buyers ready to act. Sustainable organic visibility for India and global markets.",
+      "A full-service SEO company and agency delivering organic search optimisation for SaaS, B2B, e-commerce and growth brands. Work directly with a senior SEO consultant — free audit inside.",
   },
   {
     slug: "ai-search-optimisation-aeo-geo",
