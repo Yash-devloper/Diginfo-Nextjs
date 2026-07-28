@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { db } from "@/lib/firebaseClient";
 import { collection, getDocs } from "firebase/firestore";
 import Image from "next/image";
@@ -17,11 +17,20 @@ interface Blog {
   excerpt?: string;
   author?: string;
   date?: string;
+  createdAt?: { toDate: () => Date };
 }
+
+const getPublishedTime = (blog: Blog) => {
+  if (blog.createdAt?.toDate) return blog.createdAt.toDate().getTime();
+
+  const parsedDate = blog.date ? Date.parse(blog.date) : Number.NaN;
+  return Number.isNaN(parsedDate) ? 0 : parsedDate;
+};
 
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [error, setError] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -42,6 +51,18 @@ export default function BlogPage() {
     void fetchBlogs();
   }, []);
 
+  const categories = useMemo(
+    () => Array.from(new Set(blogs.map((blog) => blog.category?.trim()).filter(Boolean))) as string[],
+    [blogs],
+  );
+
+  const displayedBlogs = useMemo(
+    () => blogs
+      .filter((blog) => activeCategory === "All" || blog.category === activeCategory)
+      .sort((first, second) => getPublishedTime(second) - getPublishedTime(first)),
+    [activeCategory, blogs],
+  );
+
   return (
     <main className="blog-page">
       <section className="blog-section">
@@ -59,8 +80,26 @@ export default function BlogPage() {
           {error ? (
             <p className="tc t-soft">Failed to load blogs. Please try again later.</p>
           ) : blogs.length > 0 ? (
-            <div className="blog-grid">
-              {blogs.map((blog) => (
+            <>
+              <div className="blog-filter-bar" aria-label="Filter blogs by category">
+                <div className="blog-filter-options">
+                  <span className="blog-filter-label">Browse by topic</span>
+                  {["All", ...categories].map((category) => (
+                    <button
+                      className={activeCategory === category ? "blog-filter-btn active" : "blog-filter-btn"}
+                      key={category}
+                      onClick={() => setActiveCategory(category)}
+                      type="button"
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+                {/* <span className="blog-sort-note">Latest first</span> */}
+              </div>
+
+              {displayedBlogs.length > 0 ? <div className="blog-grid">
+              {displayedBlogs.map((blog) => (
                 <article className="blog-card" key={blog.id}>
                   <div className="blog-img">
                     {blog.cover && (
@@ -83,7 +122,8 @@ export default function BlogPage() {
                   </div>
                 </article>
               ))}
-            </div>
+              </div> : <p className="tc t-soft">No blogs found in this category yet.</p>}
+            </>
           ) : (
             <p className="tc t-soft">No blogs found at the moment. Stay tuned!</p>
           )}
