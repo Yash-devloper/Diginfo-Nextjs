@@ -45,7 +45,7 @@ export default function LoginPage() {
     setLoading(false);
   };
 
-  // 🔁 RESET PASSWORD
+  // RESET PASSWORD
   const handleReset = async () => {
     if (!resetEmail) {
       toast.error("Enter email first");
