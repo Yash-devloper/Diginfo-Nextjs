@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import {
   browserSessionPersistence,
   signInWithEmailAndPassword,
@@ -23,7 +23,8 @@ export default function LoginPage() {
   const router = useRouter();
 
   // 🔐 LOGIN
-  const handleLogin = async () => {
+  const handleLogin = async (event?: FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
     if (!email || !password) {
       toast.error("Please fill all fields");
       return;
@@ -81,7 +82,7 @@ export default function LoginPage() {
           Login to access your dashboard
         </p>
 
-        <div className="login-form">
+        <form className="login-form" onSubmit={handleLogin}>
 
           <input
             type="email"
@@ -104,7 +105,7 @@ export default function LoginPage() {
 
           {/* FORGOT */}
           <div className="forgot-wrap">
-            <button onClick={() => setShowReset(true)}>
+            <button type="button" onClick={() => setShowReset(true)}>
               Forgot Password?
             </button>
           </div>
@@ -112,14 +113,14 @@ export default function LoginPage() {
           {/* LOGIN BUTTON */}
           <motion.button
             whileTap={{ scale: 0.97 }}
-            onClick={handleLogin}
+            type="submit"
             disabled={loading}
             className={`login-btn ${loading ? "loading" : ""}`}
           >
             {loading ? "Logging in..." : "Login →"}
           </motion.button>
 
-        </div>
+        </form>
       </motion.div>
 
       {/* RESET MODAL */}

@@ -27,8 +27,56 @@ export default async function ServiceDetailPage({ params }: Props) {
   if (!service) notFound();
   const relatedServices = services.filter((item) => item.slug !== service.slug).slice(0, 3);
   if (service.slug === "search-engine-optimization") return <SeoServiceDetailPage relatedServices={relatedServices} />;
+  if (service.slug === "ai-search-optimisation-aeo-geo") return <AiSearchServiceDetailPage relatedServices={relatedServices} />;
 
   return <GenericServiceDetailPage service={service} relatedServices={relatedServices} />;
+}
+
+const aiFaqs = [
+  ["What is AI SEO?", "Optimizing your site to perform in both traditional search and AI tools like ChatGPT and Google AI Overviews - combining SEO fundamentals with entity clarity and answer-ready content."],
+  ["What's the difference between AEO and GEO?", "AEO structures content to answer questions directly. GEO earns your brand a mention when generative AI tools compose an answer. Most brands need both."],
+  ["Does AI SEO replace traditional SEO?", "No. AI tools pull from well-ranked, well-structured content, so AI SEO builds on strong SEO - it doesn't replace it."],
+  ["How do you measure success?", "We track AI mentions and citations across ChatGPT, Gemini, and Perplexity, alongside rankings and traffic."],
+  ["How long until I see results?", "Most clients see measurable AI mention activity within 60-90 days, compounding over 6-12 months - similar to standard SEO timelines."],
+  ["Should I hire a separate AI SEO agency, or one that does both?", "One agency. AI SEO depends on your existing SEO foundation, so we run both as a single strategy."],
+  ["How much do AI SEO services cost?", "It depends on your current site and competition. We scope every engagement after a free audit."],
+] as const;
+
+function AiSearchServiceDetailPage({ relatedServices }: { relatedServices: ServiceDetail[] }) {
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: aiFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
+  const organizationSchema = { "@context": "https://schema.org", "@type": "Organization", name: "Diginfo", url: "https://diginfo.ai", logo: "https://diginfo.ai/logo.png", sameAs: ["https://www.facebook.com/diginfoexpert/", "https://www.instagram.com/diginfo_official/", "https://www.linkedin.com/company/diginfo-ai/"] };
+  const services = [
+    ["AEO & GEO strategy", "We map the prompts your buyers ask AI tools and close the content gaps stopping you from being the answer."],
+    ["AI-ready content", "Direct-answer pages, FAQs, and comparisons written to be cited by AI and rank in Google."],
+    ["Schema & entity signals", "FAQ, Organization, and Product schema, plus consistent brand data across the web."],
+    ["Authority & citation building", "Digital PR and mentions on high-authority sites that make AI engines trust you as a source."],
+    ["AI visibility tracking", "Ongoing monitoring of how often, and how accurately, you appear across major AI tools."],
+    ["AI-crawler technical SEO", "Architecture and markup audited so AI and search crawlers both read your site correctly."],
+  ] as const;
+  const industries = [
+    ["SaaS", 'We target the "best tool for X" comparison prompts buyers put to AI assistants.'],
+    ["B2B", "We get you on the shortlist AI tools generate before a call ever happens."],
+    ["E-commerce", "Product-level entity data so AI shopping assistants recommend specific products, not just your homepage."],
+    ["Local & service businesses", 'We pair local SEO with AEO content to win "best [service] near me" prompts.'],
+    ["Startups & small teams", "We start with the highest-impact fixes first: entity clarity and a handful of strong answer pages."],
+  ] as const;
+  return <section className="services-sec service-detail-sec seo-detail-page ai-search-detail-page">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+    <div className="wrap service-detail-hero"><Link className="card-link service-back-link" href="/services">&lt;- Back to Services</Link><h1 className="services-title">AI SEO Services That Get You <span className="gt">Recommended, Not Just Ranked</span></h1><p className="services-desc">Diginfo runs AI SEO services that win visibility in two places: Google&apos;s results and the AI tools your customers now ask first. We combine AI-powered SEO with dedicated AEO and GEO work, so ChatGPT, Gemini, Perplexity, and Google AI Overviews find your business, trust it, and recommend it.</p><div className="seo-trust-strip" aria-label="Diginfo AI SEO commitments"><span><Check aria-hidden="true" />100+ brands optimized for AI visibility</span><span><Check aria-hidden="true" />In-house team</span><span><Check aria-hidden="true" />Transparent monthly reporting</span><span><Check aria-hidden="true" />No lock-in contracts</span></div></div>
+    <div className="wrap seo-content">
+      <section className="service-card service-detail-card seo-overview"><h2>Why This Matters Now</h2><p>People still Google things. But more of them now ask an AI assistant instead and get one answer, mentioning only a few brands. Miss that mention and you don&apos;t just lose a click - you lose the sale before the customer ever sees a results page.</p><p>We treat this as one strategy, not two: strong SEO fundamentals, plus the entity clarity and structured content AI models need to cite you confidently. See our <Link href="/services/search-engine-optimization">core SEO services</Link> for the foundation this builds on.</p></section>
+      <ContentSection title="AI SEO vs AEO vs GEO"><div className="seo-card-grid seo-card-grid-three">{[["AI SEO / AI-powered SEO", "The umbrella term: using AI-aware strategy to win visibility everywhere search happens, Google included."], ["AEO", "Answer Engine Optimization structures content to directly answer specific questions, so voice assistants and AI answer boxes can lift it."], ["GEO", "Generative Engine Optimization earns a mention when tools like ChatGPT or Gemini generate an answer, through entity authority and content depth, not backlinks alone."]].map(([title, body]) => <article className="service-card seo-mini-card" key={title}><h3>{title}</h3><p>{body}</p></article>)}</div><aside className="seo-callout">We don&apos;t sell these as separate add-ons. Every engagement covers all three together, so you show up whether someone types into Google or asks an AI assistant directly.</aside></ContentSection>
+      <ContentSection title="What You Get"><div className="seo-why-list ai-benefit-list">{["AI answer visibility - mentions and citations in ChatGPT, Gemini, Perplexity, and AI Overviews", "Entity clarity - consistent signals across your site and the web so AI models know who you are and why you&apos;re credible", "Answer-ready content - pages built around the exact questions and comparisons your buyers ask AI tools", "Schema and technical foundations - structured, machine-readable pages that also strengthen classic rankings", "Monthly reporting - AI citations, rankings, and traffic reviewed with your consultant"].map((item) => <div key={item}><Check aria-hidden="true" /><p>{item}</p></div>)}</div></ContentSection>
+      <ContentSection title="Our Services"><div className="seo-card-grid seo-card-grid-three">{services.map(([title, body]) => <article className="service-card seo-mini-card" key={title}><h3>{title}</h3><p>{body}</p></article>)}</div></ContentSection>
+      <ContentSection title="Built Around Your Industry"><div className="seo-card-grid seo-card-grid-three">{industries.map(([title, body]) => <article className="service-card seo-mini-card" key={title}><h3>{title}</h3><p>{body}</p></article>)}</div></ContentSection>
+      <ContentSection title="How We Work"><ol className="seo-process-list">{[["Audit", "We check your current SEO, entity clarity, and whether AI tools already mention you."], ["Prompt mapping", "We research the real questions your customers ask ChatGPT, Gemini, and Perplexity."], ["Build", "We ship answer pages, schema, and authority content in sprints."], ["Track", "We monitor actual AI citations, not just keyword rank."], ["Report", "You get a plain-language monthly review with your consultant."]].map(([title, body], index) => <li className="service-card" key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol></ContentSection>
+      <ContentSection title="Why Diginfo"><div className="seo-why-list ai-benefit-list">{["One in-house team runs SEO, AEO, and GEO together - not as a bolt-on.", "A named senior consultant owns your account from strategy to reporting.", "We track real AI citations, not just rank checks.", "No lock-in contracts - month to month."].map((item) => <div key={item}><Check aria-hidden="true" /><p>{item}</p></div>)}</div></ContentSection>
+      <ContentSection title="How We Compare"><div className="seo-comparison-wrap"><div className="seo-comparison-table" role="table" aria-label="Comparison between a typical agency and Diginfo"><div className="seo-comparison-row seo-comparison-head" role="row"><span role="columnheader">What matters</span><span role="columnheader">Typical agency</span><span role="columnheader">Diginfo</span></div>{[["AI search readiness", "Rarely addressed", "Built into every engagement"], ["AEO & GEO", "Buzzwords", "Dedicated strategy and content"], ["Tracking", "Rankings only", "Rankings plus AI citations"], ["Account handling", "Rotating managers", "One named consultant"], ["Contracts", "6-12 month lock-ins", "No lock-in"]].map(([label, agency, diginfo]) => <div className="seo-comparison-row" role="row" key={label}><strong role="rowheader">{label}</strong><span role="cell">{agency}</span><span className="seo-comparison-diginfo" role="cell"><Check aria-hidden="true" />{diginfo}</span></div>)}</div></div></ContentSection>
+      <ContentSection title="FAQs"><div className="seo-faq-list">{aiFaqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></ContentSection>
+      <section className="seo-audit-cta"><div><span>Free AI search audit</span><h2>Ready to Find Out If AI Tools Already Mention You?</h2><p>Get a free AI search audit and see exactly how ChatGPT, Gemini, and AI Overviews currently describe - or ignore - your brand.</p></div><Link className="btn btn-grad" href="/contact">Get Started</Link></section>
+    </div><RelatedServices services={relatedServices} />
+  </section>;
 }
 
 function GenericServiceDetailPage({ service, relatedServices }: { service: ServiceDetail; relatedServices: ServiceDetail[] }) {

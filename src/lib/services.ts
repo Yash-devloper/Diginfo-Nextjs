@@ -64,9 +64,9 @@ export const services: ServiceDetail[] = [
       "Create answer-focused pages, FAQs, schema, and authority-building content",
       "Track mentions, rankings, traffic signals, and refine content for better discovery",
     ],
-    seoTitle: "AI Search Optimisation (AEO/GEO) Agency | Diginfo",
+    seoTitle: "AI SEO Services - AEO, GEO & AI Search Optimization | Diginfo",
     seoDescription:
-      "Be the business AI engines recommend. AEO/GEO strategy, AIready content and entity signals so ChatGPT, Gemini and AI Overviews cite your brand.",
+      "Diginfo builds AI SEO, AEO and GEO strategies that get ChatGPT, Gemini, Perplexity and AI Overviews to recommend your brand. Get a free AI search audit.",
   },
   {
     slug: "social-media-marketing",

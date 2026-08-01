@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft, ArrowUpRight, Clock3, Sparkles } from "lucide-react";
 
 interface Blog {
   id: string;
@@ -83,11 +84,14 @@ export default function BlogDetail() {
     return <div className="loading">Loading...</div>;
   }
 
+  const plainText = (blog.content || "").replace(/<[^>]+>/g, " ").trim();
+  const readTime = Math.max(1, Math.ceil(plainText.split(/\s+/).filter(Boolean).length / 200));
+
   return (
     <section className="blog-detail">
 
       {/* HERO */}
-      <div className="hero">
+      <div className="hero blog-detail-hero">
 
         <Image
           src={blog.cover}
@@ -99,36 +103,62 @@ export default function BlogDetail() {
         <div className="overlay"></div>
 
         <div className="hero-content">
-          <div className="hero-inner">
+          <div className="hero-inner blog-detail-hero-inner">
 
-    <span className="category-pill">
-      {blog.category}
-    </span>
+            <Link className="blog-detail-back" href="/blog">
+              <ArrowLeft size={16} aria-hidden="true" /> All insights
+            </Link>
 
-    <h1 className="hero-title">
-      {blog.title}
-    </h1>
+            <span className="category-pill">
+              {blog.category || "Diginfo insights"}
+            </span>
 
-  </div>
+            <h1 className="hero-title">
+              {blog.title}
+            </h1>
+
+            <div className="blog-detail-meta">
+              <span><Clock3 size={16} aria-hidden="true" /> {readTime} min read</span>
+              {blog.date && <span>{blog.date}</span>}
+              {blog.author && <span>By {blog.author}</span>}
+            </div>
+          </div>
         </div>
 
       </div>
 
       {/* CONTENT */}
-      <article className="content-wrap">
+      <div className="blog-detail-layout">
+        <aside className="blog-detail-aside" aria-label="Article details">
+          <div className="blog-detail-aside-card">
+            <span className="blog-detail-aside-label">In this article</span>
+            <p>Practical ideas and perspectives from the Diginfo team.</p>
+            <div className="blog-detail-aside-rule" />
+            <span className="blog-detail-aside-read"><Clock3 size={15} aria-hidden="true" /> {readTime} minute read</span>
+          </div>
+          <Link href="/contact" className="blog-detail-aside-cta">
+            <Sparkles size={17} aria-hidden="true" /> Work with Diginfo <ArrowUpRight size={16} aria-hidden="true" />
+          </Link>
+        </aside>
 
-        <div
-          className="blog-content"
-          dangerouslySetInnerHTML={{ __html: blog.content || "" }}
-        />
-
-      </article>
+        <article className="content-wrap">
+          <div
+            className="blog-content"
+            dangerouslySetInnerHTML={{ __html: blog.content || "" }}
+          />
+        </article>
+      </div>
 
       {/* RELATED */}
       {related.length > 0 && (
         <div className="related">
-
-          <h2>Related Blogs</h2>
+          <div className="related-heading">
+            <div>
+              <span className="related-kicker">Keep exploring</span>
+              <h2>More ideas for your next move</h2>
+            </div>
+            <Link href="/blog">View all insights <ArrowUpRight size={17} aria-hidden="true" /></Link>
+          </div>
 
           <div className="related-grid">
             {related.map((item) => (
@@ -144,7 +174,9 @@ export default function BlogDetail() {
                   />
 
                   <div className="rel-content">
+                    <span>{item.category || "Diginfo insights"}</span>
                     <h4>{item.title}</h4>
+                    <span className="rel-read">Read article <ArrowUpRight size={16} aria-hidden="true" /></span>
                   </div>
 
                 </div>
