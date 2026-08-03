@@ -1,3 +1,14 @@
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  return NextResponse.json({
+    message: "Analytics API temporarily disabled.",
+  });
+}
+
+
+
+
 // import { BetaAnalyticsDataClient } from "@google-analytics/data";
 // import { NextRequest, NextResponse } from "next/server";
 // import { getFirebaseAdminAuth } from "@/lib/firebaseAdmin";
