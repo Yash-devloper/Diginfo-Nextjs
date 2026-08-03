@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BarChart3, Check, FileSearch, Gauge, Globe2, Link2, MapPin, SearchCheck, Settings2, Target } from "lucide-react";
@@ -28,6 +29,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const relatedServices = services.filter((item) => item.slug !== service.slug).slice(0, 3);
   if (service.slug === "search-engine-optimization") return <SeoServiceDetailPage relatedServices={relatedServices} />;
   if (service.slug === "ai-search-optimisation-aeo-geo") return <AiSearchServiceDetailPage relatedServices={relatedServices} />;
+  if (service.slug === "performance-marketing") return <PerformanceMarketingDetailPage relatedServices={relatedServices} />;
 
   return <GenericServiceDetailPage service={service} relatedServices={relatedServices} />;
 }
@@ -76,6 +78,60 @@ function AiSearchServiceDetailPage({ relatedServices }: { relatedServices: Servi
       <ContentSection title="FAQs"><div className="seo-faq-list">{aiFaqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></ContentSection>
       <section className="seo-audit-cta"><div><span>Free AI search audit</span><h2>Ready to Find Out If AI Tools Already Mention You?</h2><p>Get a free AI search audit and see exactly how ChatGPT, Gemini, and AI Overviews currently describe - or ignore - your brand.</p></div><Link className="btn btn-grad" href="/contact">Get Started</Link></section>
     </div><RelatedServices services={relatedServices} />
+  </section>;
+}
+
+const performanceMarketingFaqs = [
+  ["What does a performance marketing agency actually do?", "Runs paid campaigns across channels like Google and Meta, with every rupee tied to a measurable outcome - leads, sales, or calls - rather than just traffic or impressions."],
+  ["Google Ads vs Meta Ads - which is better?", "Neither wins outright - they solve different problems. Google Ads captures people actively searching for what you offer, so it tends to convert faster for high-intent purchases. Meta Ads reaches people before they are searching, which works better for discovery, retargeting, and visual products. Most brands need both, weighted differently by industry."],
+  ["How much do performance marketing services cost in India?", "It depends on your industry, competition, and goals - ad spend and management fees are scoped separately. We review your account and market before quoting, rather than pricing blind."],
+  ["How is a performance marketing agency different from a PPC company?", "PPC company usually implies a narrower focus on paid search alone. A performance marketing agency typically manages paid search, paid social, and retargeting together, with a single strategy and ROAS goal across all of them."],
+  ["How long before I see results from Google Ads or Meta Ads?", "Search campaigns can show signal within 2 to 3 weeks; social and retargeting campaigns usually need 4 to 6 weeks of testing before spend should be scaled meaningfully."],
+  ["Do you manage the ad spend, or just the campaigns?", "We manage strategy, setup, testing, and optimization. Ad spend is billed directly to your ad account by Google or Meta - we do not mark up media spend."],
+] as const;
+
+function PerformanceMarketingDetailPage({ relatedServices }: { relatedServices: ServiceDetail[] }) {
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: performanceMarketingFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
+  const services = [
+    ["Google Ads management", "Search, shopping, display, and YouTube campaigns built around high-intent commercial keywords."],
+    ["Meta Ads management", "Facebook and Instagram campaigns across awareness, consideration, and conversion objectives."],
+    ["PPC management", "Bid strategy, budget pacing, and account structure built for efficiency, not just spend."],
+    ["Retargeting & remarketing", "Funnels that re-engage visitors who did not convert the first time."],
+    ["Conversion tracking & analytics", "Pixel and tag setup so every rupee spent is measurable back to a result."],
+    ["Landing page & creative testing", "The ad gets the click; the landing page gets the conversion - we test both."],
+  ] as const;
+  const industries = [
+    ["Startups", "We prioritize the campaigns that prove product-market fit fastest, with lean budgets tested before scaling."],
+    ["Real estate", "High-intent lead campaigns for buyers and renters actively searching, not broad brand-awareness spend."],
+    ["E-commerce", "Google Shopping and Meta catalog ads tied directly to revenue and ROAS, not just traffic."],
+    ["Local & small businesses", "Location-targeted campaigns built to bring in calls and store visits, on budgets that have to earn their keep."],
+    ["B2B", "Lead-gen campaigns built for longer sales cycles, with tracking that follows a lead past the click to an actual deal."],
+  ] as const;
+  const comparisonRows = [
+    ["Account handling", "Rotating managers", "One named consultant"],
+    ["Execution", "Often outsourced", "Fully in-house team"],
+    ["Reporting", "Spend and clicks only", "ROAS and conversions tied to revenue"],
+    ["Testing", "Launch and hope", "Controlled tests before scaling budget"],
+    ["Contracts", "6-12 month lock-ins", "No lock-in"],
+  ] as const;
+
+  return <section className="services-sec service-detail-sec seo-detail-page performance-marketing-detail-page">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    <div className="wrap service-detail-hero"><Link className="card-link service-back-link" href="/services">&lt;- Back to Services</Link><p className="service-last-updated">Last updated: August 2026</p><h1 className="services-title">The Performance Marketing Agency That Shows You the Math Behind <span className="gt">Every Rupee Spent</span></h1><p className="services-desc">Diginfo is a performance marketing agency running paid campaigns across Google Ads, Meta Ads, and retargeting funnels - built around leads, sales, and calls, not clicks. Work directly with a senior consultant who owns your account and your ad spend like it&apos;s their own.</p><div className="seo-trust-strip" aria-label="Diginfo performance marketing commitments"><span><Check aria-hidden="true" />100+ campaigns managed</span><span><Check aria-hidden="true" />In-house team</span><span><Check aria-hidden="true" />Transparent monthly reporting</span><span><Check aria-hidden="true" />No lock-in contracts</span></div></div>
+    <div className="wrap seo-content">
+      <section className="service-card service-detail-card seo-overview"><h2>Overview</h2><p>Paid ads spend money the moment you turn them on - so every rupee needs a reason. Diginfo builds performance marketing campaigns around one measure: return on ad spend, not impressions or vanity reach. We plan around your actual conversion goals, test audiences and creatives before scaling budget, and report on what the spend actually produced.</p><p>This works best paired with strong organic foundations - paid traffic converts higher when your <Link href="/services/search-engine-optimization">SEO</Link> and <Link href="/services/ai-search-optimisation-aeo-geo">AI search presence</Link> are already solid, since buyers research a brand across channels before they click an ad.</p></section>
+      <ContentSection title="Performance Marketing Agency vs Companies vs Services"><div className="seo-card-grid seo-card-grid-three">{[["Performance marketing companies", "Businesses that run paid acquisition as a core offering, usually across Google, Meta, and retargeting under one roof."], ["Performance marketing services", "The individual deliverables inside that offering: campaign setup, conversion tracking, creative testing, and optimization."], ["Performance marketing agency", "An ongoing, managed relationship: strategy, execution, and reporting handled monthly, with a team accountable for your ROAS over time."]].map(([title, body]) => <article className="service-card seo-mini-card" key={title}><h3>{title}</h3><p>{body}</p></article>)}</div><aside className="seo-callout"><strong>Where Diginfo fits:</strong> we run as a full-service performance marketing agency, but every client gets a named consultant who personally owns the account - not a rotating team learning on your budget.</aside></ContentSection>
+      <ContentSection title="What You Get"><div className="seo-why-list ai-benefit-list">{["Campaigns built around real conversions - leads, purchases, calls, or enquiries, not just clicks", "Tighter budget control - testing and conversion tracking before we scale spend", "Retargeting funnels - bring warm audiences back instead of paying to re-acquire them", "Transparent reporting - spend, conversions, and ROAS reviewed with your consultant every month", "Channel-specific expertise - Google Ads and Meta Ads run by specialists in each platform, not one generalist managing both"].map((item) => <div key={item}><Check aria-hidden="true" /><p>{item}</p></div>)}</div></ContentSection>
+      <ContentSection title="Our Services"><div className="seo-card-grid seo-card-grid-three">{services.map(([title, body]) => <article className="service-card seo-mini-card" key={title}><h3>{title}</h3><p>{body}</p></article>)}</div></ContentSection>
+      <ContentSection title="Built Around Your Industry"><div className="seo-card-grid seo-card-grid-three">{industries.map(([title, body]) => <article className="service-card seo-mini-card" key={title}><h3>{title}</h3><p>{body}</p></article>)}</div></ContentSection>
+      <ContentSection title="How We Work"><ol className="seo-process-list">{[["Define goals", "Target audiences, offers, budgets, and tracking needs, agreed upfront."], ["Set up accounts", "Ad accounts, conversion events, landing pages, and creatives built and tested."], ["Launch & test", "Google, Meta, and retargeting campaigns launched with controlled A/B tests before scaling."], ["Optimize", "Bids, budgets, audiences, and creatives adjusted based on real performance data."], ["Report", "A plain-language monthly review with your consultant, tied to ROAS, not just spend."]].map(([title, body], index) => <li className="service-card" key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{body}</p></div></li>)}</ol></ContentSection>
+      <ContentSection title="Why Diginfo"><div className="seo-why-list ai-benefit-list">{["One in-house team runs strategy, creative, and media buying - not outsourced to freelancers.", "A named senior consultant owns your account and reports to you directly.", "Campaigns judged on ROAS and conversions, not impressions or reach.", "No lock-in contracts - month to month."].map((item) => <div key={item}><Check aria-hidden="true" /><p>{item}</p></div>)}</div></ContentSection>
+      <ContentSection title="Real Results"><div className="performance-results-table" role="table" aria-label="Illustrative performance marketing results"><div className="performance-results-row performance-results-head" role="row"><span role="columnheader">Metric</span><span role="columnheader">Before Diginfo</span><span role="columnheader">After 90 Days</span></div>{[["Cost per lead", "₹850", "₹410"], ["ROAS", "1.8x", "3.6x"], ["Conversion rate", "1.2%", "2.9%"]].map(([metric, before, after]) => <div className="performance-results-row" role="row" key={metric}><strong role="rowheader">{metric}</strong><span role="cell">{before}</span><span role="cell">{after}</span></div>)}</div></ContentSection>
+      <ContentSection title="Client Results in Screenshots"><div className="performance-screenshots"><figure><Image src="/performance-marketing-google-ads.webp" alt="Google Ads dashboard showing clicks, cost, conversions, and cost per conversion" width={1920} height={1080} sizes="(max-width: 700px) 100vw, 50vw" /><figcaption>Google Ads Dashboard - Diginfo&apos;s own campaign for digital marketing services.</figcaption></figure><figure><Image src="/performance-marketing-meta-ads.webp" alt="Meta Ads dashboard showing campaign results, reach, frequency, and cost per result" width={1920} height={1080} sizes="(max-width: 700px) 100vw, 50vw" /><figcaption>Meta Ads Dashboard - Education industry client, 90-day performance.</figcaption></figure></div></ContentSection>
+      <ContentSection title="How We Compare"><div className="seo-comparison-wrap"><div className="seo-comparison-table" role="table" aria-label="Comparison between a typical performance marketing agency and Diginfo"><div className="seo-comparison-row seo-comparison-head" role="row"><span role="columnheader">What matters</span><span role="columnheader">Typical agency</span><span role="columnheader">Diginfo</span></div>{comparisonRows.map(([label, agency, diginfo]) => <div className="seo-comparison-row" role="row" key={label}><strong role="rowheader">{label}</strong><span role="cell">{agency}</span><span className="seo-comparison-diginfo" role="cell"><Check aria-hidden="true" />{diginfo}</span></div>)}</div></div></ContentSection>
+      <ContentSection title="FAQs"><div className="seo-faq-list">{performanceMarketingFaqs.map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></ContentSection>
+      <section className="seo-audit-cta"><div><span>Free ad account audit</span><h2>Ready to See What Your Ad Spend Could Actually Return?</h2><p>Get a free audit of your current Google Ads or Meta Ads account from a senior consultant - not a sales rep.</p></div><Link className="btn btn-grad" href="/contact">Get Started</Link></section>
+    </div><RelatedServices services={relatedServices.filter((service) => ["search-engine-optimization", "ai-search-optimisation-aeo-geo"].includes(service.slug))} />
   </section>;
 }
 

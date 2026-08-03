@@ -1,0 +1,2 @@
+import type { AnalyticsRow } from "@/lib/analytics";
+export default function TopPagesTable({ pages }: { pages: AnalyticsRow[] }) { return <section className="analytics-panel"><h2>Top Pages</h2><div className="analytics-table">{pages.map((page, index) => <div key={page.name}><span>{String(index + 1).padStart(2, "0")}</span><strong>{page.name}</strong><b>{page.value.toLocaleString()}</b></div>)}</div></section>; }

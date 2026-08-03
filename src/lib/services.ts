@@ -118,9 +118,9 @@ export const services: ServiceDetail[] = [
       "Launch Google, Meta, and retargeting campaigns with controlled tests",
       "Optimize bids, budgets, audiences, and creatives based on results",
     ],
-    seoTitle: "Performance Marketing — Google & Meta Ads | Diginfo",
+    seoTitle: "Performance Marketing Agency — Google & Meta Ads | Diginfo",
     seoDescription:
-      "Paid acquisition engineered around return on spend. Google and Meta ads with conversion tracking, retargeting and transparent reporting.",
+      "Diginfo is a performance marketing agency running Google Ads, Meta Ads and retargeting funnels built for ROAS. Free ad account audit — work with a senior consultant.",
   },
   {
     slug: "website-design-development",

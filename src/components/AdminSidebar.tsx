@@ -14,6 +14,7 @@ import {
   Search,
   Menu,
   BriefcaseBusiness,
+  BarChart3,
 } from "lucide-react";
 
 type AdminSidebarProps = {
@@ -26,6 +27,7 @@ export default function AdminSidebar({ collapsed, setCollapsed }: AdminSidebarPr
 
   const menu = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    // { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
     { name: "Create Blog", href: "/admin/blogs", icon: FileText },
     { name: "All Blogs", href: "/admin/blogs/list", icon: List },
     { name: "Careers", href: "/admin/careers", icon: BriefcaseBusiness },

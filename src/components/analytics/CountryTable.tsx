@@ -1,0 +1,2 @@
+import type { AnalyticsRow } from "@/lib/analytics";
+export default function CountryTable({ title, rows }: { title: string; rows: AnalyticsRow[] }) { return <section className="analytics-panel"><h2>{title}</h2><div className="analytics-table">{rows.map((row, index) => <div key={row.name}><span>{String(index + 1).padStart(2, "0")}</span><strong>{row.name}</strong><b>{row.value.toLocaleString()}</b></div>)}</div></section>; }
