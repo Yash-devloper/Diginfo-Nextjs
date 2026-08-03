@@ -2,6 +2,7 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { NextRequest, NextResponse } from "next/server";
 import { getFirebaseAdminAuth } from "@/lib/firebaseAdmin";
 import type { AnalyticsRow, WebsiteAnalytics } from "@/lib/analytics";
+import type { protos } from "@google-analytics/data";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,9 +18,16 @@ function gaClient() {
   return new BetaAnalyticsDataClient({ credentials: { client_email: clientEmail, private_key: privateKey } });
 }
 
-const metricValue = (response: Awaited<ReturnType<BetaAnalyticsDataClient["runReport"]>>) => Number(response[0].rows?.[0]?.metricValues?.[0]?.value ?? 0);
-const rows = (response: Awaited<ReturnType<BetaAnalyticsDataClient["runReport"]>>): AnalyticsRow[] =>
-  (response[0].rows ?? []).map((row) => ({ name: row.dimensionValues?.[0]?.value || "(not set)", value: Number(row.metricValues?.[0]?.value ?? 0) }));
+type RunReportResponse = protos.google.analytics.data.v1beta.IRunReportResponse;
+const metricValue = (response: RunReportResponse) => {
+  return Number(response.rows?.[0]?.metricValues?.[0]?.value ?? 0);
+};
+const rows = (response: RunReportResponse): AnalyticsRow[] => {
+  return (response.rows ?? []).map((row) => ({
+    name: row.dimensionValues?.[0]?.value || "(not set)",
+    value: Number(row.metricValues?.[0]?.value ?? 0),
+  }));
+};
 
 export async function GET(request: NextRequest) {
   try {
