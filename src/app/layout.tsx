@@ -55,23 +55,18 @@ export default function RootLayout({
         <LayoutClient>{children}</LayoutClient>
         <WhatsappFloat />
 
-        {/* Google Analytics */}
+        {/* Google tag (gtag.js) */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-YJV5LEKNXB"
-          strategy="lazyOnload"
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-C0CJTEKW89"
+          strategy="afterInteractive"
         />
-
-        <Script id="google-analytics" strategy="lazyOnload">
+        <Script id="gtag-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
-
-            function gtag(){
-              dataLayer.push(arguments);
-            }
-
+            function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
-
-            gtag('config', 'G-YJV5LEKNXB');
+            gtag('config', 'G-C0CJTEKW89');
           `}
         </Script>
       </body>
