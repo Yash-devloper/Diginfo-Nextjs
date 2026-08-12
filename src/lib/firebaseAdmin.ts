@@ -1,6 +1,13 @@
-import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
+import { createRequire } from "node:module";
+import type { ServiceAccount } from "firebase-admin/app";
+import type { Firestore } from "firebase-admin/firestore";
+
+// Use Firebase Admin's CommonJS entry points in the Node.js server runtime.
+// Next 16's ESM external-module wrapper can otherwise try loading the SDK's
+// ESM facade on Vercel and fail before a request reaches Firestore.
+const requireFirebaseAdmin = createRequire(`${process.cwd()}/package.json`);
+const { cert, getApps, initializeApp } = requireFirebaseAdmin("firebase-admin/app") as typeof import("firebase-admin/app");
+const { getFirestore } = requireFirebaseAdmin("firebase-admin/firestore") as typeof import("firebase-admin/firestore");
 
 function required(name: string) {
   const value = process.env[name];
@@ -39,11 +46,7 @@ function getFirebaseAdminApp() {
   return getApps()[0];
 }
 
-export function getFirebaseAdminAuth() {
-  return getAuth(getFirebaseAdminApp());
-}
-
 /** Server-only Firestore access. This is intentionally not the browser SDK. */
-export function getFirebaseAdminFirestore() {
+export function getFirebaseAdminFirestore(): Firestore {
   return getFirestore(getFirebaseAdminApp());
 }

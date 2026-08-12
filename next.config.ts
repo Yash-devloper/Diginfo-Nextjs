@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  // Firebase Admin runs only in Node.js server code. Keeping it external makes
+  // Vercel load its supported CommonJS entry point rather than an ESM facade.
+  serverExternalPackages: ["firebase-admin"],
   images: {
     remotePatterns: [
       {
