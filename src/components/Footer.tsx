@@ -29,7 +29,7 @@ export default function Footer() {
             width={180}
             height={70}
             className="footer-logo"
-          />
+          />y6t
 
           <p>
            A digital marketing and IT services agency based in Indore. We get businesses found, chosen, and measured across Google, Social and AI Search — for clients across Indore, India, and abroad.

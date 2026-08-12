@@ -1,5 +1,6 @@
-import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
 
 function required(name: string) {
   const value = process.env[name];
@@ -7,16 +8,42 @@ function required(name: string) {
   return value;
 }
 
-export function getFirebaseAdminAuth() {
+function getFirebaseAdminApp() {
   if (!getApps().length) {
-    initializeApp({
+    const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+
+    if (serviceAccountJson) {
+      try {
+        return initializeApp({
+          credential: cert(JSON.parse(serviceAccountJson) as ServiceAccount),
+        });
+      } catch (error) {
+        throw new Error(
+          "FIREBASE_SERVICE_ACCOUNT_KEY must contain valid service-account JSON.",
+          { cause: error },
+        );
+      }
+    }
+
+    return initializeApp({
       credential: cert({
-        projectId: required("FIREBASE_ADMIN_PROJECT_ID"),
-        clientEmail: required("FIREBASE_ADMIN_CLIENT_EMAIL"),
-        privateKey: required("FIREBASE_ADMIN_PRIVATE_KEY").replace(/\\n/g, "\n"),
+        // Prefer the explicit ADMIN names, but support the established
+        // FIREBASE_* names used by this project's server modules as well.
+        projectId: process.env.FIREBASE_ADMIN_PROJECT_ID || required("FIREBASE_PROJECT_ID"),
+        clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL || required("FIREBASE_CLIENT_EMAIL"),
+        privateKey: (process.env.FIREBASE_ADMIN_PRIVATE_KEY || required("FIREBASE_PRIVATE_KEY")).replace(/\\n/g, "\n"),
       }),
     });
   }
 
-  return getAuth();
+  return getApps()[0];
+}
+
+export function getFirebaseAdminAuth() {
+  return getAuth(getFirebaseAdminApp());
+}
+
+/** Server-only Firestore access. This is intentionally not the browser SDK. */
+export function getFirebaseAdminFirestore() {
+  return getFirestore(getFirebaseAdminApp());
 }

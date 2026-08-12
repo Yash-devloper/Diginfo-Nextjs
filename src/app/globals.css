@@ -4235,6 +4235,12 @@ textarea {
 .performance-results-head > * { color: #fff; font-size: .84rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .performance-results-row > strong { color: #fff; font-size: .94rem; }
 .performance-results-row > span:last-child { color: #e8d0ff; font-weight: 750; }
+.social-media-detail-page .services-title { max-width: 1050px; }
+.smm-review { max-width: 720px; margin: 22px auto 0; color: rgba(255,255,255,.66); font-size: .88rem; line-height: 1.65; }
+.smm-quote { margin: 26px 0; font-size: 1.02rem; font-style: italic; }
+.smm-quote strong { display: block; margin-top: 10px; font-style: normal; }
+.smm-platform-table .performance-results-row { grid-template-columns: .75fr 1.15fr 1.15fr; }
+.smm-platform-table .performance-results-row > span:last-child { color: #d4cedd; font-weight: 400; }
 .performance-screenshots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .performance-screenshots figure { overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 20px; background: rgba(255,255,255,.035); box-shadow: 0 18px 48px rgba(0,0,0,.2); }
 .performance-screenshots img { display: block; width: 100%; height: auto; background: #f5f5f5; }
