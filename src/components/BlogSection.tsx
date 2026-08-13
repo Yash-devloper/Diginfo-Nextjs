@@ -77,7 +77,7 @@ export default function BlogSection({
                 </p>
 
                 <Link
-                  href={`/blog/${encodeURIComponent(blog.id)}`}
+                  href={`/blog/${encodeURIComponent(blog.slug || blog.id)}`}
                   className="blog-btn"
                 >
                   Read More →
