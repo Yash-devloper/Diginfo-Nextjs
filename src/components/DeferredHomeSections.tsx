@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+import type { Blog } from "@/components/BlogSection";
 
 const BlogSection = dynamic(() => import("@/components/BlogSection"), {
   ssr: false,
@@ -16,7 +17,7 @@ const TestimonialsSection = dynamic(
  * close to these sections. This keeps the first render focused on the page
  * content a visitor can actually see.
  */
-export default function DeferredHomeSections() {
+export default function DeferredHomeSections({ blogs = [] }: { blogs?: Blog[] }) {
   const [shouldLoad, setShouldLoad] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +44,7 @@ export default function DeferredHomeSections() {
       {shouldLoad ? (
         <>
           <TestimonialsSection />
-          <BlogSection />
+          <BlogSection blogs={blogs} />
         </>
       ) : (
         <div className="deferred-home-sections" aria-hidden="true" />

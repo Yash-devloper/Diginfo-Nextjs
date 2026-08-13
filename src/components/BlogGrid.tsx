@@ -12,7 +12,7 @@ type Props = {
 export default function BlogGrid({ blogs }: Props) {
   const [activeCategory, setActiveCategory] = useState("All");
   const categories = useMemo(
-    () => Array.from(new Set(blogs.map((blog) => blog.category.trim()).filter(Boolean))),
+    () => Array.from(new Set(blogs.map((blog) => blog.category?.trim()).filter(Boolean))) as string[],
     [blogs],
   );
   const displayedBlogs = useMemo(

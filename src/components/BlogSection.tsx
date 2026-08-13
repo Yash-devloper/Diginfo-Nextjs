@@ -14,11 +14,12 @@ export type Blog = {
 };
 
 type BlogSectionProps = {
-  blogs: Blog[];
+  /** Optional because the home page can render before public posts load. */
+  blogs?: Blog[];
 };
 
 export default function BlogSection({
-  blogs,
+  blogs = [],
 }: BlogSectionProps) {
   return (
     <section id="blog" className="blog-sec">
@@ -39,6 +40,7 @@ export default function BlogSection({
           </p>
         </div>
 
+        {blogs.length > 0 ? (
         <div className="blog-grid">
           {blogs.map((blog) => (
             <article className="blog-card" key={blog.id}>
@@ -84,6 +86,9 @@ export default function BlogSection({
             </article>
           ))}
         </div>
+        ) : (
+          <p className="tc t-soft">New insights are on the way. Please check back soon.</p>
+        )}
       </div>
 
       <div className="blog-more">

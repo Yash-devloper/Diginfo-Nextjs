@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     "Explore Diginfo's latest insights on SEO, AI search, digital marketing, web development and business growth.",
 };
 
-export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+export const revalidate = 3600;
 
 export default async function BlogPage() {
   const blogs = await getLatestBlogs(100);

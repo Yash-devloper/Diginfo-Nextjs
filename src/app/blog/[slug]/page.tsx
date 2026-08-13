@@ -5,7 +5,8 @@ import type { Metadata } from "next";
 import { ArrowLeft, ArrowUpRight, Clock3, Sparkles } from "lucide-react";
 import { getPublicBlog, getPublicBlogs } from "@/lib/blogServer";
 
-export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{ slug: string }>;
