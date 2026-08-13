@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowUpRight, Clock3, Sparkles } from "lucide-react";
 import { getPublicBlog, getPublicBlogs } from "@/lib/blogServer";
 
 export const runtime = "nodejs";
-export const revalidate = 3600;
+// export const revalidate = 3600;
 
 type Props = {
   params: Promise<{ slug: string }>;
