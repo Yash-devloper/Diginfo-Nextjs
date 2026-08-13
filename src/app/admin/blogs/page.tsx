@@ -150,7 +150,7 @@ export default function BlogUpload() {
       await setDoc(doc(db, "blogs", blogId), blogData);
 
       console.log("✅ Blog saved successfully");
-      toast.success("Blog Published 🚀");
+      toast.success("Blog Published");
 
       // 🔄 Reset form
       setTitle("");
@@ -163,7 +163,7 @@ export default function BlogUpload() {
       editor.commands.clearContent();
 
     } catch (error) {
-      console.error("❌ Firestore error:", error);
+      console.error("Firestore error:", error);
       toast.error("Failed to publish blog");
     }
 

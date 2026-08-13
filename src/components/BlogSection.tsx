@@ -1,64 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebaseClient";
 import Image from "next/image";
 import Link from "next/link";
 
-type Blog = {
+export type Blog = {
   id: string;
   title: string;
   slug: string;
   category?: string;
   cover?: string;
   content?: string;
-  createdAt?: any;
+  createdAt?: unknown;
 };
 
-export default function BlogSection() {
+type BlogSectionProps = {
+  blogs: Blog[];
+};
 
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-
-  useEffect(() => {
-
-    const fetchBlogs = async () => {
-
-      try {
-
-        const q = query(
-          collection(db, "blogs"),
-          orderBy("createdAt", "desc"),
-          limit(4)
-        );
-
-        const snap = await getDocs(q);
-
-        const data = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Blog, "id">),
-        }));
-
-        setBlogs(data);
-
-      } catch (error) {
-        console.error("Blog fetch error:", error);
-      }
-
-    };
-
-    fetchBlogs();
-
-  }, []);
-
+export default function BlogSection({
+  blogs,
+}: BlogSectionProps) {
   return (
     <section id="blog" className="blog-sec">
-
       <div className="wrap">
-
-        {/* HEADING */}
         <div className="blog-head">
-
           <div className="pill-label">
             LATEST INSIGHTS
           </div>
@@ -72,53 +37,41 @@ export default function BlogSection() {
             Insights, strategies, and digital trends
             from the Diginfo team.
           </p>
-
         </div>
 
-        {/* BLOG GRID */}
         <div className="blog-grid">
-
           {blogs.map((blog) => (
-
-            <div className="blog-card" key={blog.id}>
-
-              {/* IMAGE */}
+            <article className="blog-card" key={blog.id}>
               <div className="blog-image">
-
                 {blog.cover ? (
-
                   <Image
                     src={blog.cover}
                     alt={blog.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 25vw"
                     className="blog-img"
                   />
-
                 ) : (
-
                   <div className="blog-placeholder">
                     DIGINFO
                   </div>
-
                 )}
-
               </div>
 
-              {/* CONTENT */}
               <div className="blog-content">
-
                 <span className="blog-category">
                   {blog.category || "Digital Marketing"}
                 </span>
 
-                <h3>
-                  {blog.title}
-                </h3>
+                <h3>{blog.title}</h3>
 
                 <p>
-                  {blog.content
-                    ?.replace(/<[^>]+>/g, "")
-                    .slice(0, 110)}...
+                  {(blog.content || "")
+                    .replace(/<[^>]+>/g, "")
+                    .slice(0, 110)}
+                  {(blog.content || "").replace(/<[^>]+>/g, "").length > 110
+                    ? "..."
+                    : ""}
                 </p>
 
                 <Link
@@ -127,23 +80,17 @@ export default function BlogSection() {
                 >
                   Read More →
                 </Link>
-
               </div>
-
-            </div>
-
+            </article>
           ))}
-
         </div>
-
       </div>
 
       <div className="blog-more">
-  <Link href="/blog" className="view-blog-btn">
-    View All Blogs →
-  </Link>
-</div>
-
+        <Link href="/blog" className="view-blog-btn">
+          View All Blogs →
+        </Link>
+      </div>
     </section>
   );
 }

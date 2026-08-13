@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import BlogSection from "@/components/BlogSection";
 import HomeNewsletterSection from "@/components/HomeNewsletterSection";
-import BlogGrid from "@/components/BlogGrid";
-import { getPublicBlogs } from "@/lib/blogServer";
+import { getLatestBlogs } from "@/lib/blogServer";
 
 export const metadata: Metadata = {
   title: "Diginfo Blog | SEO, Marketing & AI Insights",
@@ -12,9 +12,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function BlogPage() {
-  // Do not convert a database error into an empty list: that produces a false
-  // "No blogs found" page for visitors and search-engine crawlers.
-  const blogs = await getPublicBlogs();
+  const blogs = await getLatestBlogs(100);
 
   return (
     <main className="blog-page">
@@ -35,7 +33,7 @@ export default async function BlogPage() {
           </div>
 
           {blogs.length > 0 ? (
-            <BlogGrid blogs={blogs} />
+            <BlogSection blogs={blogs} />
           ) : (
             <p className="tc t-soft">
               No blogs found at the moment. Stay tuned!

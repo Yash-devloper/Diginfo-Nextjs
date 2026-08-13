@@ -1,3 +1,5 @@
+import "server-only";
+
 import { createRequire } from "node:module";
 import type { ServiceAccount } from "firebase-admin/app";
 import type { Firestore } from "firebase-admin/firestore";
