@@ -15,7 +15,7 @@ export type ServiceDetail = {
 
 export const services: ServiceDetail[] = [
   {
-    slug: "search-engine-optimisation",
+    slug: "search-engine-optimization",
     title: "SEO Optimisation",
     shortTitle: "SEO Optimisation",
     cardDescription: "Improve ranking and traffic",
