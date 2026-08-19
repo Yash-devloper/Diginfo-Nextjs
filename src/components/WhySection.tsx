@@ -2,61 +2,50 @@ export default function WhySection() {
   return (
     <section className="sec dark why-sec">
       <div className="wrap why-grid">
-
         {/* LEFT SIDE */}
         <div className="why-left">
-
           <div className="pill-label">WHY DIGINFO ?</div>
 
           <h2 className="h2">
-            We’re Not Another Agency.<br />
+            We’re Not Another Agency.
+            <br />
             <span className="gt">We’re Your Growth Team.</span>
           </h2>
 
           <p className="body-lg">
-            Indore has no shortage of agencies promising rankings and followers. What it lacks is one that shows you the real, measurable ROI on every decision. 
-            As a digital marketing agency near you in Indore, we help local and national businesses get found, get chosen, and get measured across Google, social platforms, 
-            and <strong>the AI tools</strong> customers now ask first.
+            Most agencies promise rankings and followers. What's harder to find
+            is one that shows you the real, measurable ROI on every decision. We
+            help businesses get found, get chosen, and get measured — across
+            Google, social platforms, and <strong>the AI tools</strong>{" "}
+            customers now ask first.
           </p>
 
           {/* FEATURE CARDS */}
           <div className="why-features">
-
             <div className="why-card">
               <h4>🏆 Proven, Measurable Results</h4>
-              <p>
-                Weekly KPI tracking dashboard, not vague promises.
-              </p>
+              <p>Weekly KPI tracking dashboard, not vague promises.</p>
             </div>
 
             <div className="why-card">
               <h4>🔗 Full-Stack, No Outsourcing</h4>
-              <p>
-                Everything done in-house by our core team.
-              </p>
+              <p>Everything done in-house by our core team.</p>
             </div>
 
             <div className="why-card">
               <h4>🎯 Category Specialists</h4>
-              <p>
-                Deep understanding of your business industry.
-              </p>
+              <p>Deep understanding of your business industry.</p>
             </div>
 
             <div className="why-card">
               <h4>💬 Direct Access</h4>
-              <p>
-                Talk directly to the strategist running your campaigns.
-              </p>
+              <p>Talk directly to the strategist running your campaigns.</p>
             </div>
-
           </div>
-
         </div>
 
         {/* RIGHT SIDE */}
         <div className="why-right">
-
           <div className="result-card">
             <span>E-COMMERCE • SEO</span>
             <h3>+312%</h3>
@@ -80,9 +69,7 @@ export default function WhySection() {
             <h3>2K → 18K</h3>
             <p>Instagram growth in 5 months.</p>
           </div>
-
         </div>
-
       </div>
     </section>
   );

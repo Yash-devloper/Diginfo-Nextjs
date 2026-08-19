@@ -13,7 +13,8 @@ import { getLatestBlogs } from "@/lib/blogServer";
 
 export const metadata: Metadata = {
   title: "Diginfo — Digital Marketing, AI Search & IT Agency",
-  description: "Get found on Google and AI search, turn visibility into customers, and build the tech behind it — digital marketing, AEO/GEO and IT under one roof, for clients worldwide.",
+  description:
+    "Get found on Google and AI search, then turn that visibility into customers — SEO, AEO/GEO, ads, social, and the IT behind it, all under one in-house team.",
 };
 
 export default async function Home() {
@@ -29,7 +30,7 @@ export default async function Home() {
       <Hero />
       <CapabilitiesSection />
       <AboutSection />
-      <WhySection />   
+      <WhySection />
       <AISearchSection />
       <ProcessSection />
       <FaqSection />

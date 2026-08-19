@@ -15,9 +15,9 @@ const faqs = [
     ],
   },
 {
-    question: "Is Diginfo the best digital marketing company in Indore for small and mid-sized businesses?",
+    question: "Do you work with small and mid-sized businesses?",
     answer:
-      "Yes. We work with Indore-based businesses of every size — from local retailers and real estate developers to education institutes and e-commerce brands — and tailor our digital marketing services in Indore to your budget, industry, and growth stage rather than pushing a one-size-fits-all package.",
+      "Yes — we work with small, mid-sized, and growing businesses across industries, scoping our approach and pricing to fit where you are, not a one-size-fits-all package.",
   },
   {
     question: "How is Diginfo different from other agencies?",
@@ -30,9 +30,9 @@ const faqs = [
     ],
   },
   {
-    question: "I searched digital marketing agency near me why should I choose a local Indore team over a remote one?",
+    question: "Can I see examples of your work before I sign up?",
     answer:
-      "Local context matters. Understanding Indore's buyer behavior, competitive landscape, and regional search trends helps us build campaigns that convert faster than a generalist, remote agency can. Plus, our team is a short drive away in Vijay Nagar — you can walk in, not just video-call.",
+      "Yes — we're happy to share relevant case studies and, where confidentiality allows, live examples from businesses in your industry during your free audit call.",
   },
   {
     question: "What is your pricing model?",

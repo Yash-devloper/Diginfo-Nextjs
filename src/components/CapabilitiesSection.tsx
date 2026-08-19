@@ -15,6 +15,7 @@ type CapabilityItem = {
   icon: ComponentType<{ size?: number; strokeWidth?: number }>;
   title: string;
   description: string;
+  href?: string;
   badge?: string;
 };
 
@@ -23,22 +24,26 @@ const marketingItems: CapabilityItem[] = [
     icon: Search,
     title: "SEO",
     description: "Get found on Google by buyers ready to act.",
+    href: "https://diginfo.ai/services/search-engine-optimisation",
   },
   {
     icon: Sparkles,
     title: "AI Search Optimisation (AEO/GEO)",
     description: "Be the business AI tools recommend.",
+    href: "https://diginfo.ai/services/ai-search-optimisation-aeo-geo",
     // badge: "FLAGSHIP",
   },
   {
     icon: CircleDot,
     title: "Performance Ads (PPC)",
     description: "Google & Meta ads engineered for ROI.",
+    href: "https://diginfo.ai/services/performance-marketing",
   },
   {
     icon: Megaphone,
     title: "Social Media Marketing",
     description: "Content and community that builds demand.",
+    href: "https://diginfo.ai/services/social-media-marketing",
   },
   {
     icon: Palette,
@@ -102,7 +107,13 @@ export default function CapabilitiesSection() {
                     </div>
                     <div className="capability-copy">
                       <div className="capability-title-row">
-                        <h4>{item.title}</h4>
+                        <h4>
+                          {item.href ? (
+                            <a href={item.href}>{item.title}</a>
+                          ) : (
+                            item.title
+                          )}
+                        </h4>
                         {item.badge ? (
                           <span className="capability-badge">{item.badge}</span>
                         ) : null}

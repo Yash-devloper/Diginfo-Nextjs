@@ -15,9 +15,9 @@ export type ServiceDetail = {
 
 export const services: ServiceDetail[] = [
   {
-    slug: "search-engine-optimization",
-    title: "The SEO Company That Turns Rankings Into Revenue",
-    shortTitle: "SEO Optimization",
+    slug: "search-engine-optimisation",
+    title: "SEO Optimisation",
+    shortTitle: "SEO Optimisation",
     cardDescription: "Improve ranking and traffic",
     description:
       "A full-service SEO agency delivering organic search optimisation — technical SEO, content, and link building — for businesses across industries, from SaaS and B2B to e-commerce. Work directly with a senior SEO consultant from day one: no account managers relaying messages, no junior teams learning on your budget.",
@@ -43,8 +43,8 @@ export const services: ServiceDetail[] = [
   },
   {
     slug: "ai-search-optimisation-aeo-geo",
-    title: "AI Search Optimization (AEO/GEO)",
-    shortTitle: "AI Search Optimization",
+    title: "AI Search Optimisation (AEO/GEO)",
+    shortTitle: "AI Search Optimisation",
     cardDescription: "Win visibility in AI answers",
     description:
       "Prepare your brand for AI-powered discovery with answer engine optimization, generative engine optimization, structured content, and authority signals that help your business appear in AI search results.",
