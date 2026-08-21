@@ -1,15 +1,17 @@
 import "server-only";
 
-import { createRequire } from "node:module";
-import type { ServiceAccount } from "firebase-admin/app";
-import type { Firestore } from "firebase-admin/firestore";
+import {
+  cert,
+  getApps,
+  initializeApp,
+  type ServiceAccount,
+} from "firebase-admin/app";
+import { getFirestore, type Firestore } from "firebase-admin/firestore";
 
-// Use Firebase Admin's CommonJS entry points in the Node.js server runtime.
-// Next 16's ESM external-module wrapper can otherwise try loading the SDK's
-// ESM facade on Vercel and fail before a request reaches Firestore.
-const requireFirebaseAdmin = createRequire(`${process.cwd()}/package.json`);
-const { cert, getApps, initializeApp } = requireFirebaseAdmin("firebase-admin/app") as typeof import("firebase-admin/app");
-const { getFirestore } = requireFirebaseAdmin("firebase-admin/firestore") as typeof import("firebase-admin/firestore");
+// Keep these as static imports. Besides being the supported Firebase Admin API,
+// this lets Next/Vercel trace the package and include it in each serverless
+// function that renders a blog page. A runtime `createRequire()` call is not
+// traceable, which leaves `firebase-admin/app` out of Vercel's deployment.
 
 function required(name: string) {
   const value = process.env[name];
