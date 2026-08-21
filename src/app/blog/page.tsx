@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 };
 
 export const runtime = "nodejs";
-export const revalidate = 3600;
+// Blog posts are published directly from the admin panel. Render this route
+// per request so a newly published post is visible immediately on the live site.
+export const dynamic = "force-dynamic";
 
 export default async function BlogPage() {
   const blogs = await getLatestBlogs(100);

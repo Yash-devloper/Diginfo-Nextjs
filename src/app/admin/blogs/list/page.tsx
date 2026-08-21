@@ -19,7 +19,18 @@ interface Blog {
   cover: string;
   slug: string;
   category: string;
-  createdAt?: any;
+  createdAt?: { toMillis?: () => number; toDate?: () => Date };
+}
+
+function getCreatedAtMillis(blog: Blog): number {
+  if (typeof blog.createdAt?.toMillis === "function") {
+    return blog.createdAt.toMillis();
+  }
+
+  // All new posts use a `blog_<timestamp>` ID. This fallback keeps older
+  // records without a Firestore timestamp in a sensible order as well.
+  const idTimestamp = Number(blog.id.replace(/^blog_/, ""));
+  return Number.isFinite(idTimestamp) ? idTimestamp : 0;
 }
 
 export default function BlogList() {
@@ -36,14 +47,12 @@ export default function BlogList() {
       const snap = await getDocs(collection(db, "blogs"));
       const data = snap.docs.map((d) => {
         const blogData = d.data();
-        console.log("Blog doc:", JSON.stringify(blogData));
         return {
           id: d.id,
           ...blogData,
         } as Blog;
-      });
+      }).sort((first, second) => getCreatedAtMillis(second) - getCreatedAtMillis(first));
 
-      console.log("All blogs:", JSON.stringify(data, null, 2));
       setBlogs(data);
     } catch (error) {
       console.error("Firestore Error:", error);
@@ -165,7 +174,7 @@ const paginatedBlogs = filteredBlogs.slice(
                 {/* DATE */}
                 <td className="date">
                   {blog.createdAt
-                    ? blog.createdAt.toDate().toLocaleDateString()
+                    ? blog.createdAt.toDate?.().toLocaleDateString() || "—"
                     : "—"}
                 </td>
 

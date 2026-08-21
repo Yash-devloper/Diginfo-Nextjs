@@ -11,6 +11,11 @@ import DeferredHomeSections from "@/components/DeferredHomeSections";
 import HomeNewsletterSection from "@/components/HomeNewsletterSection";
 import { getLatestBlogs } from "@/lib/blogServer";
 
+// The homepage includes the latest blog cards, so it must not serve a stale
+// pre-rendered version after an editor publishes a new post.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Diginfo — Digital Marketing, AI Search & IT Agency",
   description:
