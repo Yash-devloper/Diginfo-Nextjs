@@ -22,6 +22,67 @@ export const metadata: Metadata = {
     "Get found on Google and AI search, then turn that visibility into customers — SEO, AEO/GEO, ads, social, and the IT behind it, all under one in-house team.",
 };
 
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "AdvertisingAgency",
+  "@id": "https://diginfo.ai/#business",
+  name: "Diginfo",
+  url: "https://diginfo.ai/",
+  logo: "https://diginfo.ai/logo.png",
+  image: "https://diginfo.ai/logo.png",
+  description:
+    "Diginfo is a Digital Marketing and IT Services agency based in Indore, India, offering SEO, AI Search Optimisation, PPC, Social Media Marketing, Website Development, App Development, ERP & CRM Solutions, Creative Branding and Workflow Automation.",
+  telephone: "+91-8889123454",
+  email: "contact@diginfo.ai",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      "204, Antares Princes' Business Skypark, Scheme No. 54, PU-3 Commercial, Agra Bombay Road, Opposite Orbit Mall",
+    addressLocality: "Indore",
+    addressRegion: "Madhya Pradesh",
+    postalCode: "452001",
+    addressCountry: "IN",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 22.7463,
+    longitude: 75.8973,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "09:00",
+      closes: "19:00",
+    },
+  ],
+  areaServed: [
+    { "@type": "City", name: "Indore" },
+    { "@type": "State", name: "Madhya Pradesh" },
+    { "@type": "Country", name: "India" },
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "United Arab Emirates" },
+    { "@type": "Country", name: "Australia" },
+  ],
+  sameAs: ["https://www.linkedin.com/company/diginfo-ai"],
+  priceRange: "$$",
+  foundingDate: "2019",
+  knowsAbout: [
+    "SEO",
+    "AI Search Optimisation",
+    "Generative Engine Optimisation",
+    "Google Ads",
+    "Meta Ads",
+    "Social Media Marketing",
+    "Website Development",
+    "App Development",
+    "Content Marketing",
+    "Branding",
+    "ERP Development",
+    "CRM Development",
+  ],
+};
+
 export default async function Home() {
   // The homepage remains available even if the blog data source is temporarily
   // unavailable; BlogSection receives a safe empty array in that case.
@@ -32,6 +93,12 @@ export default async function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <Hero />
       <CapabilitiesSection />
       <AboutSection />

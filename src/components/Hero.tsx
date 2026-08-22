@@ -26,7 +26,7 @@ export default function Hero() {
 
           {/* HEADING */}
           <h1 className="hero-title">
-            Get Found <br /> Get Chosen <br /><span className="gt">Get Results</span>
+            Get Found. <br /> Get Chosen. <br /><span className="gt">Get Results.</span>
             <span className="hero-subtitle">
             </span>
           </h1>
@@ -131,11 +131,9 @@ export default function Hero() {
       <div className="hero-band" aria-label="Diginfo growth promise">
         <div className="marquee">
           <div className="marquee-content">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <span key={index}>
-                We help businesses get found, get chosen, and get measured — across Google, social platforms, and <strong>the AI tools</strong> customers now ask first.
-              </span>
-            ))}
+            <span>
+              We help businesses get found, get chosen, and get measured — across Google, social platforms, and <strong>the AI tools</strong> customers now ask first.
+            </span>
           </div>
         </div>
       </div>

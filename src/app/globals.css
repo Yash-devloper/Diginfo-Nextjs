@@ -745,11 +745,9 @@ body{
 
 .hero-band .marquee-content {
   display: flex;
-  width: max-content;
-  gap: clamp(54px, 8vw, 120px);
-  white-space: nowrap;
-  animation: scroll-left 28s linear infinite;
-  will-change: transform;
+  justify-content: center;
+  padding: 0 clamp(28px, 8vw, 140px);
+  text-align: center;
 }
 
 .hero-band .marquee-content span {
@@ -762,22 +760,6 @@ body{
 .hero-band .marquee-content strong {
   color: #ff8a3d;
   font-weight: 700;
-}
-
-@keyframes scroll-left {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-band .marquee-content {
-    animation-duration: 80s;
-  }
 }
 
 /* Hero Visual *//* NAVBAR BASE */
