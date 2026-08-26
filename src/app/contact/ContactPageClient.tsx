@@ -86,7 +86,10 @@ export default function ContactPageClient() {
               <span>📍</span>
               <div>
                 <h4>Our Office</h4>
-                <p>Vijay Nagar, Indore, Madhya Pradesh, India — 452001</p>
+                <p>
+                  214, B Zone, Business Space, Above Reliance Mart,
+                  Nipania Road, Indore, Madhya Pradesh 452010
+                </p>
               </div>
             </div>
             <div className="info-item">
@@ -181,15 +184,15 @@ export default function ContactPageClient() {
             <h2>Visit Diginfo in Indore</h2>
           </div>
           <p>
-            Find us around Vijay Nagar, Indore. Use the map for quick
-            directions before your meeting.
+            Find us on Nipania Road, Indore. Use the map for quick directions
+            before your meeting.
           </p>
         </div>
 
         <div className="contact-map-card">
           <iframe
-            src="https://www.google.com/maps?q=Diginfo%20Vijay%20Nagar%20Indore%20Madhya%20Pradesh%20India&output=embed"
-            title="Diginfo office location in Vijay Nagar, Indore"
+            src="https://www.google.com/maps?q=Office%20No.%20214%2C%20B%20Zone%2C%20Business%20Space%2C%20Above%20Reliance%20Mart%2C%20Nipania%20Road%2C%20Indore%2C%20Madhya%20Pradesh%20452010%2C%20India&output=embed"
+            title="Diginfo office location on Nipania Road, Indore"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />

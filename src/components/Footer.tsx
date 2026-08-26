@@ -122,10 +122,10 @@ export default function Footer() {
             </div>
 
             <div className="contact-item">
-              <MdLocationOn />
+              <MdLocationOn className="footer-location-icon" />
               <span>
-                Vijay Nagar, Indore,
-                Madhya Pradesh, India
+                Office No. 214, B Zone, Business Space, Above Reliance Mart,
+                Nipania Road, Indore, Madhya Pradesh 452010, India
               </span>
             </div>
 

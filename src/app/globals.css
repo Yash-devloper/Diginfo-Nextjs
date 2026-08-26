@@ -1905,6 +1905,11 @@ body{
   margin-top: 2px;
 }
 
+.contact-item .footer-location-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
 .footer-socials {
   display: flex;
   gap: 14px;
