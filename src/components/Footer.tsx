@@ -118,13 +118,13 @@ export default function Footer() {
 
             <div className="contact-item">
               <MdPhone />
-              <span>918889123454</span>
+              <span>+91 8889123454</span>
             </div>
 
             <div className="contact-item">
               <MdLocationOn className="footer-location-icon" />
               <span>
-                Office No. 214, B Zone, Business Space, Above Reliance Mart,
+                214, B Zone, Business Space, Above Reliance Mart,
                 Nipania Road, Indore, Madhya Pradesh 452010, India
               </span>
             </div>
