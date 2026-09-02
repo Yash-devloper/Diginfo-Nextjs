@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import BlogSection from "@/components/BlogSection";
+import BlogPaginated from "@/components/BlogPaginated";
 import HomeNewsletterSection from "@/components/HomeNewsletterSection";
-import { getLatestBlogs } from "@/lib/blogServer";
+import { getPublicBlogs } from "@/lib/blogServer";
 
 export const metadata: Metadata = {
   title: "Diginfo Blog | SEO, Marketing & AI Insights",
@@ -15,7 +15,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function BlogPage() {
-  const blogs = await getLatestBlogs(100);
+  // Fetch all blogs — pagination is handled client-side in BlogPaginated
+  const blogs = await getPublicBlogs();
 
   return (
     <main className="blog-page">
@@ -31,12 +32,12 @@ export default async function BlogPage() {
             </h1>
 
             <p className="blog-subtitle">
-              Insights, strategies & updates from our digital experts
+              Insights, strategies &amp; updates from our digital experts
             </p>
           </div>
 
           {blogs.length > 0 ? (
-            <BlogSection blogs={blogs} />
+            <BlogPaginated blogs={blogs} />
           ) : (
             <p className="tc t-soft">
               No blogs found at the moment. Stay tuned!
@@ -51,3 +52,4 @@ export default async function BlogPage() {
     </main>
   );
 }
+
